@@ -1,6 +1,8 @@
-var mottos = require('./lib/mottos');
-
+//Vendor
 var express = require('express');
+
+//Libs
+var mottos = require('./lib/mottos');
 
 //App
 var app = express();
@@ -22,10 +24,10 @@ app.set('view engine', 'handlebars');
 //Set port
 app.set('port', process.env.PORT || 3000);
 
-//Static files
+//Serve static files
 app.use(express.static(__dirname + '/public'));
 
-//tests
+//Tests
 app.use(function(req, res, next) {
     res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
     next();
