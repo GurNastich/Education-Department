@@ -8,18 +8,18 @@ var mottos = require('./lib/mottos');
 var app = express();
 
 //View engine
-var handlebars = require('express-handlebars').create({
-    defaultLayout: 'main',
-    helpers: {
-        section: function(name, options) {
-            if(!this._sections) this._sections = {};
-            this._sections[name] = options.fn(this);
-            return null;
-        }
-    }
-});
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
+//var handlebars = require('express-handlebars').create({
+//    defaultLayout: 'main',
+//    helpers: {
+//        section: function(name, options) {
+//            if(!this._sections) this._sections = {};
+//            this._sections[name] = options.fn(this);
+//            return null;
+//        }
+//    }
+//});
+//app.engine('handlebars', handlebars.engine);
+//app.set('view engine', 'handlebars');
 
 //Set port
 app.set('port', process.env.PORT || 3000);
@@ -28,28 +28,33 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public'));
 
 //Tests
-app.use(function(req, res, next) {
-    res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
-    next();
-});
+//app.use(function(req, res, next) {
+//    res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
+//    next();
+//});
 
 //Routes
-app.get('/', function(req, res) {
-    res.render('home', {motto: mottos.getMotto()});
-});
+//app.get('/', function(req, res) {
+//    res.render('home', {motto: mottos.getMotto()});
+//});
+//
+//app.get('/about', function(req, res) {
+//    res.render('about', {
+//        pageTestScript: '/qa/tests-about.js'
+//    });
+//});
+//
+//app.get('/lesson-info', function(req, res) {
+//    res.render('lesson-info');
+//});
+//
+//app.get('/lesson-materials', function(req, res) {
+//    res.render('lesson-materials');
+//});
 
-app.get('/about', function(req, res) {
-    res.render('about', {
-        pageTestScript: '/qa/tests-about.js'
-    });
-});
-
-app.get('/lesson-info', function(req, res) {
-    res.render('lesson-info');
-});
-
-app.get('/lesson-materials', function(req, res) {
-    res.render('lesson-materials');
+app.get('*', function(req, res) {
+    console.log('* request');
+    res.sendFile('./public/index.html');
 });
 
 //404

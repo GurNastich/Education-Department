@@ -13,10 +13,11 @@
   "author": "Nastich",
   "license": "MIT",
   "dependencies": {
+    "angular": "^1.6.1",
+    "angular-ui-router": "^0.4.2",
+    "bootstrap": "^3.3.7",
     "express": "^4.14.0",
-    "express-favicon": "^2.0.0",
-    "express-handlebars": "^3.0.0",
-    "serve-favicon": "^2.3.2"
+    "express-handlebars": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
