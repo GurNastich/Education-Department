@@ -5,6 +5,9 @@ var express = require('express');
 //App
 var app = express();
 
+//Hide x-powered-by field in response header
+app.disable('x-powered-by');
+
 //View engine
 var handlebars = require('express-handlebars').create({
     defaultLayout: 'main',
@@ -50,6 +53,14 @@ app.get('/lesson-materials', function(req, res) {
     res.render('lesson-materials');
 });
 
+app.get('/headers', function(req, res) {
+    res.set('Content-Type', 'text/plain');
+    var s = '';
+    for (var name in req.headers) {
+        s += name + ':' + req.headers[name] + '\n'
+    }
+    res.send(s);
+});
 //404
 app.use(function(req, res) {
     res.status(404);
