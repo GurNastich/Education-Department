@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="vendor/bootstrap.css"/>
         <link rel="stylesheet" href="css/style.css">
     </head>
-    <body>
+    <body ng-app="app">
     <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -22,15 +22,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Студенты</a></li>
+                    <li><a ui-sref="students">Студенты</a></li>
                     <li><a href="#">Оплата</a></li>
                     <li><a href="#">Уроки</a></li>
                 </ul>
             </div>
         </div>
     </header>
-    <div class="container">
 
+    <div class="container">
+        <div ui-view></div>
     </div>
 
     <!--Vendor-->
@@ -41,6 +42,12 @@
 
     <!--App scripts-->
     <script src="js/main.js"></script>
+    <script src="js/home/home.module.js"></script>
+    <script src="js/home/home.router.js"></script>
+    <script src="js/home/controllers/home.controller.js"></script>
+    <script src="js/students/students.module.js"></script>
+    <script src="js/students/students.router.js"></script>
+    <script src="js/students/controllers/students.controller.js"></script>
 
     <!--Maybe later-->
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

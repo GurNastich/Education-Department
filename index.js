@@ -5,6 +5,36 @@ var express = require('express');
 var mottos = require('./lib/mottos');
 var credentials = require('./credentials.js');
 
+//DB models
+var Student = require('./db/models/student.js');
+
+//Fill some data if no any
+Student.find(function(err, students) {
+	if (err) console.log(err);
+	
+	if (students.length) return;
+
+	new Student({
+		name: 'Анастасия',
+		patronymic: 'Андреевна',
+		lastName: 'Гуревич',
+		group: '03-16',
+		stream: 'Базовый',
+		phone: '89217741962',
+		email: 'gurevich.anastasia@gmail.com'
+	}).save();
+
+	new Student({
+		name: 'Ксения',
+		patronymic: 'Юрьевна',
+		lastName: 'Васенкова',
+		group: '01-16',
+		stream: 'Молодёжная группа',
+		phone: '89998887766',
+		email: 'vas@gma.com'
+	}).save();
+});
+
 //App
 var app = express();
 
@@ -32,11 +62,16 @@ app.set('port', process.env.PORT || 3000);
 
 //Serve static files
 app.use(express.static(__dirname + '/public'));
+// console.log('lll');
 
-
-app.get('*', function(req, res) {
-    res.sendFile('./public/index.html');
+app.get('/api', function(req, res) {
+	console.log('get /api');
 });
+
+// app.get('*', function(req, res) {
+// 		console.log('get *');
+//     res.sendFile('./public/index.html');
+// });
 
 //404
 app.use(function(req, res) {
