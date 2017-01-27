@@ -68,6 +68,11 @@ app.get('/api', function(req, res) {
 	console.log('get /api');
 });
 
+app.get('students', function(req, res) {
+	console.log('get students');
+	res.send();
+});
+
 // app.get('*', function(req, res) {
 // 		console.log('get *');
 //     res.sendFile('./public/index.html');
