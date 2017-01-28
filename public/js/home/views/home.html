@@ -1,7 +1,45 @@
-<div class="container">
-		<ul>
-			<li ng-repeat="student in students">
-				{{student.name}}
+<div class="header">
+	<div class="search">
+		<input class="form-control" type="text" placeholder="Поиск">
+	</div>
+	<div class="date-filter">
+		<input class="form-control" type="text" placeholder="От">
+		<input class="form-control" type="text" placeholder="До">
+	</div>
+	<div class="group-filter">
+		<div class="btn-group">
+			<button class="btn btn-default">Все студенты</button>
+			<button class="btn btn-default">Вводный курс</button>
+			<button class="btn btn-default">Молодёжная группа</button>
+		</div>
+		<ui-select ng-model="basicGroups.selected" theme="bootstrap" title="Базовая группа">
+      <ui-select-match placeholder="Базовая группа">
+      	{{$select.selected.name}}
+      </ui-select-match>
+      <ui-select-choices repeat="group in basicGroups | filter: $select.search">
+        <span>{{group.name}}</span>
+        <!-- <small ng-bind-html="group.startDate | highlight: $select.search"></small> -->
+      </ui-select-choices>
+    </ui-select>
+	</div>
+</div>
+
+<div class="calendar-container">
+	<div class="calendar-header">
+		<div class="name">
+			ФИО
+		</div>
+		<div class="date" ng-repeat="date in dates">
+			{{date.weekday}}<br>
+			{{date.dayNumber}}
+		</div>
+	</div>
+	<div class="calendar-body">
+		<ul class="students">
+			<li class="student" ng-repeat="student in students">
+				<div class="student-name">{{student.lastName}}&nbsp;{{student.name}}</div>
+				<div ng-repeat="visit in student.visits" class={{visit.typeClass}}>{{visit.type}}</div>
 			</li>
 		</ul>
+	</div>
 </div>

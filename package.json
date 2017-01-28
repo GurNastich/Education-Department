@@ -18,7 +18,8 @@
     "bootstrap": "^3.3.7",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
-    "mongoose": "^4.7.8"
+    "mongoose": "^4.7.8",
+    "ui-select": "^0.19.6"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -26,6 +27,7 @@
     "grunt-cafe-mocha": "^0.1.13",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-exec": "^1.0.1",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "stylus": "^0.54.5"
   }
 }
