@@ -11,6 +11,7 @@
 			<button class="btn btn-default">Все студенты</button>
 			<button class="btn btn-default">Вводный курс</button>
 			<button class="btn btn-default">Молодёжная группа</button>
+			<button class="btn btn-default">Каб Клуб</button>
 		</div>
 		<ui-select ng-model="basicGroups.selected" theme="bootstrap" title="Базовая группа">
       <ui-select-match placeholder="Базовая группа">
@@ -25,10 +26,14 @@
 </div>
 
 <div class="calendar-container">
+	<div class="month">Январь</div>
 	<div class="calendar-header">
 		<div class="name">
 			ФИО
 		</div>
+<!-- 		<div class="name">
+			Группа
+		</div> -->
 		<div class="date" ng-repeat="date in dates">
 			{{date.weekday}}<br>
 			{{date.dayNumber}}
@@ -38,6 +43,7 @@
 		<ul class="students">
 			<li class="student" ng-repeat="student in students">
 				<div class="student-name">{{student.lastName}}&nbsp;{{student.name}}</div>
+				<!-- <div>{{student.stream}}</div> -->
 				<div ng-repeat="visit in student.visits" class={{visit.typeClass}}>{{visit.type}}</div>
 			</li>
 		</ul>

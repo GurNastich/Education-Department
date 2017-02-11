@@ -7,4 +7,4 @@ angular.module('studentsModule').config(function($stateProvider) {
 			templateUrl: 'js/students/views/students.html',
 			controller: 'studentsController'
 		})
-});
+}); 

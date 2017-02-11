@@ -9,6 +9,7 @@
         <!-- Place favicon.ico in the root directory -->
         <link rel="stylesheet" href="vendor/bootstrap.css"/>
         <link rel="stylesheet" href="vendor/select.css"/>
+        <link rel="stylesheet" href="vendor/ui-grid.css"/>
         <link rel="stylesheet" href="css/home.css">
     </head>
     <body ng-app="app">
@@ -23,9 +24,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a ui-sref="students">Студенты</a></li>
-                    <li><a href="#">Оплата</a></li>
-                    <li><a href="#">Уроки</a></li>
+                    <li><a ui-sref="events">Мероприятия</a></li>
+                    <li><a href="">Оплата</a></li>
+                    <li><a ui-sref="students"">Студенты</a></li>
                 </ul>
             </div>
         </div>
@@ -39,6 +40,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
     <script src="vendor/angular.js"></script>
     <script src="vendor/angular-ui-router.js"></script>
+    <script src="vendor/ui-grid.js"></script>
     <script src="vendor/bootstrap.js"></script>
     <script src="vendor/select.js"></script>
 
@@ -50,6 +52,9 @@
     <script src="js/students/students.module.js"></script>
     <script src="js/students/students.router.js"></script>
     <script src="js/students/controllers/students.controller.js"></script>
+    <script src="js/events/events.module.js"></script>
+    <script src="js/events/events.router.js"></script>
+    <script src="js/events/controllers/events.controller.js"></script>
 
     <!--Maybe later-->
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
