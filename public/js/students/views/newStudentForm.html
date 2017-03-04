@@ -1,0 +1,92 @@
+<div class="new-student-form">
+	<form>
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Фамилия</label>
+					<input class="form-control" type="text" ng-model="student.lastName">
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Имя</label>
+					<input class="form-control" type="text" ng-model="student.name">
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Отчество</label>
+					<input class="form-control" type="text" ng-model="student.patronymic">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Телефон</label>
+					<input class="form-control" type="text" ng-repeat="phone in student.phones">
+					<button class="btn">+ Телефон</button>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>E-mail</label>
+					<input class="form-control" type="text" ng-repeat="email in student.emails">
+					<button class="btn">+ E-mail</button>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<label>Социальные сети</label>
+				<div ng-repeat="profile in student.profileLinks">
+					<select class="form-control" ng-model="profile.linkType">
+						<option>VK</option>
+						<option>Facebook</option>
+					</select>
+					<input class="form-control" type="text" ng-model="profile.linkName">	
+				</div>
+				
+				<button class="btn">+ Профайл</button>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-xs-4">
+				<label>Тип группы</label>
+				<select class="form-control" type="text" ng-model="student.group.groupType">
+					<option>Вводная лекция</option>
+					<option>Вводный</option>
+					<option>Базовый</option>
+					<option>Молодёжная группа</option>
+					<option>Основная группа</option>
+					<option>Каб. клуб</option>
+					<option>Гость</option>
+				</select>
+			</div>
+			<div class="col-xs-4">
+				<label>Имя группы</label>
+				<input class="form-control" type="text" ng-model="student.group.groupName">
+			</div>
+		</div>
+		<h3>Переводы</h3>
+		<div class="row">
+			<div class="col-xs-3">
+				<label>Вводный</label>
+				<input class="form-control" type="date" ng-model="student.transitions.toIntroGroup">
+			</div>
+			<div class="col-xs-3">
+				<label>Базовый</label>
+				<input class="form-control" type="date" ng-model="student.transitions.toBaseGroup">
+			</div>
+			<div class="col-xs-3">
+				<label>Молодёжная группа</label>
+				<input class="form-control" type="date" ng-model="student.transitions.toYoungGroup">	
+			</div>
+			<div class="col-xs-3">
+				<label>Основная группа</label>
+				<input class="form-control" type="date" ng-model="student.transitions.toMainGroup">
+			</div>
+		</div>
+	</form>
+	<div>
+		<button class="btn btn-success" ng-click="saveUser(student)">Сохранить</button>
+	</div>
+</div>

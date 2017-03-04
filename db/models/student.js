@@ -25,6 +25,7 @@ var studentSchema = new mongoose.Schema({
 		groupName: String
 	},
 	transitions: {
+		toIntroGroup: Date,
 		toBaseGroup: Date,
 		toYoungGroup: Date,
 		toMainGroup: Date

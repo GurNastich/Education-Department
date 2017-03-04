@@ -20,13 +20,14 @@
     <header class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
-                <a href="/" class="navbar-brand">Учебный отдел</a>
+                <a ui-sref="home" class="navbar-brand">Учебный отдел</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a ui-sref="events">Мероприятия</a></li>
-                    <li><a href="">Оплата</a></li>
-                    <li><a ui-sref="students"">Студенты</a></li>
+                    <li><a ui-sref="home">Посещаемость</a></li>
+                    <li><a ui-sref="new-lesson">Новый урок</a></li>
+                    <li><a ui-sref="new-student"">Новый студент</a></li>
+                    <li><a>Оплата</a></li>
                 </ul>
             </div>
         </div>
@@ -52,9 +53,9 @@
     <script src="js/students/students.module.js"></script>
     <script src="js/students/students.router.js"></script>
     <script src="js/students/controllers/students.controller.js"></script>
-    <script src="js/events/events.module.js"></script>
-    <script src="js/events/events.router.js"></script>
-    <script src="js/events/controllers/events.controller.js"></script>
+    <script src="js/lessons/lessons.module.js"></script>
+    <script src="js/lessons/lessons.router.js"></script>
+    <script src="js/lessons/controllers/lessons.controller.js"></script>
 
     <!--Maybe later-->
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

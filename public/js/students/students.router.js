@@ -2,9 +2,9 @@
 
 angular.module('studentsModule').config(function($stateProvider) {
 	$stateProvider
-		.state('students', {
-			url: '/students',
-			templateUrl: 'js/students/views/students.html',
+		.state('new-student', {
+			url: '/new-student',
+			templateUrl: 'js/students/views/newStudentForm.html',
 			controller: 'studentsController'
 		})
 }); 

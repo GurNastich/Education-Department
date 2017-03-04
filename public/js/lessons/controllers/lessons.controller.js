@@ -1,8 +1,8 @@
 (function(angular) {
 	'use strict';
 
-	angular.module('eventsModule')
-		.controller('eventsController', function($scope, $http) {
+	angular.module('lessonsModule')
+		.controller('lessonsController', function($scope, $http) {
 			$scope.options = {
 				columnDefs: [
 					{ field: 'name', name: 'Название' },
