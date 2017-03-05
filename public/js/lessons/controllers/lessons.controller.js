@@ -3,17 +3,25 @@
 
 	angular.module('lessonsModule')
 		.controller('lessonsController', function($scope, $http) {
-			$scope.options = {
-				columnDefs: [
-					{ field: 'name', name: 'Название' },
-					{ field: 'type', name: 'Тип' },
-					{ field: 'date', name: 'Дата' }
-				],
-				data: [
-					{name: 'Каббала и здоровье', type: 'Базовый', date: Date.now()},
-					{name: 'Работа в группе', type: 'Мол. группа', date: Date.now()},
-					{name: 'Птиха п.160-163', type: 'Каб. клуб', date: Date.now()}
-				]
+			$scope.lesson = {};
+			$scope.students = [];
+			var type = 'base';
+			$http.get('/students', {params:{type: type}}).then(function(resp) {
+				$scope.students = resp.data;
+			}, function(err) {
+				console.log(err);
+			});
+
+			$scope.saveLesson = function(lesson) {
+				lesson.students = _.filter($scope.students, {visit: true});
+				//save only objectIds
+				lesson.students = _.map(lesson.students, '_id');
+
+				$http.post('/lesson', {lesson: lesson}).then(function(resp) {
+					console.log(resp);
+				}, function(err) {
+					console.log(err);
+				});
 			};
 		});
 })(angular);

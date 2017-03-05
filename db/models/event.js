@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Student = require('./student');
 
-var eventSchema = mongoose.Schema({
+var eventSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true
@@ -18,7 +18,7 @@ var eventSchema = mongoose.Schema({
 	endTime: Date,
 	description: String,
 	teachers: [String],
-	administrators: [String],
+	admin: String,
 	// students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
 	students: [{ type: mongoose.Schema.Types.ObjectId }]	//from edX course
 	// students: [Student.studentSchema],	//from edx course

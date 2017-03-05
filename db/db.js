@@ -52,37 +52,38 @@ function fillInitialStudentData() {
 	});
 }
 
-// function fillInitialEventData() {
-// //Fill some data if no any
-// 	Event.find(function(err, events) {
-// 		if (err) console.log(err);
-// 		if (students.length) return;
+function fillInitialEventData() {
+//Fill some data if no any
+	Event.find(function(err, events) {
+		if (err) console.log(err);
+		if (events.length) return;
 
 
-// 		new Event({
-// 		name: 'Урок Зоар',
-// 		type: 'Урок молодёжной группы',
-// 		date: new Date(2017, 3, 2),	//2 March 2017
-// 		startTime: new Date(2017, 3, 2),
-// 		endTime: new Date(2017, 3, 2),
-// 		description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
-// 		teachers: ['Иванов', 'Петров'],
-// 		administrators: ['Вика'],
-// 		students: [{ type: mongoose.Schema.Types.ObjectId }]
-// }).save();
+		new Event({
+		name: 'Урок Зоар',
+		type: 'Урок молодёжной группы',
+		date: new Date(2017, 3, 2),	//2 March 2017
+		startTime: new Date(2017, 3, 2),
+		endTime: new Date(2017, 3, 2),
+		description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
+		teachers: ['Иванов', 'Петров'],
+		administrators: ['Вика'],
+		students: ['589ef5818f7c81228090fb46']
+}).save();
 
-// 		// new Student({
-// 		// 	name: 'Ксения'
-// 		// 	patronymic: 'Юрьевна',
-// 		// 	lastName: 'Васенкова',
-// 		// 	group: '01-16',
-// 		// 	stream: 'Молодёжная группа',
-// 		// 	phone: '89998887766',
-// 		// 	email: 'vas@gma.com'
-// 		// }).save();
+		// new Student({
+		// 	name: 'Ксения'
+		// 	patronymic: 'Юрьевна',
+		// 	lastName: 'Васенкова',
+		// 	group: '01-16',
+		// 	stream: 'Молодёжная группа',
+		// 	phone: '89998887766',
+		// 	email: 'vas@gma.com'
+		// }).save();
 
-// 	});
-// }
+	});
+}
 
 module.exports.setDBConnection = setDBConnection;
 module.exports.fillInitialStudentData = fillInitialStudentData;
+module.exports.fillInitialEventData = fillInitialEventData;

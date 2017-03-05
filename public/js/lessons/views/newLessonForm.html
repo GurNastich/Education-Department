@@ -1,6 +1,63 @@
-<div>
+<div class="new-lesson-form">
 	<form>
-		<label>Название</label>
-		<input class="form-control" type="text">
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Тема</label>
+					<input class="form-control" type="text" ng-model="lesson.name">		
+				</div>
+				<div class="form-group">
+					<label>Преподаватель №1</label>
+					<input class="form-control" type="text" ng-model="lesson.teachers[0]">		
+				</div>
+				<div class="form-group">
+					<label>Преподаватель №2</label>
+					<input class="form-control" type="text" ng-model="lesson.teachers[1]">		
+				</div>
+				<div class="form-group">
+					<label>Администратор</label>
+					<input class="form-control" type="text" ng-model="lesson.admin">		
+				</div>
+				<div class="form-group">
+					<label>Дата</label>
+					<input class="form-control" type="date" ng-model="lesson.date">		
+				</div>
+				<div class="form-group">
+					<label>Время начала</label>
+					<input class="form-control" type="date" ng-model="lesson.startTime">		
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Тип</label>
+					<select class="form-control" ng-model="lesson.type">
+						<option>Вводная лекция</option>
+						<option>Вводный</option>
+						<option>Базовый</option>
+						<option>Молодёжная группа</option>
+						<option>Каб. клуб</option>
+						<option>Другое</option>
+					</select>	
+				</div>
+				<div class="form-group">
+					<label>Комментарий</label>
+					<textarea class="form-control lesson-comment" placeholder="Описание урока" ng-model="lesson.description"></textarea>
+				</div>
+				<div class="form-group">
+					<label>Время окончания</label>
+					<input class="form-control" type="date" ng-model="lesson.endTime">		
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<label>Студенты</label>
+				<div class="student-list" ng-repeat="student in students">
+					<input class="visit-checkbox" type="checkbox" ng-model="student.visit">
+					<div class="student-name">{{student.lastName}} {{student.name}}</div>
+				</div>
+			</div>
+		</div>
 	</form>
+	<div>
+		<button class="btn btn-success" ng-click="saveLesson(lesson)">Сохранить</button>
+	</div>
 </div>

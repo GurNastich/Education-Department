@@ -1,0 +1,12 @@
+.new-lesson-form .lesson-comment {
+	height: 217px;
+}
+
+.new-lesson-form .student-list .student-name {
+	display: inline-block;;
+	vertical-align: top;
+}
+
+.new-lesson-form .student-list .visit-checkbox {
+	margin-right: 10px;
+}
