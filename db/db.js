@@ -44,7 +44,7 @@ function fillInitialStudentData() {
 			linkType: 'Facebook',
 			linkName: 'https://www.facebook.com/profile.php?id=100009485595004'
 		}],
-		group: {groupType: 'base', groupName: 'Базовый 3-16'},
+		group: {groupType: 'base', name: 'Базовый 3-16'},
 		transitions: {
 			toBaseGroup: new Date(2016, 3, 14)	//14 April 2016
 		}

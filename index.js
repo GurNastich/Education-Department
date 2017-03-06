@@ -20,12 +20,15 @@ app.use(bodyParser());
 
 // API
 app.get('/students', function(req, res) {
-	Student.find({'group.groupType': req.query.type}, function(err, students) {
-		res.json(students);
-	});
-	// Student.find(function(err, students) {
-	// 	res.json(students);
-	// });
+	if (req.query.type) {
+		Student.find({'group.groupType': req.query.type}, function(err, students) {
+			res.json(students);
+		});
+	} else {
+		 Student.find(function(err, students) {
+		 	res.json(students);
+		 });
+	}
 });
 
 // app.get('*', function(req, res) {

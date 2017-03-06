@@ -22,7 +22,7 @@ var studentSchema = new mongoose.Schema({
 	}],
 	group: {
 		groupType: String,
-		groupName: String
+		name: String
 	},
 	transitions: {
 		toIntroGroup: Date,

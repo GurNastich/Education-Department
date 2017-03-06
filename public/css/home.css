@@ -150,3 +150,13 @@
 	background-color: #f2dede;
 	color: #a94442;
 }
+
+input.error,
+select.error {
+	background-color: #ffe8eb;
+	border-color: #da969b;
+}
+
+span.required-field-error-hint {
+	font-size: 12px;
+}

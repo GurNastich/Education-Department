@@ -1,3 +1,7 @@
+.new-lesson-form {
+	margin: 0 20px;
+}
+
 .new-lesson-form .lesson-comment {
 	height: 217px;
 }

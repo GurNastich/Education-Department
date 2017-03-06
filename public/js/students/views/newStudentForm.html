@@ -1,16 +1,19 @@
 <div class="new-student-form">
-	<form>
+	<a ui-sref="students" class="btn btn-default">Список студентов</a>
+	<form name="newStudent">
 		<div class="row">
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Фамилия</label>
-					<input class="form-control" type="text" ng-model="student.lastName">
+					<input class="form-control" ng-class="{'error': lastNameError}" type="text" name="lastName" ng-model="student.lastName" ng-change="validateLastNameField(student.lastName)">
+					<span class="required-field-error-hint" ng-show="lastNameError">* Обязательное поле</span>
 				</div>
 			</div>
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Имя</label>
-					<input class="form-control" type="text" ng-model="student.name">
+					<input class="form-control" ng-class="{'error': nameError}" type="text" name="name" ng-model="student.name" ng-change="validateNameField(student.name)">
+					<span class="required-field-error-hint" ng-show="nameError">* Обязательное поле</span>
 				</div>
 			</div>
 			<div class="col-xs-4">
@@ -51,19 +54,15 @@
 		<div class="row">
 			<div class="col-xs-4">
 				<label>Тип группы</label>
-				<select class="form-control" type="text" ng-model="student.group.groupType">
-					<option>Вводная лекция</option>
-					<option>Вводный</option>
-					<option>Базовый</option>
-					<option>Молодёжная группа</option>
-					<option>Основная группа</option>
-					<option>Каб. клуб</option>
-					<option>Гость</option>
+				<select class="form-control" ng-class="{'error': groupTypeError}" type="text" name="groupType" ng-model="student.group.groupType" ng-change="validateGroupTypeField(student.group.groupType)">
+					<option ng-repeat="group in groupTypes" value="{{group.type}}">{{group.displayName}}</option>
 				</select>
+				<span class="required-field-error-hint" ng-show="groupTypeError">* Обязательное поле</span>
 			</div>
 			<div class="col-xs-4">
 				<label>Имя группы</label>
-				<input class="form-control" type="text" ng-model="student.group.groupName">
+				<input class="form-control" ng-class="{'error': groupNameError}" name="groupName" type="text" ng-model="student.group.name" ng-change="validateGroupNameField(student.group.name)">
+				<span class="required-field-error-hint" ng-show="groupNameError">* Обязательное поле</span>
 			</div>
 		</div>
 		<h3>Переводы</h3>

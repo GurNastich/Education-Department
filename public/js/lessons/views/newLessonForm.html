@@ -1,10 +1,11 @@
 <div class="new-lesson-form">
-	<form>
+	<form name="newLessonForm">
 		<div class="row">
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Тема</label>
-					<input class="form-control" type="text" ng-model="lesson.name">		
+					<input class="form-control" ng-class="{'error': nameError}" type="text" name="name" ng-model="lesson.name" ng-change="validateName(lesson.name)">
+					<span class="required-field-error-hint" ng-show="nameError">* Обязательное поле</span>
 				</div>
 				<div class="form-group">
 					<label>Преподаватель №1</label>
@@ -20,7 +21,8 @@
 				</div>
 				<div class="form-group">
 					<label>Дата</label>
-					<input class="form-control" type="date" ng-model="lesson.date">		
+					<input class="form-control" ng-class="{'error': dateError}" type="date" name="date" ng-model="lesson.date" ng-change="validateDate(lesson.date)">
+					<span class="required-field-error-hint" ng-show="dateError">* Обязательное поле</span>
 				</div>
 				<div class="form-group">
 					<label>Время начала</label>
@@ -30,14 +32,15 @@
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Тип</label>
-					<select class="form-control" ng-model="lesson.type">
+					<select class="form-control" ng-class="{'error': typeError}" ng-model="lesson.type" name="type" ng-change="validateType(lesson.type)">
 						<option>Вводная лекция</option>
 						<option>Вводный</option>
 						<option>Базовый</option>
 						<option>Молодёжная группа</option>
 						<option>Каб. клуб</option>
 						<option>Другое</option>
-					</select>	
+					</select>
+					<span class="required-field-error-hint" ng-show="typeError">* Обязательное поле</span>
 				</div>
 				<div class="form-group">
 					<label>Комментарий</label>
