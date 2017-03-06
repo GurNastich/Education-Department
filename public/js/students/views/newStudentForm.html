@@ -1,5 +1,5 @@
 <div class="new-student-form">
-	<a ui-sref="students" class="btn btn-default">Список студентов</a>
+	<!--<a ui-sref="students" class="btn btn-default">Список студентов</a>-->
 	<form name="newStudent">
 		<div class="row">
 			<div class="col-xs-4">
@@ -8,80 +8,70 @@
 					<input class="form-control" ng-class="{'error': lastNameError}" type="text" name="lastName" ng-model="student.lastName" ng-change="validateLastNameField(student.lastName)">
 					<span class="required-field-error-hint" ng-show="lastNameError">* Обязательное поле</span>
 				</div>
-			</div>
-			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Имя</label>
 					<input class="form-control" ng-class="{'error': nameError}" type="text" name="name" ng-model="student.name" ng-change="validateNameField(student.name)">
 					<span class="required-field-error-hint" ng-show="nameError">* Обязательное поле</span>
 				</div>
-			</div>
-			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Отчество</label>
 					<input class="form-control" type="text" ng-model="student.patronymic">
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4">
 				<div class="form-group">
-					<label>Телефон</label>
-					<input class="form-control" type="text" ng-repeat="phone in student.phones">
-					<button class="btn">+ Телефон</button>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class="form-group">
-					<label>E-mail</label>
-					<input class="form-control" type="text" ng-repeat="email in student.emails">
-					<button class="btn">+ E-mail</button>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<label>Социальные сети</label>
-				<div ng-repeat="profile in student.profileLinks">
-					<select class="form-control" ng-model="profile.linkType">
-						<option>VK</option>
-						<option>Facebook</option>
+					<label>Тип группы</label>
+					<select class="form-control" ng-class="{'error': groupTypeError}" type="text" name="groupType" ng-model="student.group.groupType" ng-change="validateGroupTypeField(student.group.groupType)">
+						<option ng-repeat="group in groupTypes" value="{{group.type}}">{{group.displayName}}</option>
 					</select>
-					<input class="form-control" type="text" ng-model="profile.linkName">	
+					<span class="required-field-error-hint" ng-show="groupTypeError">* Обязательное поле</span>
 				</div>
-				
-				<button class="btn">+ Профайл</button>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-xs-4">
-				<label>Тип группы</label>
-				<select class="form-control" ng-class="{'error': groupTypeError}" type="text" name="groupType" ng-model="student.group.groupType" ng-change="validateGroupTypeField(student.group.groupType)">
-					<option ng-repeat="group in groupTypes" value="{{group.type}}">{{group.displayName}}</option>
-				</select>
-				<span class="required-field-error-hint" ng-show="groupTypeError">* Обязательное поле</span>
+				<div class="form-group">
+					<label>Имя группы</label>
+					<input class="form-control" ng-class="{'error': groupNameError}" name="groupName" type="text" ng-model="student.group.name" ng-change="validateGroupNameField(student.group.name)">
+					<span class="required-field-error-hint" ng-show="groupNameError">* Обязательное поле</span>
+				</div>
 			</div>
 			<div class="col-xs-4">
-				<label>Имя группы</label>
-				<input class="form-control" ng-class="{'error': groupNameError}" name="groupName" type="text" ng-model="student.group.name" ng-change="validateGroupNameField(student.group.name)">
-				<span class="required-field-error-hint" ng-show="groupNameError">* Обязательное поле</span>
+				<div class="form-group">
+					<label class="phone-label">Телефон</label>
+					<input class="form-control input-field" type="text" ng-model="student.phones[$index]" ng-repeat="phone in student.phones track by $index">
+					<button class="btn btn-default add-btn" title="Добавить телефон" ng-click="addPhone(student)">+</button>
+				</div>
+					<div class="form-group">
+						<label>E-mail</label>
+						<div class="contact-info">
+							<input class="form-control input-field" type="text" ng-repeat="email in student.emails">
+							<button class="btn btn-default add-btn" title="Добавить e-mail">+</button>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Социальные сети</label>
+						<div ng-repeat="profile in student.profileLinks">
+							<span class="fa fa-{{profile.linkType}}">{{profile.linkType}}</span>
+							<!--<select class="form-control" ng-model="profile.linkType">-->
+								<!--<option>VK</option>-->
+								<!--<option>Facebook</option>-->
+							<!--</select>-->
+							<input class="form-control" type="text" ng-model="profile.linkName">
+						</div>
+					</div>
 			</div>
-		</div>
-		<h3>Переводы</h3>
-		<div class="row">
-			<div class="col-xs-3">
-				<label>Вводный</label>
-				<input class="form-control" type="date" ng-model="student.transitions.toIntroGroup">
-			</div>
-			<div class="col-xs-3">
-				<label>Базовый</label>
-				<input class="form-control" type="date" ng-model="student.transitions.toBaseGroup">
-			</div>
-			<div class="col-xs-3">
-				<label>Молодёжная группа</label>
-				<input class="form-control" type="date" ng-model="student.transitions.toYoungGroup">	
-			</div>
-			<div class="col-xs-3">
-				<label>Основная группа</label>
-				<input class="form-control" type="date" ng-model="student.transitions.toMainGroup">
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Вводный</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toIntroGroup">
+				</div>
+				<div class="form-group">
+					<label>Базовый</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toBaseGroup">
+				</div>
+				<div class="form-group">
+					<label>Молодёжная группа</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toYoungGroup">
+				</div>
+				<div class="form-group">
+					<label>Основная группа</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toMainGroup">
+				</div>
 			</div>
 		</div>
 	</form>

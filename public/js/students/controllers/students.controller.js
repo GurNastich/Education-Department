@@ -41,9 +41,16 @@
 				phones: [''],
 				emails: [''],
 				profileLinks: [{
-					linkType: '',
+					linkType: 'VK',
+					linkName: ''
+				}, {
+					linkType: 'FB',
 					linkName: ''
 				}]
+			};
+
+			$scope.addPhone = function(student) {
+				student.phones.push('');
 			};
 
 			$scope.validateLastNameField = function(val) {
@@ -61,7 +68,6 @@
 			$scope.validateGroupNameField = function(val) {
 				$scope.groupNameError = !val;
 			};
-
 
 			$scope.saveUser = function(student) {
 				var validationError = false;

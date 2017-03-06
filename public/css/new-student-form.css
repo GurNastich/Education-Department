@@ -1,3 +1,20 @@
 .new-student-form {
     margin: 0 20px;
 }
+
+.new-student-form .phone-label {
+    display: block;
+}
+
+.new-student-form .input-field,
+.new-student-form .add-btn {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.new-student-form .input-field {
+    width: 70%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    /*убрать у последнего*/
+}
