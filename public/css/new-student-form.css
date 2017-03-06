@@ -18,3 +18,7 @@
     margin-bottom: 5px;
     /*убрать у последнего*/
 }
+
+.new-student-form .btn-save-user {
+	margin-right: 15px;
+}
