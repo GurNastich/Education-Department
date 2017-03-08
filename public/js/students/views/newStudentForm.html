@@ -33,24 +33,24 @@
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label class="phone-label">Телефон</label>
-					<input class="form-control input-field" type="text" ng-model="student.phones[$index]" ng-repeat="phone in student.phones track by $index">
+					<div class="contact-group" ng-repeat="phone in student.phones track by $index">
+						<input class="form-control input-field" ng-class="{'error': phoneError[$index]}" type="text" ng-model="student.phones[$index]" ng-change="validatePhone(student.phones, $index)">
+						<div class="remove" ng-show="$index > 0" ng-click="removeItem(student.phones, $index)">x</div>
+					</div>
 					<button class="btn btn-default add-btn" title="Добавить телефон" ng-click="addPhone(student)">+</button>
 				</div>
 					<div class="form-group">
-						<label>E-mail</label>
-						<div class="contact-info">
-							<input class="form-control input-field" type="text" ng-repeat="email in student.emails">
-							<button class="btn btn-default add-btn" title="Добавить e-mail">+</button>
+						<label class="email-label">E-mail</label>
+						<div class="contact-group" ng-repeat="email in student.emails track by $index">
+							<input class="form-control input-field" ng-class="{'error': emailError[$index]}" type="text" ng-model="student.emails[$index]" ng-change="validateEmail(student.emails, $index)">
+							<div class="remove" ng-show="$index > 0" ng-click="removeItem(student.emails, $index)">x</div>
 						</div>
+						<button class="btn btn-default add-btn" title="Добавить e-mail" ng-click="addEmail(student)">+</button>
 					</div>
 					<div class="form-group">
 						<label>Социальные сети</label>
 						<div ng-repeat="profile in student.profileLinks">
 							<span class="fa fa-{{profile.linkType}}">{{profile.linkType}}</span>
-							<!--<select class="form-control" ng-model="profile.linkType">-->
-								<!--<option>VK</option>-->
-								<!--<option>Facebook</option>-->
-							<!--</select>-->
 							<input class="form-control" type="text" ng-model="profile.linkName">
 						</div>
 					</div>

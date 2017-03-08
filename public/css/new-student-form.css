@@ -2,7 +2,8 @@
     margin: 0 20px;
 }
 
-.new-student-form .phone-label {
+.new-student-form .phone-label,
+.new-student-form .email-label {
     display: block;
 }
 
@@ -12,10 +13,33 @@
     vertical-align: top;
 }
 
+.new-student-form .contact-group {
+	position: relative;
+
+	display: inline-block;
+	vertical-align: top;
+	width: 75%;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+.new-student-form .contact-group .remove {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 45px;
+    width: 40px;
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #dce4ec;
+    background-color: #fff;
+    color: #da969b;
+    cursor: pointer;
+}
+
 .new-student-form .input-field {
-    width: 70%;
+/*    width: 70%;
     margin-right: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 5px;*/
     /*убрать у последнего*/
 }
 

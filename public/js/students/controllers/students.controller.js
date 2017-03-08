@@ -32,6 +32,9 @@
 			];
 
 			$scope.students = [];
+			$scope.phoneError = [];
+			$scope.emailError = [];
+
 			$http.get('/students').then(function(resp) {
 				$scope.students = resp.data;
 			}, function(err) {
@@ -46,12 +49,35 @@
 				}, {
 					linkType: 'FB',
 					linkName: ''
-				}]
+				}],
+				transitions: {
+					toIntroGroup: new Date()
+				}
 			};
 
 			$scope.addPhone = function(student) {
+				var empty = student.phones[student.phones.length - 1] === undefined ||
+							student.phones[student.phones.length - 1] === '' ||
+							student.phones[student.phones.length - 1] === null;
+				if (empty) {
+					$scope.phoneError[student.phones.length - 1] = true;
+					return;
+				}
+
 				student.phones.push('');
 			};
+
+			$scope.addEmail = function(student) {
+				var empty = student.emails[student.emails.length - 1] === undefined ||
+							student.emails[student.emails.length - 1] === '' ||
+							student.emails[student.emails.length - 1] === null;
+				if (empty) {
+					$scope.emailError[student.emails.length - 1] = true;
+					return;
+				}
+
+				student.emails.push('');
+			}
 
 			$scope.validateLastNameField = function(val) {
 				$scope.lastNameError = !val;
@@ -67,6 +93,25 @@
 
 			$scope.validateGroupNameField = function(val) {
 				$scope.groupNameError = !val;
+			};
+
+			var phonePattern = /[\d()-]+/;
+
+			$scope.validatePhone = function(val, index) {
+				val[index] = phonePattern.exec(val[index]); 
+				if (!val[index]) {
+					$scope.phoneError[index] = true;
+					return;	
+				}
+				$scope.phoneError[index] = false;
+			};
+
+			$scope.validateEmail = function(val, index) {
+				$scope.emailError[index] = false;
+			};
+
+			$scope.removeItem = function(array, index) {
+				array.splice(index, 1);
 			};
 
 			$scope.saveUser = function(student) {
@@ -86,6 +131,11 @@
 				if (!$scope.newStudent.groupName.$viewValue) {
 					$scope.groupNameError = true;
 					validationError = true;
+				}
+
+				if (student.phones.length > 1 && !student.phones[student.phones.length - 1]) {
+					$scope.phoneError[student.phones.length - 1] = true;
+					return;
 				}
 
 				if (validationError) {
