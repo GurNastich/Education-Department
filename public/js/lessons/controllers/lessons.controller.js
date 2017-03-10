@@ -3,10 +3,13 @@
 
 	angular.module('lessonsModule')
 		.controller('lessonsController', function($scope, $http) {
-			$scope.lesson = {};
+			$scope.lesson = {
+				teachers: []
+			};
 			$scope.students = [];
 			var type = 'base';
-			$http.get('/students', {params:{type: type}}).then(function(resp) {
+			//$http.get('/students', {params:{type: type}}).then(function(resp) {
+			$http.get('/students').then(function(resp) {
 				$scope.students = resp.data;
 			}, function(err) {
 				console.log(err);

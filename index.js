@@ -31,6 +31,12 @@ app.get('/students', function(req, res) {
 	}
 });
 
+app.get('/lessons', function(req, res) {
+	Event.find(function(err, lessons) {
+		res.json(lessons);
+	})
+});
+
 // app.get('*', function(req, res) {
 // 		console.log('get *');
 //     res.sendFile('./public/index.html');

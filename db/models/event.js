@@ -19,8 +19,8 @@ var eventSchema = new mongoose.Schema({
 	description: String,
 	teachers: [String],
 	admin: String,
-	// students: [{ type: Schema.Types.ObjectId, ref: 'Student' }],
-	students: [{ type: mongoose.Schema.Types.ObjectId }]	//from edX course
+	//students: [{ type: Schema.Types.ObjectId, ref: 'Student' }]
+	students: [String]
 	// students: [Student.studentSchema],	//from edx course
 	// marks: [{name: String, value: Number}]	//mixed
 });

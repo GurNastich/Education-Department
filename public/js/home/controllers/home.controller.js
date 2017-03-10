@@ -3,16 +3,71 @@
 
 	angular.module('homeModule')
 		.controller('homeController', function($scope, $http) {
-			// $scope.students = [];
+			var days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+			var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+			$scope.students = [];
+			$scope.dates = [];
+			$scope.dateFrom = new Date(2017, 2, 1);	//1 March 2017
+			$scope.dateTo = new Date(2017, 2, 31);
+			for (var i = new Date($scope.dateFrom); i < $scope.dateTo; i.setDate(i.getDate() + 1)) {
+				$scope.dates.push({
+					weekDay: days[i.getDay()],
+					dayNumber: i.getDate()
+				});
+			}
+
 			// $scope.basicGroups = [];
 
-			// var weekdays = ['Вс', 'Пн', 'Вт', 'Ср' , 'Чт', 'Пт', 'Сб'];
+			 var weekdays = ['Вс', 'Пн', 'Вт', 'Ср' , 'Чт', 'Пт', 'Сб'];
 			
-			// $http.get('/students').then(function(response) {
-			// 	$scope.students = response.data;
-			// 	var types = ['В', 'Б', 'M', '-', '-'];
-			// 	var classTypes = ['intro', 'basic', 'young'];
-				
+			 $http.get('/students').then(function(response) {
+			 	$scope.students = response.data;
+			 	//var types = ['В', 'Б', 'M', '-', '-'];
+			 	var classTypes = ['intro', 'basic', 'young'];
+
+				 var types = [{
+					 type: 'Базовый',
+					 displayName: 'Б'
+				 }, {
+					 type: 'Вводный',
+					 displayName: 'В'
+				 }, {
+					 type: 'Молодёжная группа',
+					 displayName: 'М'
+				 }];
+
+				 $http.get('/lessons').then(function(resp) {
+					 _.each($scope.students, function(student) {
+						 student.visits = [];
+						 var studLessons = _.filter(resp.data, function(lesson) {
+							 var a = _.findIndex(lesson.students, function(stud) {
+								 return stud === student._id;
+							 });
+							 return a > -1;
+						 });
+
+						 var k = 0;
+						 for (var i = new Date($scope.dateFrom); i < $scope.dateTo; i.setDate(i.getDate() + 1)) {
+							 var isLesson = _.find(studLessons, function(less) {
+								 var e = new Date(less.date);
+								 return e.getTime() === i.getTime();
+							 });
+							 if (isLesson) {
+								 student.visits[k] = {
+									 type: _.find(types, {type: isLesson.type}).displayName
+								 }
+							 } else {
+								 student.visits[k] = {
+									type: '-'
+								 }
+							 }
+							k++;
+					 	}
+					 });
+				 }, function(err) {
+					 console.log(err);
+				 });
 			// 	var visits1 = [];
 			// 	var visits2 = [];
 
@@ -34,9 +89,9 @@
 
 			// 	console.log($scope.students);
 
-			// }, function(err) {
-			// 	console.log(err);
-			// });
+			 }, function(err) {
+			 	console.log(err);
+			 });
 
 			// $http.get('/basicgroups').then(function(response) {
 			// 	$scope.basicGroups = response.data;
