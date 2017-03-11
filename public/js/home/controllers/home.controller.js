@@ -5,11 +5,18 @@
 		.controller('homeController', function($scope, $http) {
 			var days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 			var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
+// $scope.options = {
+// 	initDate: new Date(2017, 3, 11)
+// }
 			$scope.students = [];
 			$scope.dates = [];
-			$scope.dateFrom = new Date(2017, 2, 1);	//1 March 2017
-			$scope.dateTo = new Date(2017, 2, 31);
+			$scope.dateFrom = new Date();	//Current date
+			$scope.dateTo = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() + 1));	//+ 1 Month
+			console.log($scope.dateFrom);
+			console.log($scope.dateTo);
+
+			$scope.dateDisplayFormat = 'dd-MMMM-yyyy';
+
 			for (var i = new Date($scope.dateFrom); i < $scope.dateTo; i.setDate(i.getDate() + 1)) {
 				$scope.dates.push({
 					weekDay: days[i.getDay()],
@@ -106,6 +113,13 @@
 			// 		weekday: weekdays[i % 7]
 			// 	});
 			// }
+
+			$scope.toggleFromDataPicker = function() {
+				$scope.fromOpen = !$scope.fromOpen;
+			};
+			$scope.toggleToDataPicker = function() {
+				$scope.toOpen = !$scope.toOpen;
+			};
 
 		});
 })(angular);

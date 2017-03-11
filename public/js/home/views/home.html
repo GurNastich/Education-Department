@@ -3,8 +3,8 @@
 		<input class="form-control" type="text" placeholder="Поиск">
 	</div>
 	<div class="date-filter">
-		<input class="form-control" type="text" placeholder="От">
-		<input class="form-control" type="text" placeholder="До">
+		<input class="form-control" datepicker-popup="d MMM y" is-open="fromOpen" ng-model="dateFrom" ng-click="toggleFromDataPicker()">
+		<input class="form-control" datepicker-popup="d MMM y" is-open="toOpen" ng-model="dateTo" ng-click="toggleToDataPicker()">
 	</div>
 	<div class="group-filter">
 		<div class="btn-group">
