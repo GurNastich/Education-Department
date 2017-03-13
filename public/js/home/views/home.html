@@ -3,7 +3,7 @@
 		<input class="form-control" type="text" placeholder="Поиск">
 	</div>
 	<div class="date-filter">
-		<input class="form-control" datepicker-popup="d MMM y" is-open="fromOpen" ng-model="dateFrom" ng-click="toggleFromDataPicker()">
+		<input class="form-control" datepicker-popup="d MMM y" is-open="fromOpen" ng-model="dateFrom" ng-click="toggleFromDataPicker()" ng-change="dateChange()">
 		<input class="form-control" datepicker-popup="d MMM y" is-open="toOpen" ng-model="dateTo" ng-click="toggleToDataPicker()">
 	</div>
 	<div class="group-filter">
@@ -26,7 +26,7 @@
 </div>
 
 <div class="calendar-container">
-	<div class="month">Январь</div>
+	<div class="month">{{currentMonth}}</div>
 	<div class="calendar-header">
 		<div class="name">
 			ФИО
