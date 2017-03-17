@@ -4,12 +4,13 @@ var bodyParser = require('body-parser')
 
 var Student = require('./db/models/student.js');
 var Event = require('./db/models/event.js');
+var GroupType = require('./db/models/group-type.js');
 
 //App
 var app = express();
 db.setDBConnection(app);
 db.fillInitialStudentData();
-db.fillInitialEventData();
+db.fillInitialGroupTypeData();
 
 //Set port
 app.set('port', process.env.PORT || 3000);
@@ -36,6 +37,13 @@ app.get('/lessons', function(req, res) {
 		res.json(lessons);
 	})
 });
+
+app.get('/grouptypes', function(req, res) {
+	GroupType.find(function(err, groupTypes) {
+		res.json(groupTypes);
+	})
+});
+
 
 // app.get('*', function(req, res) {
 // 		console.log('get *');

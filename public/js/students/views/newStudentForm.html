@@ -19,15 +19,9 @@
 				</div>
 				<div class="form-group">
 					<label>Тип группы</label>
-					<select class="form-control" ng-class="{'error': groupTypeError}" type="text" name="groupType" ng-model="student.group.groupType" ng-change="validateGroupTypeField(student.group.groupType)">
-						<option ng-repeat="group in groupTypes" value="{{group.type}}">{{group.displayName}}</option>
+					<select class="form-control" type="text" name="groupType" ng-model="student.group.groupType">
+						<option ng-repeat="group in groupTypes" value="{{group.type}}">{{group.name}}</option>
 					</select>
-					<span class="required-field-error-hint" ng-show="groupTypeError">* Обязательное поле</span>
-				</div>
-				<div class="form-group">
-					<label>Имя группы</label>
-					<input class="form-control" ng-class="{'error': groupNameError}" name="groupName" type="text" ng-model="student.group.name" ng-change="validateGroupNameField(student.group.name)">
-					<span class="required-field-error-hint" ng-show="groupNameError">* Обязательное поле</span>
 				</div>
 			</div>
 			<div class="col-xs-4">

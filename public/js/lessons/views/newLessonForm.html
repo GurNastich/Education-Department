@@ -33,12 +33,7 @@
 				<div class="form-group">
 					<label>Тип</label>
 					<select class="form-control" ng-class="{'error': typeError}" ng-model="lesson.type" name="type" ng-change="validateType(lesson.type)">
-						<option>Вводная лекция</option>
-						<option>Вводный</option>
-						<option>Базовый</option>
-						<option>Молодёжная группа</option>
-						<option>Каб. клуб</option>
-						<option>Другое</option>
+						<option ng-repeat="type in types" value="{{type.type}}">{{type.name}}</option>
 					</select>
 					<span class="required-field-error-hint" ng-show="typeError">* Обязательное поле</span>
 				</div>

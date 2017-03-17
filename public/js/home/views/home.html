@@ -3,8 +3,10 @@
 		<input class="form-control" type="text" placeholder="Поиск">
 	</div>
 	<div class="date-filter">
-		<input class="form-control" datepicker-popup="d MMM y" is-open="fromOpen" ng-model="dateFrom" ng-click="toggleFromDataPicker()">
-		<input class="form-control" datepicker-popup="d MMM y" is-open="toOpen" ng-model="dateTo" ng-click="toggleToDataPicker()">
+		<!-- <input class="form-control" datepicker-popup="d MMM y" is-open="fromOpen" ng-model="dateFrom" ng-click="toggleFromDataPicker()">
+		<input class="form-control" datepicker-popup="d MMM y" is-open="toOpen" ng-model="dateTo" ng-click="toggleToDataPicker()"> -->
+		<input class="form-control" type="date" ng-model="dateFrom" ng-change="fillTable()">
+		<input class="form-control" type="date" ng-model="dateTo" ng-change="fillTable()">
 	</div>
 	<div class="group-filter">
 		<div class="btn-group">
@@ -26,7 +28,7 @@
 </div>
 
 <div class="calendar-container">
-	<div class="month">Январь</div>
+	<div class="month">{{currentMonth}}</div>
 	<div class="calendar-header">
 		<div class="name">
 			ФИО
@@ -47,5 +49,6 @@
 				<div ng-repeat="visit in student.visits" class={{visit.typeClass}}>{{visit.type}}</div>
 			</li>
 		</ul>
+	</div>
 	</div>
 </div>

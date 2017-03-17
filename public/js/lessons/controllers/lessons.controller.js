@@ -15,6 +15,12 @@
 				console.log(err);
 			});
 
+			$http.get('/grouptypes').then(function(resp) {
+				$scope.types = resp.data;
+			}, function(err) {
+				console.log(err);
+			});			
+
 			$scope.validateName = function(val) {
 				$scope.nameError = !val;
 			};

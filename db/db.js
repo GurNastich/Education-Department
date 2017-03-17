@@ -4,6 +4,7 @@ var mongoose = require('mongoose');							//DB driver
 //DB models
 var Student = require('./models/student.js');
 var Event = require('./models/event.js');
+var GroupType = require('./models/group-type.js');
 
 function setDBConnection(app) {
 	var options = {
@@ -44,7 +45,8 @@ function fillInitialStudentData() {
 			linkType: 'Facebook',
 			linkName: 'https://www.facebook.com/profile.php?id=100009485595004'
 		}],
-		group: {groupType: 'base', name: 'Базовый 3-16'},
+		group: {groupType: 'base', name: 'Базовый'},
+		introLectionDate: new Date(2016, 2, 10),
 		transitions: {
 			toBaseGroup: new Date(2016, 3, 14)	//14 April 2016
 		}
@@ -60,26 +62,57 @@ function fillInitialEventData() {
 
 
 		new Event({
-		name: 'Урок Зоар',
-		type: 'Урок молодёжной группы',
-		date: new Date(2017, 3, 2),	//2 March 2017
-		startTime: new Date(2017, 3, 2),
-		endTime: new Date(2017, 3, 2),
-		description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
-		teachers: ['Иванов', 'Петров'],
-		administrators: ['Вика'],
-		students: ['589ef5818f7c81228090fb46']
-}).save();
+			name: 'Урок Зоар',
+			type: 'Урок молодёжной группы',
+			date: new Date(2017, 3, 2),	//2 March 2017
+			startTime: new Date(2017, 3, 2),
+			endTime: new Date(2017, 3, 2),
+			description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
+			teachers: ['Иванов', 'Петров'],
+			administrators: ['Вика'],
+			students: ['589ef5818f7c81228090fb46']
+		}).save();
+	});
+}
 
-		// new Student({
-		// 	name: 'Ксения'
-		// 	patronymic: 'Юрьевна',
-		// 	lastName: 'Васенкова',
-		// 	group: '01-16',
-		// 	stream: 'Молодёжная группа',
-		// 	phone: '89998887766',
-		// 	email: 'vas@gma.com'
-		// }).save();
+function fillInitialGroupTypeData() {
+	GroupType.find(function(err, groupTypes) {
+		if (err) console.log(err);
+		if (groupTypes.length) {
+			GroupType.remove(function(err, data) {
+				new GroupType({
+					type: 'intro',
+					name: 'Вводный',
+					shortName: 'В'
+				}).save();
+				new GroupType({
+					type: 'base',
+					name: 'Базовый',
+					shortName: 'Б'
+				}).save();
+				new GroupType({
+					type: 'young',
+					name: 'Молодёжная группа',
+					shortName: 'М'
+				}).save();
+				new GroupType({
+					type: 'main',
+					name: 'Основная группа',
+					shortName: 'О'
+				}).save();
+				new GroupType({
+					type: 'club',
+					name: 'Каб. клуб',
+					shortName: 'К'
+				}).save();
+				new GroupType({
+					type: 'another',
+					name: 'Другое',
+					shortName: 'Д'
+				}).save();
+			});
+		};
+
 
 	});
 }
@@ -87,3 +120,4 @@ function fillInitialEventData() {
 module.exports.setDBConnection = setDBConnection;
 module.exports.fillInitialStudentData = fillInitialStudentData;
 module.exports.fillInitialEventData = fillInitialEventData;
+module.exports.fillInitialGroupTypeData = fillInitialGroupTypeData;
