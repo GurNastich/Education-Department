@@ -29,7 +29,7 @@
 				}
 				$scope.currentMonth = currentMonths.join('-');
 					$http.get('/students').then(function(response) {
-				 	$scope.students = response.data;
+				 		$scope.students = response.data;
 
 					$http.get('/lessons').then(function(resp) {
 						_.each($scope.students, function(student) {
@@ -48,12 +48,6 @@
 											var isLesson = _.find(studLessons, function(less) {
 												var e = new Date(less.date);
 												i.setHours(0,0,0,0);
-												console.log('bd date');
-												console.log(e.getTime());
-												console.log(e);
-												console.log('cur date');
-												console.log(i.getTime());
-												console.log(i);
 												return e.getTime() === i.getTime();
 									 		});
 									 		if (isLesson) {
@@ -71,12 +65,12 @@
 							 		}, function(err) {
 							 			console.log(err);
 						 			});
-						});
 					}, function(err) {
 					 console.log(err);
+						});
 					});
 				}, function(err) {
-					console.log(err);
+							console.log(err);
 				});
 			};
 
@@ -88,6 +82,5 @@
 			};
 
 			$scope.fillTable();
-
-		});
+	});
 })(angular);
