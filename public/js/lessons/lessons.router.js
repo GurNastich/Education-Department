@@ -6,5 +6,15 @@ angular.module('lessonsModule').config(function($stateProvider) {
 			url: '/new-lesson',
 			templateUrl: 'js/lessons/views/newLessonForm.html',
 			controller: 'lessonsController'
+		})
+		.state('lessons', {
+			url: '/lessons',
+			templateUrl: 'js/lessons/views/lessonList.html',
+			controller: 'lessonsController'
+		})
+		.state('lesson', {
+			url: '/lessons/:id',
+			templateUrl: 'js/lessons/views/newLessonForm.html',
+			controller: 'lessonsController'
 		});
 });

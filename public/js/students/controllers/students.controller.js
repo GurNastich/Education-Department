@@ -2,34 +2,7 @@
 	'use strict';
 
 	angular.module('studentsModule')
-		.controller('studentsController', function($scope, $http) {
-			// $scope.groupTypes = [{
-			// 		type: 'intro_lection',
-			// 		displayName: 'Вводная лекция'
-			// 	}, {
-			// 		type: 'intro',
-			// 		displayName: 'Вводный'
-			// 	}, {
-			// 		type: 'base',
-			// 		displayName: 'Базовый'
-			// 	}, {
-			// 		type: 'young',
-			// 		displayName: 'Молодёжная группа'
-			// 	}, {
-			// 		type: 'main',
-			// 		displayName: 'Основная группа'
-			// 	}, {
-			// 		type: 'prestudent',
-			// 		displayName: 'Престьюдент'
-			// 	}, {
-			// 		type: 'club',
-			// 		displayName: 'Каб. клуб'
-			// 	}, {
-			// 		type: 'guest',
-			// 		displayName: 'Гость'
-			// 	}
-			// ];
-
+		.controller('studentsController', function($scope, $http, $state, $stateParams) {
 			$scope.students = [];
 			$scope.phoneError = [];
 			$scope.emailError = [];
@@ -45,19 +18,41 @@
 			}, function(err) {
 				console.log(err);
 			});
-			$scope.student = {
-				phones: [''],
-				emails: [''],
-				profileLinks: [{
-					linkType: 'VK',
-					linkName: ''
-				}, {
-					linkType: 'FB',
-					linkName: ''
-				}],
-				transitions: {}
-			};
 
+			if ($state.params.id){
+				$http.get('/student', {params:{id: $state.params.id}}).then(function(resp) {
+					$scope.student = resp.data[0];
+					$scope.student.introLectionDate = new Date($scope.student.introLectionDate);
+					if ($scope.student.transitions.toBaseGroup) {
+						$scope.student.transitions.toBaseGroup = new Date($scope.student.transitions.toBaseGroup);
+					}
+					if ($scope.student.transitions.toIntroGroup) {
+						$scope.student.transitions.toIntroGroup = new Date($scope.student.transitions.toIntroGroup);
+					}
+					if ($scope.student.transitions.toYoungGroup) {
+						$scope.student.transitions.toYoungGroup = new Date($scope.student.transitions.toYoungGroup);
+					}
+					if ($scope.student.transitions.toMainGroup) {
+						$scope.student.transitions.toMainGroup = new Date($scope.student.transitions.toMainGroup);
+					}
+					$scope.student.transition = new Date($scope.student.introLectionDate);
+				}, function(err) {
+					console.log(err);
+				});
+			} else {	//new student
+				$scope.student = {
+					phones: [''],
+					emails: [''],
+					profileLinks: [{
+						linkType: 'VK',
+						linkName: ''
+					}, {
+						linkType: 'FB',
+						linkName: ''
+					}],
+					transitions: {}
+				};
+			}
 			$scope.addPhone = function(student) {
 				var empty = student.phones[student.phones.length - 1] === undefined ||
 							student.phones[student.phones.length - 1] === '' ||
@@ -128,11 +123,31 @@
 				if (validationError) {
 					return;
 				}
-				$http.post('/saveUser', {student: student}).then(function(resp) {
-					console.log(resp);
-				}, function(err) {
-					console.log(err);
-				});
+
+				if (student.group) {
+					student.group = {
+						groupType: student.group.groupType,
+						name: _.find($scope.groupTypes, {type: student.group.groupType}).name
+					}
+				}
+				if (student._id) {
+					// var group = JSON.parse(student.group);
+					$http.put('/student', {student:student}).then(function(resp) {
+						$state.go('students');	
+					}, function(err) {
+						console.log(err)
+					});
+				} else {
+					$http.post('/saveUser', {student: student}).then(function(resp) {
+						$state.go('students');
+					}, function(err) {
+						console.log(err);
+					});
+				}
+			};
+
+			$scope.openStudent = function(student) {
+				$state.go('student', {id: student._id});
 			};
 		});
 })(angular);

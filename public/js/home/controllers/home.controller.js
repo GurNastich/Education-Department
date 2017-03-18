@@ -11,6 +11,7 @@
 // }
 // $scope.dateDisplayFormat = 'dd-MMMM-yyyy';
 			$scope.dateFrom = new Date();	//Current date
+			$scope.dateFrom = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() - 1));
 			$scope.dateTo = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() + 1));	//+ 1 Month
 
 			$scope.fillTable = function() {
@@ -28,49 +29,65 @@
 					}
 				}
 				$scope.currentMonth = currentMonths.join('-');
-					$http.get('/students').then(function(response) {
-				 		$scope.students = response.data;
-
-					$http.get('/lessons').then(function(resp) {
-						_.each($scope.students, function(student) {
+				$http.get('/students').then(function(response) {
+			 		$scope.students = response.data;
+					$http.get('/lessons').then(function(response) {
+						var lessons = response.data;
+						$http.get('/grouptypes').then(function(response) {
+							var groupTypes = response.data;
+							_.each($scope.students, function(student) {
 								student.visits = [];
-							 	var studLessons = _.filter(resp.data, function(lesson) {
+								if (student.group && student.group.groupType === 'base') {
+									var yearName = (new Date(student.introLectionDate).getFullYear()).toString();
+									var monthName = (new Date(student.introLectionDate).getMonth() + 1).toString();
+									monthName = monthName.length === 2 ? monthName : '0'+monthName;
+									student.groupView = student.group.name + '-' + monthName +  + yearName.slice(-2);
+								} else {
+									student.groupView = student.group ? student.group.name : '';
+								}
+
+							 	var studLessons = _.filter(lessons, function(lesson) {
 								 	var a = _.findIndex(lesson.students, function(stud) {
-										return stud === student._id;
+										return stud.id === student._id;
 								 	});
 								 	return a > -1;
 							 	});
-									$http.get('/grouptypes').then(function(resp) {
-										var groupTypes = resp.data;
-
-								 		var k = 0;
-								 		for (var i = new Date($scope.dateFrom); i < $scope.dateTo; i.setDate(i.getDate() + 1)) {
-											var isLesson = _.find(studLessons, function(less) {
-												var e = new Date(less.date);
-												i.setHours(0,0,0,0);
-												return e.getTime() === i.getTime();
-									 		});
-									 		if (isLesson) {
-												student.visits[k] = {
-													type: _.find(groupTypes, {type: isLesson.type}).shortName,
-													typeClass: isLesson.type
-										 		}
-									 		} else {
-												student.visits[k] = {
-													type: '-'
-												}
-									 		}
-											k++;
-							 			}
-							 		}, function(err) {
-							 			console.log(err);
-						 			});
-					}, function(err) {
-					 console.log(err);
+						 		var k = 0;
+						 		for (var i = new Date($scope.dateFrom); i < $scope.dateTo; i.setDate(i.getDate() + 1)) {
+									var isLesson = _.find(studLessons, function(less) {
+										var e = new Date(less.date);
+										i.setHours(0,0,0,0);
+										return e.getTime() === i.getTime();
+							 		});
+							 		if (isLesson) {
+										student.visits[k] = {
+											type: _.find(groupTypes, {type: isLesson.groups[0].groupType}).shortName,
+											typeClass: isLesson.groups[0].groupType
+								 		}
+							 		} else {
+										student.visits[k] = {
+											type: '-'
+										}
+							 		}
+									k++;
+					 			}
+							});
+							$scope.baseGroups = _.filter($scope.students, function(student) {
+								if (!student.group) {
+									return false;
+								}
+								return student.group.groupType === 'base';
+							});
+							$scope.baseGroups = _.map($scope.baseGroups, 'groupView');
+							$scope.baseGroups.unshift('');
+						}, function(err) {
+								 console.log(err);
 						});
+					}, function(err) {
+				 			console.log(err);
 					});
 				}, function(err) {
-							console.log(err);
+					console.log(err);
 				});
 			};
 

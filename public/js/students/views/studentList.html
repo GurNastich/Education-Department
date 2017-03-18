@@ -14,12 +14,12 @@
         <tbody>
             <tr ng-repeat="student in students | filter:searchText">
                 <td>{{$index + 1}}</td>
-                <td><a href="">{{student.lastName + ' ' + student.name}}</a></td>
+                <td><a href="" ng-click="openStudent(student)">{{student.lastName + ' ' + student.name}}</a></td>
                 <td>{{student.group.name}}</td>
                 <td>{{student.phones[0]}}</td>
                 <td>
-                    <a href="">Редактировать</a>
-                    <a href="">Удалить</a>
+                    <a href="" title="Редактировать" ng-click="openStudent(student)"><i class="fa fa-edit"></i></a>
+                    <a href="" title="Удалить"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>

@@ -6,10 +6,14 @@ var eventSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	type: {
-		type: String,
-		required: true
-	},
+	// type: {
+	// 	type: String,
+	// 	required: true
+	// },
+	groups: [{
+		groupType: String,
+		name: String
+	}],
 	date: {
 		type: Date,
 		required: true
@@ -20,7 +24,11 @@ var eventSchema = new mongoose.Schema({
 	teachers: [String],
 	admin: String,
 	//students: [{ type: Schema.Types.ObjectId, ref: 'Student' }]
-	students: [String]
+	students: [{
+		id: String,
+		name: String,
+		lastName: String
+	}]
 	// students: [Student.studentSchema],	//from edx course
 	// marks: [{name: String, value: Number}]	//mixed
 });

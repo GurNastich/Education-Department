@@ -1,0 +1,12 @@
+.lesson-list .top-controls {
+	margin-bottom: 20px;
+}
+
+.lesson-list .top-controls .search-input {
+	width: 30%;
+	display: inline-block;
+}
+
+.lesson-list table thead {
+    border-bottom: 2px solid #2c3e50;
+}

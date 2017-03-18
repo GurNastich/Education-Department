@@ -11,6 +11,7 @@ var app = express();
 db.setDBConnection(app);
 db.fillInitialStudentData();
 db.fillInitialGroupTypeData();
+db.fillInitialEventData();
 
 //Set port
 app.set('port', process.env.PORT || 3000);
@@ -57,11 +58,36 @@ app.post('/saveUser', function(req, res) {
 });
 
 app.post('/lesson', function(req, res) {
-	console.log(req.body.lesson);
 	new Event(req.body.lesson).save(function(err, lesson) {
-		console.log(err);
-		console.log(lesson);
 		res.json(lesson);
+	});
+});
+
+app.get('/lesson', function(req, res) {
+	if (req.query.id) {
+		Event.find({'_id': req.query.id}, function(err, lesson) {
+			res.json(lesson);
+		});
+	}
+});
+
+app.get('/student', function(req, res) {
+	if (req.query.id) {
+		Student.find({'_id': req.query.id}, function(err, student) {
+			res.json(student);
+		});
+	}
+});
+
+app.put('/student', function(req, res) {
+	Student.update({_id: req.body.student._id}, req.body.student, function(err, student) {
+		res.send();
+	});
+});
+
+app.put('/lesson', function(req, res) {
+	Event.update({_id: req.body.lesson._id}, req.body.lesson, function(err, lesson) {
+		res.send();
 	});
 });
 

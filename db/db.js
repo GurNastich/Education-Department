@@ -58,20 +58,32 @@ function fillInitialEventData() {
 //Fill some data if no any
 	Event.find(function(err, events) {
 		if (err) console.log(err);
-		if (events.length) return;
-
+		// if (events.length) return;
 
 		new Event({
-			name: 'Урок Зоар',
-			type: 'Урок молодёжной группы',
-			date: new Date(2017, 3, 2),	//2 March 2017
-			startTime: new Date(2017, 3, 2),
-			endTime: new Date(2017, 3, 2),
-			description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
-			teachers: ['Иванов', 'Петров'],
-			administrators: ['Вика'],
-			students: ['589ef5818f7c81228090fb46']
+			admin: "Вика Евдокимова",
+			date: "2017-03-15T21:00:00.000Z",
+			description: "Совместное занятие с МГ",
+			groups: [{
+				groupType: "base", 
+				name: "Базовый"
+			}],
+			name: "Предисловие к ТЭ\"С, пункты 51-54",
+			students: [],
+			teachers: ["Тимур Абдулкадыров", "Андрей Гумиров"]
 		}).save();
+
+		// new Event({
+		// 	name: 'Урок Зоар',
+		// 	type: 'Урок молодёжной группы',
+		// 	date: new Date(2017, 3, 2),	//2 March 2017
+		// 	startTime: new Date(2017, 3, 2),
+		// 	endTime: new Date(2017, 3, 2),
+		// 	description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
+		// 	teachers: ['Иванов', 'Петров'],
+		// 	administrators: ['Вика'],
+		// 	students: ['589ef5818f7c81228090fb46']
+		// }).save();
 	});
 }
 
