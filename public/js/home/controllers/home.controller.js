@@ -66,10 +66,10 @@
 							 		});
 							 		if (isLesson) {
 										student.visits[k] = {
-											// type: _.find(groupTypes, {type: isLesson.groups[0].groupType}).shortName,
-											// typeClass: isLesson.groups[0].groupType
-											type: _.find(groupTypes, {type: student.group.groupType}).shortName,
-											typeClass: student.group.groupType
+											type: _.find(groupTypes, {type: isLesson.groups[0].groupType}).shortName,
+											typeClass: isLesson.groups[0].groupType
+											// type: _.find(groupTypes, {type: student.group.groupType}).shortName,
+											// typeClass: student.group.groupType
 								 		}
 							 		} else {
 										student.visits[k] = {

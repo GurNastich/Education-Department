@@ -5,7 +5,7 @@
 		.controller('lessonsController', function($scope, $http, $state) {
 			function getStudents(types) {
 				// var type = 'base';
-				 return $http.get('/students', {params:{types: types}}).then(function(resp) {
+				 return $http.get('/students').then(function(resp) {
 				// $http.get('/students').then(function(resp) {
 					var students = _.map(resp.data, function(stud) {
 						return {
