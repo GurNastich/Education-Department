@@ -1,79 +1,111 @@
-var mottos = require('./lib/mottos');
-
 var express = require('express');
+var db = require('./db/db');
+var bodyParser = require('body-parser')
+
+var Student = require('./db/models/student.js');
+var Event = require('./db/models/event.js');
+var GroupType = require('./db/models/group-type.js');
 
 //App
 var app = express();
 
-//Hide x-powered-by field in response header
-app.disable('x-powered-by');
-
-//View engine
-var handlebars = require('express-handlebars').create({
-    defaultLayout: 'main',
-    helpers: {
-        section: function(name, options) {
-            if(!this._sections) this._sections = {};
-            this._sections[name] = options.fn(this);
-            return null;
-        }
-    }
-});
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
+db.setDBConnection(app);
+db.fillInitialStudentData();
+db.fillInitialGroupTypeData();
+db.fillInitialEventData();
 
 //Set port
 app.set('port', process.env.PORT || 3000);
 
-//Static files
+//Serve static files
 app.use(express.static(__dirname + '/public'));
+app.use(bodyParser());
 
-//tests
-app.use(function(req, res, next) {
-    res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
-    next();
+// API
+app.get('/students', function(req, res) {
+	if (req.query.types) {
+		Student.find({'group.groupType': {$in : req.query.types}}, function(err, students) {
+			res.json(students);
+		});
+	} else {
+		 Student.find(function(err, students) {
+		 	res.json(students);
+		 });
+	}
 });
 
-//Routes
-app.get('/', function(req, res) {
-    res.render('home', {motto: mottos.getMotto()});
+app.get('/lessons', function(req, res) {
+	Event.find(function(err, lessons) {
+		res.json(lessons);
+	})
 });
 
-app.get('/about', function(req, res) {
-    res.render('about', {
-        pageTestScript: '/qa/tests-about.js'
-    });
+app.get('/grouptypes', function(req, res) {
+	GroupType.find(function(err, groupTypes) {
+		res.json(groupTypes);
+	})
 });
 
-app.get('/lesson-info', function(req, res) {
-    res.render('lesson-info');
+
+// app.get('*', function(req, res) {
+// 		console.log('get *');
+//     res.sendFile('./public/index.html');
+// });
+
+app.post('/saveUser', function(req, res) {
+	new Student(req.body.student).save(function(err, student) {
+		res.json(student);
+	});
 });
 
-app.get('/lesson-materials', function(req, res) {
-    res.render('lesson-materials');
+app.post('/lesson', function(req, res) {
+	new Event(req.body.lesson).save(function(err, lesson) {
+		res.json(lesson);
+	});
 });
 
-app.get('/headers', function(req, res) {
-    res.set('Content-Type', 'text/plain');
-    var s = '';
-    for (var name in req.headers) {
-        s += name + ':' + req.headers[name] + '\n'
-    }
-    res.send(s);
+app.get('/lesson', function(req, res) {
+	if (req.query.id) {
+		Event.find({'_id': req.query.id}, function(err, lesson) {
+			res.json(lesson);
+		});
+	}
 });
+
+app.get('/student', function(req, res) {
+	if (req.query.id) {
+		Student.find({'_id': req.query.id}, function(err, student) {
+			res.json(student);
+		});
+	}
+});
+
+app.put('/student', function(req, res) {
+	Student.update({_id: req.body.student._id}, req.body.student, function(err, student) {
+		res.send();
+	});
+});
+
+app.put('/lesson', function(req, res) {
+	Event.update({_id: req.body.lesson._id}, req.body.lesson, function(err, lesson) {
+		res.send();
+	});
+});
+
 //404
 app.use(function(req, res) {
-    res.status(404);
-    res.render('404');
+	res.status(404);
+	// res.render('404');
+	res.send('404');
 });
 
 //500
 app.use(function(err, req, res, next) {
-    console.error(err.stack);
-    res.status(500);
-    res.send('500');
+	console.error(err.stack);
+	res.status(500);
+	res.send('500');
 });
 
 app.listen(app.get('port'), function() {
-    console.log('Application is running on http://localhost:' + app.get('port') + '; press Ctrl+C for exit');
+	console.log('Application is running on http://localhost:' + app.get('port') + '; press Ctrl+C for exit');
 });

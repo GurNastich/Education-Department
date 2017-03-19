@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Учебный отдел</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <link rel="stylesheet" href="vendor/bootstrap.css"/>
+        <link rel="stylesheet" href="vendor/select.css"/>
+        <link rel="stylesheet" href="vendor/ui-grid.css"/>
+        <link rel="stylesheet" href="vendor/font-awesome.css"/>
+        <link rel="stylesheet" href="css/home.css">
+        <link rel="stylesheet" href="css/new-lesson-form.css">
+        <link rel="stylesheet" href="css/new-student-form.css">
+        <link rel="stylesheet" href="css/studentList.css">
+        <link rel="stylesheet" href="css/lessonList.css">
+    </head>
+    <body ng-app="app">
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <header class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a ui-sref="home" class="navbar-brand">Учебный отдел</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a ui-sref="home">Посещаемость</a></li>
+                    <li><a ui-sref="new-lesson">Новый урок</a></li>
+                    <li><a ui-sref="lessons">Уроки</a></li>
+                    <li><a ui-sref="new-student">Новый студент</a></li>
+                    <li><a ui-sref="students">Студенты</a></li>
+                    <li><a>Оплата</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div ui-view></div>
+    </div>
+
+    <!--Vendor-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script src="vendor/angular.js"></script>
+    <script src="vendor/angular-ui-router.js"></script>
+    <script src="vendor/ui-grid.js"></script>
+    <script src="vendor/bootstrap.js"></script>
+    <script src="vendor/select.js"></script>
+    <script src="vendor/lodash.js"></script>
+    <script src="vendor/ui-bootstrap.js"></script>
+    <script src="vendor/angular-locale_ru-ru.js"></script>
+    <script src="vendor/ui-bootstrap-tpls.js"></script>
+
+    <!--App scripts-->
+    <script src="js/main.js"></script>
+    <script src="js/home/home.module.js"></script>
+    <script src="js/home/home.router.js"></script>
+    <script src="js/home/controllers/home.controller.js"></script>
+    <script src="js/students/students.module.js"></script>
+    <script src="js/students/students.router.js"></script>
+    <script src="js/students/controllers/students.controller.js"></script>
+    <script src="js/lessons/lessons.module.js"></script>
+    <script src="js/lessons/lessons.router.js"></script>
+    <script src="js/lessons/controllers/lessons.controller.js"></script>
+
+    <!--Maybe later-->
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    </body>
+</html>

@@ -1,0 +1,80 @@
+<div class="new-student-form">
+	<!--<a ui-sref="students" class="btn btn-default">Список студентов</a>-->
+	<form name="newStudent">
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Фамилия</label>
+					<input class="form-control" ng-class="{'error': lastNameError}" type="text" name="lastName" ng-model="student.lastName" ng-change="validateLastNameField(student.lastName)">
+					<span class="required-field-error-hint" ng-show="lastNameError">* Обязательное поле</span>
+				</div>
+				<div class="form-group">
+					<label>Имя</label>
+					<input class="form-control" ng-class="{'error': nameError}" type="text" name="name" ng-model="student.name" ng-change="validateNameField(student.name)">
+					<span class="required-field-error-hint" ng-show="nameError">* Обязательное поле</span>
+				</div>
+				<div class="form-group">
+					<label>Отчество</label>
+					<input class="form-control" type="text" ng-model="student.patronymic">
+				</div>
+				<div class="form-group">
+					<label>Тип группы</label>
+					<select class="form-control" type="text" name="groupType" ng-model="student.group.groupType">
+						<option ng-repeat="group in groupTypes" value="{{group.type}}">{{group.name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label class="phone-label">Телефон</label>
+					<div class="contact-group" ng-repeat="phone in student.phones track by $index">
+						<input class="form-control input-field" ng-class="{'error': phoneError[$index]}" type="text" ng-model="student.phones[$index]" ng-change="validatePhone(student.phones, $index)">
+						<div class="remove" ng-show="$index > 0" ng-click="removeItem(student.phones, $index)">x</div>
+					</div>
+					<button class="btn btn-default add-btn" title="Добавить телефон" ng-click="addPhone(student)">+</button>
+				</div>
+					<div class="form-group">
+						<label class="email-label">E-mail</label>
+						<div class="contact-group" ng-repeat="email in student.emails track by $index">
+							<input class="form-control input-field" ng-class="{'error': emailError[$index]}" type="text" ng-model="student.emails[$index]" ng-change="validateEmail(student.emails, $index)">
+							<div class="remove" ng-show="$index > 0" ng-click="removeItem(student.emails, $index)">x</div>
+						</div>
+						<button class="btn btn-default add-btn" title="Добавить e-mail" ng-click="addEmail(student)">+</button>
+					</div>
+					<div class="form-group">
+						<label>Социальные сети</label>
+						<div ng-repeat="profile in student.profileLinks">
+							<span class="fa fa-{{profile.linkType}}">{{profile.linkType}}</span>
+							<input class="form-control" type="text" ng-model="profile.linkName">
+						</div>
+					</div>
+			</div>
+			<div class="col-xs-4">
+				<div class="form-group">
+					<label>Дата вводной лекции</label>
+					<input class="form-control" type="date" ng-model="student.introLectionDate">
+				</div>
+				<div class="form-group">
+					<label>Вводный</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toIntroGroup">
+				</div>
+				<div class="form-group">
+					<label>Базовый</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toBaseGroup">
+				</div>
+				<div class="form-group">
+					<label>Молодёжная группа</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toYoungGroup">
+				</div>
+				<div class="form-group">
+					<label>Основная группа</label>
+					<input class="form-control" type="date" ng-model="student.transitions.toMainGroup">
+				</div>
+			</div>
+		</div>
+	</form>
+	<div>
+		<button class="btn btn-success btn-save-user" ng-click="saveUser(student)">Сохранить</button>
+		<a ui-sref="students" class="btn btn-danger">Отмена</a>
+	</div>
+</div>
