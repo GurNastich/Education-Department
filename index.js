@@ -10,9 +10,9 @@ var GroupType = require('./db/models/group-type.js');
 var app = express();
 
 db.setDBConnection(app);
-db.fillInitialStudentData();
-db.fillInitialGroupTypeData();
-db.fillInitialEventData();
+// db.fillInitialStudentData();
+// db.fillInitialGroupTypeData();
+// db.fillInitialEventData();
 
 //Set port
 app.set('port', process.env.PORT || 3000);

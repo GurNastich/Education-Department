@@ -58,7 +58,7 @@ function fillInitialEventData() {
 //Fill some data if no any
 	Event.find(function(err, events) {
 		if (err) console.log(err);
-		// if (events.length) return;
+		if (events.length) return;
 
 		new Event({
 			admin: "Вика Евдокимова",
