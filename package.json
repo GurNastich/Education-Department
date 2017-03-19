@@ -8,7 +8,8 @@
     "url": "git@github.com:GurNastich/Education-Department.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Nastich",
   "license": "MIT",
