@@ -3,9 +3,9 @@
 
 	angular.module('lessonsModule')
 		.controller('lessonsController', function($scope, $http, $state) {
-			function getStudents(type) {
+			function getStudents(types) {
 				// var type = 'base';
-				 return $http.get('/students', {params:{type: type}}).then(function(resp) {
+				 return $http.get('/students', {params:{types: types}}).then(function(resp) {
 				// $http.get('/students').then(function(resp) {
 					var students = _.map(resp.data, function(stud) {
 						return {
@@ -25,14 +25,19 @@
 					$scope.lesson = resp.data[0];
 					$scope.lesson.date = new Date($scope.lesson.date);
 					$scope.students = [];
-					_.each($scope.lesson.groups, function(group) {
-						getStudents(group.groupType).then(function(studs) {
-							$scope.students = $scope.students.concat(studs);
-							_.each($scope.students, function(s) {
+					$scope.lesson.groups = _.map($scope.lesson.groups, function(g) {
+						return g.groupType;
+					});
+					// _.each($scope.lesson.groups, function(group) {
+						getStudents($scope.lesson.groups).then(function(studs) {
+							_.each(studs, function(s) {
 								s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
 							});
+							$scope.students = studs;
 						});
-					});
+					// });
+
+					// $scope.lesson.groups = ['base'];
 				}, function(err) {
 					console.log(err);
 				});
@@ -69,10 +74,13 @@
 			$scope.validateName = function(val) {
 				$scope.nameError = !val;
 			};
-			$scope.validateType = function(val) {
-				$scope.typeError = !val;
-				getStudents(val).then(function(resp) {
-					$scope.students = resp;
+			$scope.validateType = function(vals) {
+				$scope.typeError = vals.length === 0;
+				getStudents(vals).then(function(studs) {
+					_.each(studs, function(s) {
+						s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
+					});
+					$scope.students = studs;
 				});
 			};
 			$scope.validateDate = function(val) {
@@ -110,8 +118,8 @@
 				});
 				lesson.groups = _.map(lesson.groups, function(group) {
 					return {
-						groupType: group.groupType,
-						name: _.find($scope.types, {type: group.groupType}).name
+						groupType: group,
+						name: _.find($scope.types, {type: group}).name
 					}
 				});
 

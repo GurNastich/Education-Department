@@ -23,19 +23,21 @@
 				$http.get('/student', {params:{id: $state.params.id}}).then(function(resp) {
 					$scope.student = resp.data[0];
 					$scope.student.introLectionDate = new Date($scope.student.introLectionDate);
-					if ($scope.student.transitions.toBaseGroup) {
-						$scope.student.transitions.toBaseGroup = new Date($scope.student.transitions.toBaseGroup);
+					if ($scope.student.transitions) {
+						if ($scope.student.transitions.toBaseGroup) {
+							$scope.student.transitions.toBaseGroup = new Date($scope.student.transitions.toBaseGroup);
+						}
+						if ($scope.student.transitions.toIntroGroup) {
+							$scope.student.transitions.toIntroGroup = new Date($scope.student.transitions.toIntroGroup);
+						}
+						if ($scope.student.transitions.toYoungGroup) {
+							$scope.student.transitions.toYoungGroup = new Date($scope.student.transitions.toYoungGroup);
+						}
+						if ($scope.student.transitions.toMainGroup) {
+							$scope.student.transitions.toMainGroup = new Date($scope.student.transitions.toMainGroup);
+						}
 					}
-					if ($scope.student.transitions.toIntroGroup) {
-						$scope.student.transitions.toIntroGroup = new Date($scope.student.transitions.toIntroGroup);
-					}
-					if ($scope.student.transitions.toYoungGroup) {
-						$scope.student.transitions.toYoungGroup = new Date($scope.student.transitions.toYoungGroup);
-					}
-					if ($scope.student.transitions.toMainGroup) {
-						$scope.student.transitions.toMainGroup = new Date($scope.student.transitions.toMainGroup);
-					}
-					$scope.student.transition = new Date($scope.student.introLectionDate);
+					// $scope.student.transition = new Date($scope.student.introLectionDate);
 				}, function(err) {
 					console.log(err);
 				});

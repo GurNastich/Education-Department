@@ -22,8 +22,8 @@ app.use(bodyParser());
 
 // API
 app.get('/students', function(req, res) {
-	if (req.query.type) {
-		Student.find({'group.groupType': req.query.type}, function(err, students) {
+	if (req.query.types) {
+		Student.find({'group.groupType': {$in : req.query.types}}, function(err, students) {
 			res.json(students);
 		});
 	} else {

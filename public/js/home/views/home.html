@@ -48,7 +48,7 @@
 	<div class="calendar-body">
 		<ul class="students">
 			<li class="student" ng-repeat="student in students | filter:searchText">
-				<div class="student-name">{{student.lastName}}&nbsp;{{student.name}}</div>
+				<div class="student-name"><a href="" ng-click="openStudentForm(student)">{{student.lastName}}&nbsp;{{student.name}}</a></div>
 				<div class="group-name">{{student.groupView}}</div>
 				<div ng-repeat="visit in student.visits" class={{visit.typeClass}}>{{visit.type}}</div>
 			</li>

@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('homeModule')
-		.controller('homeController', function($scope, $http) {
+		.controller('homeController', function($scope, $http, $state) {
 			var month;
 			var days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 			var months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
@@ -42,8 +42,13 @@
 									var monthName = (new Date(student.introLectionDate).getMonth() + 1).toString();
 									monthName = monthName.length === 2 ? monthName : '0'+monthName;
 									student.groupView = student.group.name + '-' + monthName +  + yearName.slice(-2);
+								} else if (student.group) {
+									// student.groupView = student.group ? student.group.name : '';
+									student.groupView = student.group.name;
+								} else if (student.introLectionDate) {
+									student.groupView = 'Вводная лекция';
 								} else {
-									student.groupView = student.group ? student.group.name : '';
+									student.groupView = 'Престьюдент';
 								}
 
 							 	var studLessons = _.filter(lessons, function(lesson) {
@@ -61,8 +66,10 @@
 							 		});
 							 		if (isLesson) {
 										student.visits[k] = {
-											type: _.find(groupTypes, {type: isLesson.groups[0].groupType}).shortName,
-											typeClass: isLesson.groups[0].groupType
+											// type: _.find(groupTypes, {type: isLesson.groups[0].groupType}).shortName,
+											// typeClass: isLesson.groups[0].groupType
+											type: _.find(groupTypes, {type: student.group.groupType}).shortName,
+											typeClass: student.group.groupType
 								 		}
 							 		} else {
 										student.visits[k] = {
@@ -96,6 +103,10 @@
 			};
 			$scope.toggleToDataPicker = function() {
 				$scope.toOpen = !$scope.toOpen;
+			};
+
+			$scope.openStudentForm = function(student) {
+				$state.go('student', {id: student._id});
 			};
 
 			$scope.fillTable();
