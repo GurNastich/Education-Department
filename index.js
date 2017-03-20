@@ -92,6 +92,18 @@ app.put('/lesson', function(req, res) {
 	});
 });
 
+app.delete('/student', function(req, res) {
+	Student.remove({_id: req.query.id}, function(err, student) {
+		if (err) {
+			res.send();
+		}
+
+		Student.find(function(err, students) {
+			res.json(students);
+		});
+	});
+});
+
 //404
 app.use(function(req, res) {
 	res.status(404);

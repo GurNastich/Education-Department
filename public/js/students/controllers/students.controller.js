@@ -151,5 +151,13 @@
 			$scope.openStudent = function(student) {
 				$state.go('student', {id: student._id});
 			};
+
+			$scope.removeStudent = function(student) {
+				$http.delete('/student', {params:{id: student._id}}).then(function(resp) {
+					$scope.students = resp.data;
+				}, function(err) {
+					console.log(err);
+				});
+			};
 		});
 })(angular);
