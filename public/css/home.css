@@ -187,3 +187,9 @@ select.error {
 span.required-field-error-hint {
 	font-size: 12px;
 }
+
+.calendar-container .calc-table-loader {
+	text-align: center;
+	padding-top: 100px;
+	font-size: 18px;
+}

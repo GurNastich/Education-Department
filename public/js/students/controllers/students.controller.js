@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('studentsModule')
-		.controller('studentsController', function($scope, $http, $state, $stateParams) {
+		.controller('studentsController', function($scope, $http, $state, $stateParams, $rootScope, notificationService) {
 			$scope.students = [];
 			$scope.phoneError = [];
 			$scope.emailError = [];
@@ -12,15 +12,19 @@
 			}, function(err) {
 				console.log(err);
 			});
-
+			$rootScope.$broadcast('showLoader', 'Загрузка студентов');
 			$http.get('/students').then(function(resp) {
 				$scope.students = resp.data;
+				$rootScope.$broadcast('hideLoader');
 			}, function(err) {
 				console.log(err);
+				$rootScope.$broadcast('hideLoader');
 			});
 
-			if ($state.params.id){
+			if ($state.params.id) {
+				$rootScope.$broadcast('showLoader', 'Загрузка студента');
 				$http.get('/student', {params:{id: $state.params.id}}).then(function(resp) {
+					$rootScope.$broadcast('hideLoader');
 					$scope.student = resp.data[0];
 					$scope.student.introLectionDate = new Date($scope.student.introLectionDate);
 					if ($scope.student.transitions) {
@@ -107,6 +111,7 @@
 			};
 
 			$scope.saveUser = function(student) {
+				
 				var validationError = false;
 				if (!$scope.newStudent.lastName.$viewValue) {
 					$scope.lastNameError = true;
@@ -132,17 +137,22 @@
 						name: _.find($scope.groupTypes, {type: student.group.groupType}).name
 					}
 				}
+				$rootScope.$broadcast('showLoader', 'Сохранение студента в базу данных');
 				if (student._id) {
 					// var group = JSON.parse(student.group);
 					$http.put('/student', {student:student}).then(function(resp) {
-						$state.go('students');	
+						$rootScope.$broadcast('hideLoader');
+						$state.go('students');
 					}, function(err) {
+						$rootScope.$broadcast('hideLoader');
 						console.log(err)
 					});
 				} else {
 					$http.post('/saveUser', {student: student}).then(function(resp) {
+						$rootScope.$broadcast('hideLoader');
 						$state.go('students');
 					}, function(err) {
+						$rootScope.$broadcast('hideLoader');
 						console.log(err);
 					});
 				}
@@ -153,9 +163,12 @@
 			};
 
 			$scope.removeStudent = function(student) {
+				$rootScope.$broadcast('showLoader', 'Удаление студента из базы данных');
 				$http.delete('/student', {params:{id: student._id}}).then(function(resp) {
 					$scope.students = resp.data;
+					$rootScope.$broadcast('hideLoader');
 				}, function(err) {
+					$rootScope.$broadcast('hideLoader');
 					console.log(err);
 				});
 			};

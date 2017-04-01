@@ -45,7 +45,11 @@
 			{{date.dayNumber}}
 		</div>
 	</div>
-	<div class="calendar-body">
+	<div class="calc-table-loader" ng-show="calcTable">
+		<i class="fa fa-spinner fa-spin"></i>
+		Расчёт таблицы
+	</div>
+	<div class="calendar-body" ng-hide="calcTable">
 		<ul class="students">
 			<li class="student" ng-repeat="student in students | filter:searchText">
 				<div class="student-name"><a href="" ng-click="openStudentForm(student)">{{student.lastName}}&nbsp;{{student.name}}</a></div>

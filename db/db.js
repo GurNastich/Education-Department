@@ -124,8 +124,6 @@ function fillInitialGroupTypeData() {
 				}).save();
 			});
 		};
-
-
 	});
 }
 

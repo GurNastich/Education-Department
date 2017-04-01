@@ -15,6 +15,7 @@
 			$scope.dateTo = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() + 1));	//+ 1 Month
 
 			$scope.fillTable = function() {
+				$scope.calcTable = true;
 				$scope.students = [];
 				$scope.dates = [];
 				var currentMonths = [];
@@ -93,6 +94,7 @@
 					}, function(err) {
 				 			console.log(err);
 					});
+					$scope.calcTable = false;
 				}, function(err) {
 					console.log(err);
 				});

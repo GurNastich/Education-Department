@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('lessonsModule')
-		.controller('lessonsController', function($scope, $http, $state) {
+		.controller('lessonsController', function($scope, $http, $state, $rootScope) {
 			function getStudents(types) {
 				// var type = 'base';
 				 return $http.get('/students').then(function(resp) {
@@ -21,7 +21,9 @@
 			}
 
 			if($state.params.id) {
+				$rootScope.$broadcast('showLoader', 'Загрузка урока');
 				$http.get('/lesson', {params:{id: $state.params.id}}).then(function(resp) {
+					$rootScope.$broadcast('hideLoader');
 					$scope.lesson = resp.data[0];
 					$scope.lesson.date = new Date($scope.lesson.date);
 					$scope.students = [];
@@ -62,12 +64,15 @@
 				console.log(err);
 			});
 
+			$rootScope.$broadcast('showLoader', 'Загрузка уроков');
 			$http.get('/lessons').then(function(resp) {
 				$scope.lessons = resp.data;
 				_.each($scope.lessons, function(lesson) {
 					lesson.date = new Date(lesson.date).toLocaleString('ru', {day: 'numeric', month: 'short', year: 'numeric'});
 				});
+				$rootScope.$broadcast('hideLoader');
 			}, function(err) {
+				$rootScope.$broadcast('hideLoader');
 				console.log(err);
 			});
 
@@ -122,17 +127,21 @@
 						name: _.find($scope.types, {type: group}).name
 					}
 				});
-
+				$rootScope.$broadcast('showLoader', 'Сохранение урока');
 				if (lesson._id) {
 					$http.put('/lesson', {lesson: lesson}).then(function(resp) {
+						$rootScope.$broadcast('hideLoader');
 						$state.go('lessons');
 					}, function(err) {
+						$rootScope.$broadcast('hideLoader');
 						console.log(err);
 					});
 				} else {
 					$http.post('/lesson', {lesson: lesson}).then(function(resp) {
+						$rootScope.$broadcast('hideLoader');
 						$state.go('lessons');
 					}, function(err) {
+						$rootScope.$broadcast('hideLoader');
 						console.log(err);
 					});
 				}
@@ -140,6 +149,20 @@
 
 			$scope.openLesson = function(lesson) {
 				$state.go('lesson', {id: lesson._id});
-			}
+			};
+
+			$scope.removeLesson = function(lesson) {
+				$rootScope.$broadcast('showLoader', 'Удаление урока из базы данных');
+				$http.delete('/lesson', {params:{id: lesson._id}}).then(function(resp) {
+					$scope.lessons = resp.data;
+					_.each($scope.lessons, function(lesson) {
+						lesson.date = new Date(lesson.date).toLocaleString('ru', {day: 'numeric', month: 'short', year: 'numeric'});
+					});
+					$rootScope.$broadcast('hideLoader');
+				}, function(err) {
+					$rootScope.$broadcast('hideLoader');
+					console.log(err);
+				});
+			};
 		});
 })(angular);
