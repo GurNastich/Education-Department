@@ -30,7 +30,8 @@ var studentSchema = new mongoose.Schema({
 		toBaseGroup: Date,
 		toYoungGroup: Date,
 		toMainGroup: Date
-	}
+	},
+	note: String
 });
 
 var Student = mongoose.model('Student', studentSchema, 'students');

@@ -46,7 +46,7 @@
 					<input class="form-control" type="date" ng-model="lesson.endTime">		
 				</div>
 			</div>
-			<div class="col-xs-4">
+			<div class="col-xs-4" ng-show="lesson.groups.length !== 0">
 				<label>Студенты</label>
 				<div class="student-list">
 					<div ng-repeat="student in students">

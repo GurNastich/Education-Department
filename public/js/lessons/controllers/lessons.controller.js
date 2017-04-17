@@ -45,7 +45,8 @@
 				});
 			} else {
 				$scope.lesson = {
-					teachers: []
+					teachers: [],
+					groups: []
 				};
 				$scope.students = [];
 			}

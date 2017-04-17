@@ -6,6 +6,7 @@
 			$scope.students = [];
 			$scope.phoneError = [];
 			$scope.emailError = [];
+			$scope.FIO = '';
 
 			$http.get('/grouptypes').then(function(resp) {
 				$scope.groupTypes = resp.data;
@@ -42,6 +43,9 @@
 						}
 					}
 					// $scope.student.transition = new Date($scope.student.introLectionDate);
+
+					var patronymic = $scope.student.patronymic ? $scope.student.patronymic : '';
+					$scope.FIO = $scope.student.lastName + ' ' + $scope.student.name + ' ' + patronymic;
 				}, function(err) {
 					console.log(err);
 				});
@@ -83,13 +87,17 @@
 				student.emails.push('');
 			}
 
-			$scope.validateLastNameField = function(val) {
-				$scope.lastNameError = !val;
+			$scope.checkEmptyFIO = function(val) {
+				$scope.FIOError = !val;
 			};
 
-			$scope.validateNameField = function(val) {
-				$scope.nameError = !val;
-			};
+			// $scope.validateLastNameField = function(val) {
+			// 	$scope.lastNameError = !val;
+			// };
+
+			// $scope.validateNameField = function(val) {
+			// 	$scope.nameError = !val;
+			// };
 
 			var phonePattern = /[\d()-]+/;
 
@@ -111,16 +119,26 @@
 			};
 
 			$scope.saveUser = function(student) {
-				
+
+				//map FIO to name, lastname and patronymic
 				var validationError = false;
-				if (!$scope.newStudent.lastName.$viewValue) {
-					$scope.lastNameError = true;
+
+				var FIOArray = $scope.FIO.split(' ');
+
+				if (!$scope.newStudent.FIO.$viewValue || FIOArray.length < 2) {	//empty or only name(lastname required)
+					$scope.FIOError = true;
 					validationError = true;
 				}
-				if (!$scope.newStudent.name.$viewValue) {
-					$scope.nameError = true;
-					validationError = true;
-				}
+
+				// if (!$scope.newStudent.lastName.$viewValue) {
+				// 	$scope.lastNameError = true;
+				// 	validationError = true;
+				// }
+
+				// if (!$scope.newStudent.name.$viewValue) {
+				// 	$scope.nameError = true;
+				// 	validationError = true;
+				// }
 
 				if (student.phones.length > 1 && !student.phones[student.phones.length - 1]) {
 					$scope.phoneError[student.phones.length - 1] = true;
@@ -130,6 +148,11 @@
 				if (validationError) {
 					return;
 				}
+
+				//map name, last name and patronymic
+				student.lastName = FIOArray[0];
+				student.name = FIOArray[1];
+				student.patronymic = FIOArray[2] ? FIOArray[2] : '';
 
 				if (student.group) {
 					student.group = {

@@ -32,6 +32,32 @@
 				$scope.currentMonth = currentMonths.join('-');
 				$http.get('/students').then(function(response) {
 			 		$scope.students = response.data;
+			 		//set student group according last filled date of transition
+			 		_.each($scope.students, function(student) {
+			 			if (student.transitions) {
+				 			if (student.transitions.toMainGroup) {
+				 				student.group = {
+				 					groupType: 'main',
+				 					name: 'Основная группа'
+				 				}
+				 			} else if (student.transitions.toYoungGroup) {
+				 				student.group = {
+				 					groupType: 'young',
+				 					name: 'Молодёжная группа'
+				 				}
+				 			} else if (student.transitions.toBaseGroup) {
+				 				student.group = {
+				 					groupType: 'base',
+				 					name: 'Базовый'
+				 				}
+				 			} else if (student.transitions.toIntroGroup) {
+				 				student.group = {
+				 					groupType: 'intro',
+				 					name: 'Вводный'
+				 				}
+			 				}
+			 			}
+			 		});
 					$http.get('/lessons').then(function(response) {
 						var lessons = response.data;
 						$http.get('/grouptypes').then(function(response) {
