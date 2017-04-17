@@ -16,6 +16,31 @@
 			$rootScope.$broadcast('showLoader', 'Загрузка студентов');
 			$http.get('/students').then(function(resp) {
 				$scope.students = resp.data;
+				_.each($scope.students, function(student) {
+					if (student.transitions) {
+						if (student.transitions.toMainGroup) {
+							student.group = {
+								groupType: 'main',
+								name: 'Основная группа'
+							}
+						} else if (student.transitions.toYoungGroup) {
+							student.group = {
+								groupType: 'young',
+								name: 'Молодёжная группа'
+							}
+						} else if (student.transitions.toBaseGroup) {
+							student.group = {
+								groupType: 'base',
+								name: 'Базовый'
+							}
+						} else if (student.transitions.toIntroGroup) {
+							student.group = {
+								groupType: 'intro',
+								name: 'Вводный'
+							}
+						}
+					}
+				});
 				$rootScope.$broadcast('hideLoader');
 			}, function(err) {
 				console.log(err);
@@ -41,9 +66,30 @@
 						if ($scope.student.transitions.toMainGroup) {
 							$scope.student.transitions.toMainGroup = new Date($scope.student.transitions.toMainGroup);
 						}
-					}
-					// $scope.student.transition = new Date($scope.student.introLectionDate);
 
+		 				//set student group according last filled date of transition
+			 			if ($scope.student.transitions.toMainGroup) {
+			 				$scope.student.group = {
+			 					groupType: 'main',
+			 					name: 'Основная группа'
+			 				}
+			 			} else if ($scope.student.transitions.toYoungGroup) {
+			 				$scope.student.group = {
+			 					groupType: 'young',
+			 					name: 'Молодёжная группа'
+			 				}
+			 			} else if ($scope.student.transitions.toBaseGroup) {
+			 				$scope.student.group = {
+			 					groupType: 'base',
+			 					name: 'Базовый'
+			 				}
+			 			} else if ($scope.student.transitions.toIntroGroup) {
+			 				$scope.student.group = {
+			 					groupType: 'intro',
+			 					name: 'Вводный'
+			 				}
+		 				}
+		 			}
 					var patronymic = $scope.student.patronymic ? $scope.student.patronymic : '';
 					$scope.FIO = $scope.student.lastName + ' ' + $scope.student.name + ' ' + patronymic;
 				}, function(err) {
@@ -60,7 +106,12 @@
 						linkType: 'FB',
 						linkName: ''
 					}],
-					transitions: {}
+					transitions: {
+						toIntroGroup: null,
+						toBaseGroup: null,
+						toYoungGroup: null,
+						toMainGroup: null
+					}
 				};
 			}
 			$scope.addPhone = function(student) {
