@@ -87,6 +87,7 @@
 								return student.group.groupType === 'base';
 							});
 							$scope.baseGroups = _.map($scope.baseGroups, 'groupView');
+							$scope.baseGroups = _.uniq($scope.baseGroups);
 							$scope.baseGroups.unshift('');
 						}, function(err) {
 								 console.log(err);
