@@ -48,9 +48,11 @@
 			</div>
 			<div class="col-xs-4">
 				<label>Студенты</label>
-				<div class="student-list" ng-repeat="student in students">
-					<input class="visit-checkbox" type="checkbox" ng-model="student.visit">
-					<div class="student-name">{{student.lastName}} {{student.name}}</div>
+				<div class="student-list">
+					<div ng-repeat="student in students">
+						<input class="visit-checkbox" type="checkbox" ng-model="student.visit">
+						<div class="student-name">{{student.lastName}} {{student.name}}</div>
+					</div>
 				</div>
 			</div>
 		</div>

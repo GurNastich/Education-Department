@@ -18,3 +18,8 @@
 .new-lesson-form .btn-save-lesson {
 	margin-right: 15px;
 }
+
+.new-lesson-form .student-list {
+	height: 488px;
+	overflow-y: scroll;
+}
