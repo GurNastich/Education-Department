@@ -8,6 +8,10 @@
 					<span class="required-field-error-hint" ng-show="nameError">* Обязательное поле</span>
 				</div>
 				<div class="form-group">
+					<label>№ Урока</label>
+					<input class="form-control" type="text" ng-model="lesson.number">		
+				</div>
+				<div class="form-group">
 					<label>Преподаватель №1</label>
 					<input class="form-control" type="text" ng-model="lesson.teachers[0]">		
 				</div>
@@ -24,15 +28,11 @@
 					<input class="form-control" ng-class="{'error': dateError}" type="date" name="date" ng-model="lesson.date" ng-change="validateDate(lesson.date)">
 					<span class="required-field-error-hint" ng-show="dateError">* Обязательное поле</span>
 				</div>
-				<div class="form-group">
-					<label>Время начала</label>
-					<input class="form-control" type="date" ng-model="lesson.startTime">		
-				</div>
 			</div>
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Тип</label>
-					<select class="form-control" ng-class="{'error': typeError}" ng-model="lesson.groups" name="type" ng-change="validateType(lesson.groups)" multiple>
+					<select class="form-control lesson-type-select" ng-class="{'error': typeError}" ng-model="lesson.groups" name="type" ng-change="validateType(lesson.groups)" multiple>
 						<option ng-repeat="type in types" value="{{type.type}}">{{type.name}}</option>
 					</select>
 					<span class="required-field-error-hint" ng-show="typeError">* Обязательное поле</span>
@@ -45,10 +45,17 @@
 					<label>Время окончания</label>
 					<input class="form-control" type="date" ng-model="lesson.endTime">		
 				</div>
+				<div class="form-group">
+					<label>Время начала</label>
+					<input class="form-control" type="date" ng-model="lesson.startTime">		
+				</div>
 			</div>
 			<div class="col-xs-4" ng-show="lesson.groups.length !== 0">
 				<label>Студенты</label>
+				<button title="Добавить студента/гостя" ng-click="showNewStudent = true"><i class="fa fa-plus"></i></button>
 				<div class="student-list">
+					<input type="text" ng-show="showNewStudent" ng-model="newStudent">
+					<button ng-show="showNewStudent" ng-click="addNewStudent()"><i class="fa fa-check"></i></button>
 					<div ng-repeat="student in students">
 						<input class="visit-checkbox" type="checkbox" ng-model="student.visit">
 						<div class="student-name">{{student.lastName}} {{student.name}}</div>
@@ -56,9 +63,33 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<div class="header-materials-list">На уроке использовались:</div>
+				<ul class="materials-list">
+					<li class="form-group" ng-repeat="item in lessonMaterials">
+						<input type="checkbox" ng-model="item.selected">
+						<label>{{item.name}}</label>
+					</li>
+				</ul>
+				<div>
+					<button class="btn btn-success btn-save-lesson" ng-click="saveLesson(lesson)">Сохранить</button>
+					<a href="" class="btn btn-danger">Отмена</a>
+				</div>
+			</div>
+			<div class="col-xs-5">
+				<div class="header-criteria-list">Субъективные показатели [от 1 до 10]:</div>
+				<ul class="criteria-list">
+					<li class="form-group" ng-repeat="item in criteria">
+						<input class="value" type="text" ng-model="item.value">
+						<label>{{item.name}}</label>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</form>
-	<div>
+<!-- 	<div>
 		<button class="btn btn-success btn-save-lesson" ng-click="saveLesson(lesson)">Сохранить</button>
 		<a href="" class="btn btn-danger">Отмена</a>
-	</div>
+	</div> -->
 </div>

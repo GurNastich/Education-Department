@@ -6,6 +6,7 @@ var eventSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	number: String,
 	// type: {
 	// 	type: String,
 	// 	required: true

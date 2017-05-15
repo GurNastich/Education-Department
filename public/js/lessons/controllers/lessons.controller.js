@@ -165,5 +165,52 @@
 					console.log(err);
 				});
 			};
+
+			$scope.lessonMaterials = [{
+					name: 'клипы',
+					selected: false
+				}, {
+					name: 'книги (читали преподаватели)',
+					selected: false
+				}, {
+					name: 'книги (читали вместе со студентами)',
+					selected: false
+				}, {
+					name: 'чертежи и записи на доске',
+					selected: false
+				}, {
+					name: 'семинар',
+					selected: false
+			}];
+
+			$scope.criteria = [{
+					name: 'подготовка аудитории (книги, парты, блокноты, маркеры, ...)',
+					value: ''
+				}, {
+					name: 'взаимодействие преподавателей',
+					value: ''
+				}, {
+					name: 'внешний вид преподавателей',
+					value: ''
+				}, {
+					name: 'отношение к студентам',
+					value: ''
+				}, {
+					name: 'ясность донесения материала',
+					value: ''
+				}, {
+					name: 'настроение аудитории',
+					value: ''
+				}, {
+					name: 'общая оценка урока',
+					value: ''
+				}];
+			
+			$scope.showNewStudent = false;
+
+			$scope.addNewStudent = function() {
+				$scope.addNewStudent = '';
+				$scope.showNewStudent = false;
+			};
 		});
 })(angular);
