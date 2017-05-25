@@ -71,9 +71,10 @@
 				<label class="guest-header pull-right">Гость</label>
 				<!-- <button title="Добавить студента/гостя" ng-click="showNewStudent = true"><i class="fa fa-plus"></i></button> -->
 				<div class="student-list">
+					<input type="text" name="" class="form-control student-search-field" ng-model="studentSearch" placeholder="Поиск студента">
 					<input type="text" ng-show="showNewStudent" ng-model="newStudent">
 					<button ng-show="showNewStudent" ng-click="addNewStudent()"><i class="fa fa-check"></i></button>
-					<div ng-repeat="student in students">
+					<div ng-repeat="student in students | filter:studentSearch">
 						<input class="visit-checkbox" type="checkbox" ng-model="student.visit" ng-click="setStudentsCount(student.visit)">
 						<div class="student-name">{{student.lastName}} {{student.name}}</div>
 						<input class="pull-right" type="checkbox" ng-model="student.guest" ng-click="setGuestsCount(student.guest)" ng-disabled="!student.visit">

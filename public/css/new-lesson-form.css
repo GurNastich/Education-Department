@@ -11,6 +11,10 @@
 	vertical-align: top;
 }
 
+.new-lesson-form .student-list .student-search-field {
+	margin-bottom: 10px;
+}
+
 .new-lesson-form .student-list .visit-checkbox {
 	margin-right: 10px;
 }
