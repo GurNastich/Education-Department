@@ -150,6 +150,8 @@
 	vertical-align: middle;
 	width: 12%;
 	border-left: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .main-container .calendar-container .calendar-body .students .student .group-name {
