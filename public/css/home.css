@@ -152,12 +152,16 @@
 	border-left: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding: 0 5px;
 }
 
 .main-container .calendar-container .calendar-body .students .student .group-name {
 	display: inline-block;
 	vertical-align: middle;
 	width: 12%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0 5px;
 }
 
 .main-container .calendar-container .calendar-body .students .student div {
