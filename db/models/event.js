@@ -29,6 +29,15 @@ var eventSchema = new mongoose.Schema({
 		id: String,
 		name: String,
 		lastName: String
+	}],
+	materials: [{
+		id: String,
+		name: String
+	}],
+	criteria: [{
+		id: String,
+		name: String,
+		value: Number
 	}]
 	// students: [Student.studentSchema],	//from edx course
 	// marks: [{name: String, value: Number}]	//mixed

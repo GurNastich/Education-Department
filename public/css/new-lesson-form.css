@@ -71,4 +71,17 @@
 
 .new-lesson-form .criteria-list input.value {
 	width: 35px;
+	text-align: center;
+}
+
+.new-lesson-form .lesson-timepicker {
+	display: inline-block;
+}
+
+.new-lesson-form .lesson-timepicker input {
+	padding: 0;
+}
+
+.new-lesson-form .time-labels {
+	padding: 0;
 }

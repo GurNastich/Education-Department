@@ -3,6 +3,58 @@
 
 	angular.module('lessonsModule')
 		.controller('lessonsController', function($scope, $http, $state, $rootScope) {
+			var materials = [{
+					id: 'clips',
+					name: 'клипы',
+					selected: false
+				}, {
+					id: 'read_teachers',
+					name: 'книги (читали преподаватели)',
+					selected: false
+				}, {
+					id: 'read_together',
+					name: 'книги (читали вместе со студентами)',
+					selected: false
+				}, {
+					id: 'desk',
+					name: 'чертежи и записи на доске',
+					selected: false
+				}, {
+					id: 'workshop',
+					name: 'семинар',
+					selected: false
+			}];	
+
+			var criteria = [{
+					id: 'preparation',
+					name: 'подготовка аудитории (книги, парты, блокноты, маркеры, ...)',
+					value: ''
+				}, {
+					id: 'teachers_interaction',
+					name: 'взаимодействие преподавателей',
+					value: ''
+				}, {
+					id: 'appearance',
+					name: 'внешний вид преподавателей',
+					value: ''
+				}, {
+					id: 'attitude',
+					name: 'отношение к студентам',
+					value: ''
+				}, {
+					id: 'clarity',
+					name: 'ясность донесения материала',
+					value: ''
+				}, {
+					id: 'mood',
+					name: 'настроение аудитории',
+					value: ''
+				}, {
+					id: 'overall_value',
+					name: 'общая оценка урока',
+					value: ''
+				}];
+
 			function getStudents(types) {
 				// var type = 'base';
 				 return $http.get('/students').then(function(resp) {
@@ -20,7 +72,7 @@
 				});
 			}
 
-			if($state.params.id) {
+			if ($state.params.id) {
 				$rootScope.$broadcast('showLoader', 'Загрузка урока');
 				$http.get('/lesson', {params:{id: $state.params.id}}).then(function(resp) {
 					$rootScope.$broadcast('hideLoader');
@@ -30,23 +82,32 @@
 					$scope.lesson.groups = _.map($scope.lesson.groups, function(g) {
 						return g.groupType;
 					});
-					// _.each($scope.lesson.groups, function(group) {
 						getStudents($scope.lesson.groups).then(function(studs) {
 							_.each(studs, function(s) {
 								s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
 							});
 							$scope.students = studs;
 						});
-					// });
 
-					// $scope.lesson.groups = ['base'];
+					_.each(materials, function(m) {
+						m.selected = _.find(resp.data[0].materials, {id: m.id}) ? true : false;
+					});
+
+					$scope.lesson.materials = materials;
+
+					$scope.lesson.date = $scope.lesson.date.toLocaleString();
+					$scope.lesson.date = moment($scope.lesson.date).format('D-MMM-YYYY');
+					console.log('sss');
+
 				}, function(err) {
 					console.log(err);
 				});
 			} else {
 				$scope.lesson = {
 					teachers: [],
-					groups: []
+					groups: [],
+					materials: materials,
+					criteria: criteria
 				};
 				$scope.students = [];
 			}
@@ -128,6 +189,7 @@
 						name: _.find($scope.types, {type: group}).name
 					}
 				});
+				lesson.materials = _.filter(lesson.materials, {selected: true});
 				$rootScope.$broadcast('showLoader', 'Сохранение урока');
 				if (lesson._id) {
 					$http.put('/lesson', {lesson: lesson}).then(function(resp) {
@@ -165,52 +227,18 @@
 					console.log(err);
 				});
 			};
-
-			$scope.lessonMaterials = [{
-					name: 'клипы',
-					selected: false
-				}, {
-					name: 'книги (читали преподаватели)',
-					selected: false
-				}, {
-					name: 'книги (читали вместе со студентами)',
-					selected: false
-				}, {
-					name: 'чертежи и записи на доске',
-					selected: false
-				}, {
-					name: 'семинар',
-					selected: false
-			}];
-
-			$scope.criteria = [{
-					name: 'подготовка аудитории (книги, парты, блокноты, маркеры, ...)',
-					value: ''
-				}, {
-					name: 'взаимодействие преподавателей',
-					value: ''
-				}, {
-					name: 'внешний вид преподавателей',
-					value: ''
-				}, {
-					name: 'отношение к студентам',
-					value: ''
-				}, {
-					name: 'ясность донесения материала',
-					value: ''
-				}, {
-					name: 'настроение аудитории',
-					value: ''
-				}, {
-					name: 'общая оценка урока',
-					value: ''
-				}];
-			
+		
 			$scope.showNewStudent = false;
 
 			$scope.addNewStudent = function() {
 				$scope.addNewStudent = '';
 				$scope.showNewStudent = false;
+			};
+
+			$scope.isDatePopupOpen = false;
+
+			$scope.openDatePopup = function() {
+				$scope.isDatePopupOpen =! $scope.isDatePopupOpen
 			};
 		});
 })(angular);
