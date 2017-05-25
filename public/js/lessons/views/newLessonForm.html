@@ -26,7 +26,7 @@
 				<div class="form-group">
 					<label>Дата</label>
 					<!-- <input class="form-control" ng-class="{'error': dateError}" type="date" name="date" ng-model="lesson.date" ng-change="validateDate(lesson.date)"> -->
-					<input type="text" class="form-control" name="date" datepicker-popup="dd-MMMM-yyyy" ng-model="lesson.date" is-open="isDatePopupOpen" ng-click="openDatePopup()">
+					<input type="text" class="form-control" ng-class="{'error': dateError}" name="date" datepicker-popup="dd-MMMM-yyyy" ng-model="lesson.date" is-open="isDatePopupOpen" ng-click="openDatePopup()" ng-change="validateDate(lesson.date)">
 					<span class="required-field-error-hint" ng-show="dateError">* Обязательное поле</span>
 				</div>
 			</div>

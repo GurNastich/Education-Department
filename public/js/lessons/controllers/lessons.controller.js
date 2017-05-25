@@ -94,6 +94,7 @@
 					});
 
 					$scope.lesson.materials = materials;
+					$scope.lesson.criteria = $scope.lesson.criteria && $scope.lesson.criteria.length !== 0 ? $scope.lesson.criteria : criteria;
 					$scope.lesson.date = moment($scope.lesson.date.toLocaleString()).format('D-MMM-YYYY');
 
 					$scope.lesson.studentsCount = resp.data[0].studentsCount ? resp.data[0].studentsCount : $scope.lesson.students.length;
