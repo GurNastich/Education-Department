@@ -68,13 +68,15 @@
 			</div>
 			<div class="col-xs-4" ng-show="lesson.groups.length !== 0">
 				<label>Студенты</label>
+				<label class="guest-header pull-right">Гость</label>
 				<!-- <button title="Добавить студента/гостя" ng-click="showNewStudent = true"><i class="fa fa-plus"></i></button> -->
 				<div class="student-list">
 					<input type="text" ng-show="showNewStudent" ng-model="newStudent">
 					<button ng-show="showNewStudent" ng-click="addNewStudent()"><i class="fa fa-check"></i></button>
 					<div ng-repeat="student in students">
-						<input class="visit-checkbox" type="checkbox" ng-model="student.visit">
+						<input class="visit-checkbox" type="checkbox" ng-model="student.visit" ng-click="setStudentsCount(student.visit)">
 						<div class="student-name">{{student.lastName}} {{student.name}}</div>
+						<input class="pull-right" type="checkbox" ng-model="student.guest" ng-click="setGuestsCount(student.guest)" ng-disabled="!student.visit">
 					</div>
 				</div>
 			</div>
@@ -93,14 +95,20 @@
 					<a href="" class="btn btn-danger">Отмена</a>
 				</div>
 			</div>
-			<div class="col-xs-6">
+			<div class="col-xs-4">
 				<div class="header-criteria-list">Субъективные показатели [от 1 до 10]:</div>
 				<ul class="criteria-list">
 					<li class="form-group" ng-repeat="item in lesson.criteria">
 						<input class="value" type="text" ng-model="item.value">
-						<label>{{item.name}}</label>
+						<label class="criteria-label">{{item.name}}</label>
 					</li>
 				</ul>
+			</div>
+			<div class="col-xs-4">
+				<div class="students-count-container">
+					<div>Количество студентов:&nbsp;&nbsp;{{lesson.studentsCount}}</div>
+					<div>Количество гостей:&nbsp;&nbsp;{{lesson.guestsCount}}</div>
+				</div>
 			</div>
 		</div>
 	</form>

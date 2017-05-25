@@ -94,10 +94,10 @@
 					});
 
 					$scope.lesson.materials = materials;
+					$scope.lesson.date = moment($scope.lesson.date.toLocaleString()).format('D-MMM-YYYY');
 
-					$scope.lesson.date = $scope.lesson.date.toLocaleString();
-					$scope.lesson.date = moment($scope.lesson.date).format('D-MMM-YYYY');
-					console.log('sss');
+					$scope.lesson.studentsCount = resp.data[0].studentsCount ? resp.data[0].studentsCount : $scope.lesson.students.length;
+					$scope.lesson.guestsCount = resp.data[0].guestsCount ? resp.data[0].guestsCount : 0;
 
 				}, function(err) {
 					console.log(err);
@@ -107,7 +107,9 @@
 					teachers: [],
 					groups: [],
 					materials: materials,
-					criteria: criteria
+					criteria: criteria,
+					studentsCount: 0,
+					guestsCount: 0
 				};
 				$scope.students = [];
 			}
@@ -239,6 +241,14 @@
 
 			$scope.openDatePopup = function() {
 				$scope.isDatePopupOpen =! $scope.isDatePopupOpen
+			};
+
+			$scope.setStudentsCount = function(selected) {
+				$scope.lesson.studentsCount = selected ? $scope.lesson.studentsCount+=1 : $scope.lesson.studentsCount-=1;
+			};
+
+			$scope.setGuestsCount = function(selected) {
+				$scope.lesson.guestsCount = selected ? $scope.lesson.guestsCount+=1 : $scope.lesson.guestsCount-=1;
 			};
 		});
 })(angular);
