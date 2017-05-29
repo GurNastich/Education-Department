@@ -57,13 +57,14 @@
 
 			function getStudents(types) {
 				// var type = 'base';
-				 return $http.get('/students').then(function(resp) {
+				 return $http.get('/students', {params:{types: types}}).then(function(resp) {
 				// $http.get('/students').then(function(resp) {
 					var students = _.map(resp.data, function(stud) {
 						return {
 							id: stud._id,
 							name: stud.name,
-							lastName: stud.lastName
+							lastName: stud.lastName,
+							type: stud.group.groupType
 						}
 					});
 					return students;
@@ -82,12 +83,13 @@
 					$scope.lesson.groups = _.map($scope.lesson.groups, function(g) {
 						return g.groupType;
 					});
-						getStudents($scope.lesson.groups).then(function(studs) {
-							_.each(studs, function(s) {
-								s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
-							});
-							$scope.students = studs;
+
+					getStudents($scope.lesson.groups).then(function(studs) {
+						_.each(studs, function(s) {
+							s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
 						});
+						$scope.students = studs;
+					});
 
 					_.each(materials, function(m) {
 						m.selected = _.find(resp.data[0].materials, {id: m.id}) ? true : false;
@@ -144,13 +146,23 @@
 			$scope.validateName = function(val) {
 				$scope.nameError = !val;
 			};
-			$scope.validateType = function(vals) {
-				$scope.typeError = vals.length === 0;
-				getStudents(vals).then(function(studs) {
+			$scope.validateType = function(val) {
+				// $scope.typeError = val.length === 0;
+				if (val.selected) {
+					val.selected = false;
+					_.remove($scope.students, {type: val.type});
+					return;
+				}
+
+				$scope.showSpin = true;
+				getStudents(val.type).then(function(studs) {
 					_.each(studs, function(s) {
 						s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
 					});
-					$scope.students = studs;
+					// $scope.students = studs;
+					$scope.students = $scope.students.concat(studs);
+					val.selected = true;
+					$scope.showSpin = false;
 				});
 			};
 			$scope.validateDate = function(val) {

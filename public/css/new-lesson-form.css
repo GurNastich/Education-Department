@@ -23,7 +23,14 @@
 	margin-right: 15px;
 }
 
+.new-lesson-form .student-list .student-list-loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
 .new-lesson-form .student-list {
+	position: relative;
 	margin: 0;
 	padding: 10px;
 	height: 488px;
@@ -34,6 +41,19 @@
 
 .new-lesson-form .lesson-type-select {
 	height: 132px;
+}
+
+.new-lesson-form .types-list {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	border: 2px solid #dce4ec;
+	border-radius: 3px;
+	padding: 10px 15px;
+}
+
+.new-lesson-form .types-list .type-name {
+		margin-left: 8px;
 }
 
 .new-lesson-form .materials-list,

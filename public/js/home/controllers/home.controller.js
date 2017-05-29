@@ -13,13 +13,26 @@
 			$scope.dateFrom = new Date();	//Current date
 			$scope.dateFrom = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() - 1));
 			$scope.dateTo = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() + 1));	//+ 1 Month
+			var initDateFrom = $scope.dateFrom;
+			var initDateTo = $scope.dateTo;
+
+			$scope.dateFrom = moment($scope.dateFrom.toLocaleString()).format('D-MMM-YYYY');
+			$scope.dateTo = moment($scope.dateTo.toLocaleString()).format('D-MMM-YYYY');
 
 			$scope.fillTable = function() {
 				$scope.calcTable = true;
 				$scope.students = [];
 				$scope.dates = [];
 				var currentMonths = [];
-				for (var i = new Date($scope.dateFrom); i <= $scope.dateTo; i.setDate(i.getDate() + 1)) {
+				var dateFrom = $scope.dateFrom;
+				if (typeof $scope.dateFrom === 'string') {
+					dateFrom = initDateFrom;
+				}
+				var dateTo = $scope.dateTo;
+				if (typeof $scope.dateTo === 'string') {
+					dateTo = initDateTo;
+				}
+				for (var i = new Date(dateFrom); i <= dateTo; i.setDate(i.getDate() + 1)) {
 					$scope.dates.push({
 						weekDay: days[i.getDay()],
 						dayNumber: i.getDate()
@@ -85,7 +98,15 @@
 								 	return a > -1;
 							 	});
 						 		var k = 0;
-						 		for (var i = new Date($scope.dateFrom); i < $scope.dateTo; i.setDate(i.getDate() + 1)) {
+						 		var dateFrom = $scope.dateFrom;
+								if (typeof $scope.dateFrom === 'string') {
+									dateFrom = initDateFrom;
+								}
+								var dateTo = $scope.dateTo;
+								if (typeof $scope.dateTo === 'string') {
+									dateTo = initDateTo;
+								}
+						 		for (var i = new Date(dateFrom); i < dateTo; i.setDate(i.getDate() + 1)) {
 									var isLesson = _.find(studLessons, function(less) {
 										var e = new Date(less.date);
 										i.setHours(0,0,0,0);
@@ -106,6 +127,7 @@
 									k++;
 					 			}
 							});
+							$scope.allStudents = _.clone($scope.students);
 							$scope.baseGroups = _.filter($scope.students, function(student) {
 								if (!student.group) {
 									return false;
@@ -138,6 +160,36 @@
 				$state.go('student', {id: student._id});
 			};
 
+			$scope.isDateFromPopupOpen = false;
+
+			$scope.openDateFromPopup = function() {
+				$scope.isDateFromPopupOpen =! $scope.isDateFromPopupOpen;
+			};
+
+			$scope.isDateToPopupOpen = false;
+
+			$scope.openDateToPopup = function() {
+				$scope.isDateToPopupOpen =! $scope.isDateToPopupOpen;
+			};
+
 			$scope.fillTable();
+
+			$scope.filterTable = function(val) {		
+				if (val === 'all' || val === '') {		//'' - if base group value from the list was set to ''
+					$scope.students = _.clone($scope.allStudents);
+					return;
+				}
+
+				if (val === 'intro' || val === 'young' || val === 'club') {
+					$scope.students = _.filter($scope.allStudents, function(stud) {
+						return stud.group ? stud.group.groupType === val : false;
+					});
+					$scope.baseGroupFilter = '';
+					return;
+				}
+
+				$scope.students = _.filter($scope.allStudents, {groupView: val});
+
+			}
 	});
 })(angular);
