@@ -1,6 +1,6 @@
 var express = require('express');
 var db = require('./db/db');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser')
 
 var Student = require('./db/models/student.js');
 var Event = require('./db/models/event.js');
