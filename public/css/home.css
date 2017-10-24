@@ -1,0 +1,201 @@
+.main-container {
+	margin: 40px 20px 0 20px;
+}
+
+.main-container .header {
+	margin-bottom: 20px;
+	border: 1px solid #ecf0f1;
+	padding: 15px;
+	border-radius: 4px;
+}
+
+.main-container .header .search,
+.main-container .header .date-filter,
+.main-container .header .date-filter input,
+.main-container .header .group-filter,
+.main-container .header .group-filter .ui-select-container {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.main-container .header .search {
+	width: 18%;
+/*	margin-right: 20px;*/
+	position: relative;
+}
+
+.main-container .header .search .search-icon{
+	position: absolute;
+	top: 10px;
+	right: 12px;
+}
+
+.main-container .header .search input,
+.main-container .header .date-filter input {
+	height: 40px;
+	padding: 10px;
+	/*width: 220px;*/
+	/*margin-right: 10px;*/
+}
+
+.main-container .header .date-filter {
+	width: 30%;
+}
+
+.main-container .header .date-filter input {
+	width: 48%;
+}
+
+.main-container .group-filter {
+	width: 50%;
+}
+.main-container .group-filter .base-group-select {
+	display: inline-block;
+    width: 180px;
+    height: 41px;
+}
+
+.main-container .header .group-filter button {
+  height: 40px;
+  padding: 5px;
+}
+
+.main-container .header .group-filter button:last-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.main-container .header .group-filter .ui-select-container {
+	width: 170px;
+}
+
+.main-container .header .group-filter .ui-select-container .ui-select-toggle {
+	height: 40px;
+	padding: 8px;
+	margin-left: -3px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.main-container .header .group-filter .ui-select-container .ui-select-toggle .ui-select-placeholder {
+	color: white;
+}
+
+.main-container .calendar-container {
+	padding: 15px 20px;
+	font-size: 14px;
+	border: 1px solid #ecf0f1;
+	border-radius: 5px;
+	overflow: auto;
+	height: 62vh;
+}
+
+.main-container .calendar-container .month {
+	text-align: center;
+	padding-bottom: 15px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.main-container .calendar-container .calendar-header {
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.main-container .calendar-container .calendar-header div,
+.main-container .calendar-container .calendar-body .students .student div {
+	display: inline-block;
+	vertical-align: middle;
+	border-left: 1px dashed #ccc;
+	width: 30px;
+}
+
+.main-container .calendar-container .calendar-header div.date {
+	padding: 5px;
+	text-align: center;
+}
+
+.main-container .calendar-container .calendar-header div.name {
+	width: 12%;
+	text-align: center;
+	border-left: 0;
+}
+
+.main-container .calendar-container .calendar-header div.group {
+	width: 12%;
+	text-align: center;
+}
+
+.main-container .calendar-container .calendar-body {
+	padding-top: 10px;
+	white-space: nowrap;
+}
+
+.main-container .calendar-container .calendar-body .students {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.main-container .calendar-container .calendar-body .students .student {
+	border-top: 1px solid #eee;
+}
+
+.main-container .calendar-container .calendar-body .students .student:last-child {
+	border-bottom: 1px solid #eee;
+}
+
+.main-container .calendar-container .calendar-body .students .student .student-name {
+	display: inline-block;
+	vertical-align: middle;
+	width: 12%;
+	border-left: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0 5px;
+}
+
+.main-container .calendar-container .calendar-body .students .student .group-name {
+	display: inline-block;
+	vertical-align: middle;
+	width: 12%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0 5px;
+}
+
+.main-container .calendar-container .calendar-body .students .student div {
+	text-align: center;
+	height: 100%;
+}
+
+.main-container .calendar-container .calendar-body .students .student div.intro {
+	background-color: #dff0d8;
+	color: #3c763d;
+}
+
+.main-container .calendar-container .calendar-body .students .student div.base {
+	background-color: #fcf8e3;
+	color: #8a6d3b;
+}
+
+.main-container .calendar-container .calendar-body .students .student div.young {
+	background-color: #f2dede;
+	color: #a94442;
+}
+
+input.error,
+select.error {
+	background-color: #ffe8eb;
+	border-color: #da969b;
+}
+
+span.required-field-error-hint {
+	font-size: 12px;
+}
+
+.calendar-container .calc-table-loader {
+	text-align: center;
+	padding-top: 100px;
+	font-size: 18px;
+}

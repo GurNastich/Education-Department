@@ -1,0 +1,21 @@
+.student-list {
+    margin: 0 20px;
+}
+
+.student-list .top-controls .search-student,
+.student-list .top-controls .new-student-link {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.student-list .top-controls .search-student {
+    width: 20%;
+}
+
+.student-list .top-controls {
+    margin-bottom: 20px;
+}
+
+.student-list table thead {
+    border-bottom: 2px solid #2c3e50;
+}

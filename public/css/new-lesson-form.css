@@ -1,0 +1,129 @@
+.new-lesson-form {
+	margin: 0 20px;
+}
+
+.new-lesson-form .lesson-comment {
+	height: 130px;
+}
+
+.new-lesson-form .student-list .student-name {
+	display: inline-block;;
+	vertical-align: top;
+}
+
+.new-lesson-form .student-list .student-search-field {
+	margin-bottom: 10px;
+}
+
+.new-lesson-form .student-list .visit-checkbox {
+	margin-right: 10px;
+}
+
+.new-lesson-form .btn-save-lesson {
+	margin-right: 15px;
+}
+
+.new-lesson-form .student-list .student-list-loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.new-lesson-form .student-list {
+	position: relative;
+	margin: 0;
+	padding: 10px;
+	height: 488px;
+	overflow-y: scroll;
+	border: 2px solid #dce4ec;
+	border-radius: 3px;
+}
+
+.new-lesson-form .lesson-type-select {
+	height: 132px;
+}
+
+.new-lesson-form .types-list {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	border: 2px solid #dce4ec;
+	border-radius: 3px;
+	padding: 10px 15px;
+}
+
+.new-lesson-form .types-list .type-name {
+		margin-left: 8px;
+}
+
+.new-lesson-form .materials-list,
+.new-lesson-form .criteria-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	padding-left: 10px;
+	/*margin-top: 10px;*/
+}
+
+.new-lesson-form .materials-list,
+.new-lesson-form .criteria-list {
+	border: 2px solid #dce4ec;
+	border-radius: 3px;
+	padding: 10px;
+	margin: 10px 0 20px 0;
+}
+
+.new-lesson-form .header-materials-list,
+.new-lesson-form .header-criteria-list {
+	font-weight: bold;
+}
+
+.new-lesson-form .materials-list li:last-child,
+.new-lesson-form .criteria-list li:last-child {
+	margin-bottom: 0;
+}
+
+.new-lesson-form .materials-list label,
+.new-lesson-form .criteria-list label {
+	font-weight: normal;
+}
+
+.new-lesson-form .materials-list input,
+.new-lesson-form .criteria-list input {
+	margin-right: 5px;
+}
+
+.new-lesson-form .criteria-list input.value {
+	width: 35px;
+	text-align: center;
+	vertical-align: super;
+}
+
+.new-lesson-form .criteria-list .criteria-label {
+	width: 85%;
+}
+
+.new-lesson-form .lesson-timepicker {
+	display: inline-block;
+}
+
+.new-lesson-form .lesson-timepicker input {
+	padding: 0;
+}
+
+.new-lesson-form .time-labels {
+	padding: 0;
+}
+
+.new-lesson-form .students-count-container {
+	margin-top: 35px;
+	font-weight: bold;
+}
+
+.new-lesson-form .students-count-container div {
+	margin-bottom: 10px;
+}
+
+.new-lesson-form .guest-header {
+	margin-right: 15px;
+}
