@@ -38,7 +38,7 @@
 					</select> -->
 					<ul class="types-list" ng-class="{'error': typeError}">
 						<li ng-repeat="type in types">
-							<label class="type-name"><input type="checkbox" ng-click="validateType(type)">{{type.name}}</label>
+							<label class="type-name"><input type="checkbox" ng-model="type.selected" ng-click="validateType(type)">{{type.name}}</label>
 							<!-- <span class="type-name">{{type.name}}</span> -->
 						</li>
 					</ul>
@@ -83,8 +83,8 @@
 					<input type="text" ng-show="showNewStudent" ng-model="newStudent">
 					<button ng-show="showNewStudent" ng-click="addNewStudent()"><i class="fa fa-check"></i></button>
 					<div ng-repeat="student in students | filter:studentSearch">
-						<input class="visit-checkbox" type="checkbox" ng-model="student.visit" ng-click="setStudentsCount(student.visit)">
-						<div class="student-name">{{student.lastName}} {{student.name}}</div>
+						<label class="student-name"><input class="visit-checkbox" type="checkbox" ng-model="student.visit" ng-click="setStudentsCount(student.visit)">{{student.lastName}} {{student.name}}</label>
+						<!-- <div class="student-name">{{student.lastName}} {{student.name}}</div> -->
 						<input class="pull-right" type="checkbox" ng-model="student.guest" ng-click="setGuestsCount(student.guest)" ng-disabled="!student.visit">
 					</div>
 				</div>

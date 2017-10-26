@@ -81,7 +81,11 @@
 					$scope.lesson.date = new Date($scope.lesson.date);
 					$scope.students = [];
 					$scope.lesson.groups = _.map($scope.lesson.groups, function(g) {
-						return g.groupType;
+						// return g.groupType;
+						return {
+							name: g.name,
+							type: g.groupType
+						}
 					});
 
 					getStudents($scope.lesson.groups).then(function(studs) {
@@ -126,7 +130,23 @@
 			// });
 
 			$http.get('/grouptypes').then(function(resp) {
+				var types = [];
 				$scope.types = resp.data;
+
+				_.each($scope.types, function(type) {
+					if (_.find($scope.lesson.groups, {type: type.type})) {
+						type.selected = true;
+						types.push(type.type);
+					}
+				});
+
+				getStudents(types).then(function(studs) {
+					_.each(studs, function(s) {
+						s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
+					});
+					$scope.students = studs;
+				});
+
 			}, function(err) {
 				console.log(err);
 			});

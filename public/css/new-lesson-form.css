@@ -9,6 +9,7 @@
 .new-lesson-form .student-list .student-name {
 	display: inline-block;;
 	vertical-align: top;
+	font-weight: normal;
 }
 
 .new-lesson-form .student-list .student-search-field {
