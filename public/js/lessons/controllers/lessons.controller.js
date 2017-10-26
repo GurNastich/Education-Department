@@ -147,12 +147,20 @@
 				$scope.nameError = !val;
 			};
 			$scope.validateType = function(val) {
-				// $scope.typeError = val.length === 0;
+				$scope.typeError = false;
+
 				if (val.selected) {
 					val.selected = false;
 					_.remove($scope.students, {type: val.type});
+
+					_.remove($scope.lesson.groups, {type: val.type});
+					
+					// var index = $scope.lesson.groups.indexOf(val);
+					// $scope.lesson.groups.slice(index, 1);
 					return;
 				}
+
+				$scope.lesson.groups.push(val);
 
 				$scope.showSpin = true;
 				getStudents(val.type).then(function(studs) {
@@ -176,7 +184,8 @@
 					$scope.nameError = true;
 					validationError = true;
 				}
-				if (!$scope.newLessonForm.type.$viewValue) {
+				// if (!$scope.newLessonForm.type.$viewValue) {
+				if ($scope.lesson.groups.length === 0) {
 					$scope.typeError = true;
 					validationError = true;
 				}
@@ -200,8 +209,8 @@
 				});
 				lesson.groups = _.map(lesson.groups, function(group) {
 					return {
-						groupType: group,
-						name: _.find($scope.types, {type: group}).name
+						groupType: group.type,
+						name: _.find($scope.types, {type: group.type}).name
 					}
 				});
 				lesson.materials = _.filter(lesson.materials, {selected: true});

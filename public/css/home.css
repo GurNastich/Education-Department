@@ -32,7 +32,7 @@
 
 .main-container .header .search input,
 .main-container .header .date-filter input {
-	height: 40px;
+	/* height: 40px; */
 	padding: 10px;
 	/*width: 220px;*/
 	/*margin-right: 10px;*/
@@ -185,7 +185,8 @@
 }
 
 input.error,
-select.error {
+select.error,
+ul.types-list.error {
 	background-color: #ffe8eb;
 	border-color: #da969b;
 }
