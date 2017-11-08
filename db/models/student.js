@@ -43,13 +43,18 @@ studentSchema.statics.getAllStudents = function () {
 };
 
 studentSchema.statics.updateStudent = function (student) {
-return this.update({_id : student.id},student);
+return this.update({_id : student._id},student);
 };
 
 studentSchema.statics.deleteAndFetchAll = function (id) {
-	this.remove({_id : id}).exec().then(function () {
-		return this.find();
-    })
+	var shemaobj = this;
+	return this.remove({_id : id}).exec().then(function (result) {
+		return shemaobj.find();
+    });
+};
+
+studentSchema.statics.getByType = function (types) {
+    this.find({'group.groupType': {$in : types}});
 };
 
 var Student = mongoose.model('Student', studentSchema, 'students');

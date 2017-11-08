@@ -15,3 +15,7 @@ app.use(express.static(path.join(__dirname,'/public')));
 app.use(bodyParser());
 
 app.use('/students?',router);
+
+app.listen(app.get('port'), function() {
+    console.log('Application is running on http://localhost:' + app.get('port') + '; press Ctrl+C for exit');
+});

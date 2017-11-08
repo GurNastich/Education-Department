@@ -10,6 +10,12 @@ Router.get('/',function(req,resp){
         var studentPromise = Student.getById(req.query.id);
         studentPromise.then(stud => resp.json(stud)).catch(err => resp.status(500));
     }
+    else if(req.query.types){
+        var studentType = Student.getByType(req.query.types);
+        studentType.then(stud => resp.json(stud)).catch(function (err) {
+            resp.status(500);
+        })
+    }
     else{
         var allStudents = Student.getAllStudents();
         allStudents.then(function (res) {
@@ -38,6 +44,12 @@ Router.delete('/',function (req,resp) {
             resp.send(err);
         })
     }
+});
+
+Router.post('/',function (req,resp) {
+    new Student(req.body.student).save(function(err, student) {
+        resp.json(student);
+    });
 });
 
 module.exports = Router;
