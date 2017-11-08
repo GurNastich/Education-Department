@@ -7,17 +7,17 @@ var Router = express.Router();
 
 Router.get('/',function(req,resp){
     if(req.query.id){
-        var studentPromise = Student.getById(req.query.id);
+        let studentPromise = Student.getById(req.query.id);
         studentPromise.then(stud => resp.json(stud)).catch(err => resp.status(500));
     }
     else if(req.query.types){
-        var studentType = Student.getByType(req.query.types);
+        let studentType = Student.getByType(req.query.types);
         studentType.then(stud => resp.json(stud)).catch(function (err) {
             resp.status(500);
         })
     }
     else{
-        var allStudents = Student.getAllStudents();
+        let allStudents = Student.getAllStudents();
         allStudents.then(function (res) {
             resp.json(res);
         }).catch(function (err) {
@@ -27,7 +27,7 @@ Router.get('/',function(req,resp){
 });
 
 Router.put('/',function (req,resp) {
-    var updatedStudent = Student.updateStudent(req.body.student);
+    let updatedStudent = Student.updateStudent(req.body.student);
     updatedStudent.then(function (stud) {
         resp.send(200)
     }).catch(function (err) {
@@ -37,7 +37,7 @@ Router.put('/',function (req,resp) {
 
 Router.delete('/',function (req,resp) {
     if(req.query.id){
-        var deletedPr = Student.deleteAndFetchAll(req.query.id);
+        let deletedPr = Student.deleteAndFetchAll(req.query.id);
         deletedPr.then(function (students) {
             resp.json(students);
         }).catch(function (err) {

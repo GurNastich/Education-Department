@@ -45,6 +45,21 @@ var eventSchema = new mongoose.Schema({
 	// marks: [{name: String, value: Number}]	//mixed
 });
 
+eventSchema.statics.deleteAndFetchAll = function (id) {
+	let shemaObj = this;
+	return this.remove({_id : id}).exec().then(function (res) {
+		return shemaObj.find();
+    })
+};
+
+eventSchema.statics.getById = function (id) {
+	return this.find({_id : id});
+};
+
+eventSchema.statics.updateById = function (event) {
+	return this.update({_id : event._id},event);
+};
+
 var Event = mongoose.model('Event', eventSchema);
 
 module.exports = Event;
