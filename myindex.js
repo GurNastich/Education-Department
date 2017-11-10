@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var Strouter = require('./controllers/studentController');
 var Lsrouter = require('./controllers/lessonsController');
+var GroupType = require('./db/models/group-type.js');
 
 var app = express();
 

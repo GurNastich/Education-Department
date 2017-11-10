@@ -54,7 +54,7 @@ studentSchema.statics.deleteAndFetchAll = function (id) {
 };
 
 studentSchema.statics.getByType = function (types) {
-    this.find({'group.groupType': {$in : types}});
+   return this.find({'group.groupType': {$in : types}});
 };
 
 var Student = mongoose.model('Student', studentSchema, 'students');

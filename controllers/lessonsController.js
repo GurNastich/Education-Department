@@ -13,9 +13,12 @@ Router.get('/',function (req,resp) {
             resp.sendStatus(500);
         })
     }
-    Event.find(function(err, lessons) {
-        resp.json(lessons);
-    });
+    else{
+        Event.find(function(err, lessons) {
+            if(err) resp.send(500);
+            resp.json(lessons);
+        });
+    }
 });
 
 Router.put('/',function (req,resp) {
@@ -47,3 +50,5 @@ Router.delete('/',function (req,resp) {
        resp.sendStatus(500);
    }
 });
+
+module.exports = Router;
