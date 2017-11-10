@@ -6,6 +6,10 @@ var Student = require('./models/student.js');
 var Event = require('./models/event.js');
 var GroupType = require('./models/group-type.js');
 
+mongoose.connection.on('error',function (err) {
+	console.log(err + 'My method');
+});
+
 function setDBConnection(app) {
 	var options = {
 		server: {

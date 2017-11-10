@@ -222,7 +222,7 @@
 						console.log(err)
 					});
 				} else {
-					$http.post('saveUser', {student: student}).then(function(resp) {
+					$http.post('student', {student: student}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
 						$state.go('students');
 					}, function(err) {
