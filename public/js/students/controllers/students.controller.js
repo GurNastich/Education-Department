@@ -8,13 +8,13 @@
 			$scope.emailError = [];
 			$scope.FIO = '';
 
-			$http.get('/grouptypes').then(function(resp) {
+			$http.get('grouptypes').then(function(resp) {
 				$scope.groupTypes = resp.data;
 			}, function(err) {
 				console.log(err);
 			});
 			$rootScope.$broadcast('showLoader', 'Загрузка студентов');
-			$http.get('/students').then(function(resp) {
+			$http.get('students').then(function(resp) {
 				$scope.students = resp.data;
 				_.each($scope.students, function(student) {
 					if (student.transitions) {
@@ -49,7 +49,7 @@
 
 			if ($state.params.id) {
 				$rootScope.$broadcast('showLoader', 'Загрузка студента');
-				$http.get('/student', {params:{id: $state.params.id}}).then(function(resp) {
+				$http.get('student', {params:{id: $state.params.id}}).then(function(resp) {
 					$rootScope.$broadcast('hideLoader');
 					$scope.student = resp.data[0];
 					$scope.student.introLectionDate = new Date($scope.student.introLectionDate);
@@ -214,7 +214,7 @@
 				$rootScope.$broadcast('showLoader', 'Сохранение студента в базу данных');
 				if (student._id) {
 					// var group = JSON.parse(student.group);
-					$http.put('/student', {student:student}).then(function(resp) {
+					$http.put('student', {student:student}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
 						$state.go('students');
 					}, function(err) {
@@ -222,7 +222,7 @@
 						console.log(err)
 					});
 				} else {
-					$http.post('/saveUser', {student: student}).then(function(resp) {
+					$http.post('student', {student: student}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
 						$state.go('students');
 					}, function(err) {
@@ -238,7 +238,7 @@
 
 			$scope.removeStudent = function(student) {
 				$rootScope.$broadcast('showLoader', 'Удаление студента из базы данных');
-				$http.delete('/student', {params:{id: student._id}}).then(function(resp) {
+				$http.delete('student', {params:{id: student._id}}).then(function(resp) {
 					$scope.students = resp.data;
 					$rootScope.$broadcast('hideLoader');
 				}, function(err) {

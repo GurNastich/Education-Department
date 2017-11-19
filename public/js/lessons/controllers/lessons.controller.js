@@ -13,6 +13,7 @@
 			lesson.type = lessonType.slice(0, -2);
 		});
 
+
 		return lessons;
 	}
 
@@ -24,6 +25,7 @@
 			$http.get('/lessons').then(function(resp) {
 				$scope.lessons = mapLessons(resp.data);
 				
+
 				$rootScope.$broadcast('hideLoader');
 			}, function(err) {
 				$rootScope.$broadcast('hideLoader');
@@ -34,6 +36,7 @@
 				$rootScope.$broadcast('showLoader', 'Удаление урока из базы данных');
 				$http.delete('/lesson', {params:{id: lesson._id}}).then(function(resp) {
 					$scope.lessons = mapLessons(resp.data);
+
 
 					$rootScope.$broadcast('hideLoader');
 				}, function(err) {
