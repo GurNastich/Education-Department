@@ -9,19 +9,25 @@
 				</div>
 				<div class="form-group">
 					<label>№ Урока</label>
-					<input class="form-control" type="text" ng-model="lesson.number">		
+					<input class="form-control" type="text" ng-model="lesson.number">
 				</div>
 				<div class="form-group">
 					<label>Преподаватель №1</label>
-					<input class="form-control" type="text" ng-model="lesson.teachers[0]">		
+					<input class="form-control" type="text" ng-model="lesson.teachers[0]"  list='teacher'>
+					<datalist id="teacher" >
+						<option ng-repeat="val in teachers" value="{{val.name}}">{{val.name}}</option>
+					</datalist>
 				</div>
 				<div class="form-group">
 					<label>Преподаватель №2</label>
-					<input class="form-control" type="text" ng-model="lesson.teachers[1]">		
+					<input class="form-control" type="text" ng-model="lesson.teachers[1]" list='teacher'>
 				</div>
 				<div class="form-group">
 					<label>Администратор</label>
-					<input class="form-control" type="text" ng-model="lesson.admin">		
+					<input class="form-control" type="text" ng-model="lesson.admin" list="admin">
+					<datalist id="admin" >
+						<option ng-repeat="val in admins" value="{{val.name}}">{{val.name}}</option>
+					</datalist>
 				</div>
 				<div class="form-group">
 					<label>Дата</label>

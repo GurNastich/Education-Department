@@ -5,10 +5,14 @@ var path = require('path');
 var Strouter = require('./controllers/studentController');
 var Lsrouter = require('./controllers/lessonsController');
 var GroupType = require('./db/models/group-type.js');
+var StuffRouter = require('./controllers/stuffController');
+
+var Stuff = require('./db/models/stuff');
 
 var app = express();
 
 db.setDBConnection(app);
+
 
 app.set('port', process.env.PORT || 3000);
 
@@ -23,6 +27,8 @@ app.get('/grouptypes', function(req, res) {
         res.json(groupTypes);
     })
 });
+
+app.use('/stuff',StuffRouter);
 
 app.use('/lessons?',Lsrouter);
 

@@ -120,6 +120,13 @@
 				};
 				$scope.students = [];
 			}
+
+			$http.get('stuff/teachers').then(function (resp) {
+				$scope.teachers = resp.data;
+            });
+            $http.get('stuff/admins').then(function (resp) {
+                $scope.admins = resp.data;
+            });
 			// $scope.students = [];
 			// var type = 'base';
 			// //$http.get('students', {params:{type: type}}).then(function(resp) {
@@ -169,7 +176,7 @@
 			$scope.validateType = function(val) {
 				$scope.typeError = false;
 
-				if (val.selected) {
+				if (!val.selected) {
 					val.selected = false;
 					_.remove($scope.students, {type: val.type});
 
@@ -235,6 +242,7 @@
 				});
 				lesson.materials = _.filter(lesson.materials, {selected: true});
 				$rootScope.$broadcast('showLoader', 'Сохранение урока');
+				$http.post('stuff',{teachers : lesson.teachers, admin : lesson.admin});
 				if (lesson._id) {
 					$http.put('lesson', {lesson: lesson}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
