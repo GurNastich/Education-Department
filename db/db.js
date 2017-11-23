@@ -94,8 +94,8 @@ function fillInitialEventData() {
 function fillInitialGroupTypeData() {
 	GroupType.find(function(err, groupTypes) {
 		if (err) console.log(err);
-		if (groupTypes.length) {
-			GroupType.remove(function(err, data) {
+		// if (groupTypes.length) { return}
+			// GroupType.remove(function(err, data) {
 				new GroupType({
 					type: 'intro',
 					name: 'Вводный',
@@ -126,8 +126,8 @@ function fillInitialGroupTypeData() {
 					name: 'Другое',
 					shortName: 'Д'
 				}).save();
-			});
-		};
+			// });
+		// };
 	});
 }
 
