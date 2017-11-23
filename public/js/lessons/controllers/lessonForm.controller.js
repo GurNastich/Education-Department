@@ -86,6 +86,9 @@
 				});
 				lesson.materials = _.filter(lesson.materials, {selected: true});
 				$rootScope.$broadcast('showLoader', 'Сохранение урока');
+				
+				$http.post('stuff',{teachers : lesson.teachers, admin : lesson.admin});
+
 				if (lesson._id) {
 					$http.put('/lesson', {lesson: lesson}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
@@ -151,6 +154,13 @@
 				$scope.isDatePopupOpen = false;
 
 				$scope.getGroupTypes();
+				$http.get('stuff/teachers').then(function (resp) {
+					$scope.teachers = resp.data;
+				});
+				
+				$http.get('stuff/admins').then(function (resp) {
+						$scope.admins = resp.data;
+				});
 				
 				if ($state.params.id) {
 					$rootScope.$broadcast('showLoader', 'Загрузка урока');

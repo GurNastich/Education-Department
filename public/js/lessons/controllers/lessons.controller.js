@@ -21,13 +21,7 @@
 		.controller('lessonsController', function($scope, $http, $state, $rootScope) {
 
 
-			$http.get('stuff/teachers').then(function (resp) {
-				$scope.teachers = resp.data;
-			});
-			
-			$http.get('stuff/admins').then(function (resp) {
-					$scope.admins = resp.data;
-			});
+
 
 			$rootScope.$broadcast('showLoader', 'Загрузка уроков');
 
@@ -38,8 +32,6 @@
 				$rootScope.$broadcast('hideLoader');
 				console.log(err);
 			});
-
-			$http.post('stuff',{teachers : lesson.teachers, admin : lesson.admin});
 
 			$scope.removeLesson = function(lesson) {
 				$rootScope.$broadcast('showLoader', 'Удаление урока из базы данных');
