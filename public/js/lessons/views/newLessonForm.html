@@ -38,7 +38,7 @@
 					</select> -->
 					<ul class="types-list">
 						<li ng-repeat="type in types">
-							<input type="checkbox" ng-click="validateType(type)">
+							<input type="checkbox" name="type" ng-click="validateType(type)">
 							<span class="type-name">{{type.name}}</span>
 						</li>
 					</ul>
