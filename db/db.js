@@ -6,6 +6,16 @@ var Student = require('./models/student.js');
 var Event = require('./models/event.js');
 var GroupType = require('./models/group-type.js');
 
+var Stuff = require('./models/stuff');
+
+mongoose.connection.on('error',function (err) {
+	console.log(err + 'My method');
+});
+
+mongoose.connection.on('open',function (err) {
+	createStuffCollection();
+});
+
 function setDBConnection(app) {
 	var options = {
 		server: {
@@ -87,11 +97,24 @@ function fillInitialEventData() {
 	});
 }
 
+function createStuffCollection() {
+	mongoose.connection.db.listCollections({name : 'stuff'}).next(function (err,col) {
+		if(col){
+			return;
+		}
+		else {
+			mongoose.connection.db.createCollection('stuff');
+			new Stuff({name : 'Афанасий Фет',
+                type : 'teacher'}).save();
+		}
+    })
+}
+
 function fillInitialGroupTypeData() {
 	GroupType.find(function(err, groupTypes) {
 		if (err) console.log(err);
-		if (groupTypes.length) {
-			GroupType.remove(function(err, data) {
+		// if (groupTypes.length) { return}
+			// GroupType.remove(function(err, data) {
 				new GroupType({
 					type: 'intro',
 					name: 'Вводный',
@@ -122,11 +145,12 @@ function fillInitialGroupTypeData() {
 					name: 'Другое',
 					shortName: 'Д'
 				}).save();
-			});
-		};
+			// });
+		// };
 	});
 }
 
+module.exports.createStuffCollection = createStuffCollection;
 module.exports.setDBConnection = setDBConnection;
 module.exports.fillInitialStudentData = fillInitialStudentData;
 module.exports.fillInitialEventData = fillInitialEventData;

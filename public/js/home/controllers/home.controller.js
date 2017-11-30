@@ -43,7 +43,7 @@
 					}
 				}
 				$scope.currentMonth = currentMonths.join('-');
-				$http.get('/students').then(function(response) {
+				$http.get('students').then(function(response) {
 			 		$scope.students = response.data;
 			 		//set student group according last filled date of transition
 			 		_.each($scope.students, function(student) {
@@ -71,9 +71,9 @@
 			 				}
 			 			}
 			 		});
-					$http.get('/lessons').then(function(response) {
+					$http.get('lessons').then(function(response) {
 						var lessons = response.data;
-						$http.get('/grouptypes').then(function(response) {
+						$http.get('grouptypes').then(function(response) {
 							var groupTypes = response.data;
 							_.each($scope.students, function(student) {
 								student.visits = [];

@@ -7,6 +7,8 @@ var Lsrouter = require('./controllers/lessonsController');
 var GroupType = require('./db/models/group-type.js');
 var StuffRouter = require('./controllers/stuffController');
 
+var Stuff = require('./db/models/stuff');
+
 var app = express();
 
 db.setDBConnection(app);
@@ -19,13 +21,14 @@ app.use(express.static(path.join(__dirname,'/public')));
 app.use(bodyParser());
 
 app.use('/students?',Strouter);
-app.use('/stuff',StuffRouter);
 
 app.get('/grouptypes', function(req, res) {
     GroupType.find(function(err, groupTypes) {
         res.json(groupTypes);
     })
 });
+
+app.use('/stuff',StuffRouter);
 
 app.use('/lessons?',Lsrouter);
 

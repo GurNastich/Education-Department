@@ -4,11 +4,7 @@
 		<span class="search-icon"><i class="fa fa-search"></i></span>
 	</div>
 	<div class="date-filter">
-		<!-- <input class="form-control" datepicker-popup="d MMM y" is-open="fromOpen" ng-model="dateFrom" ng-click="toggleFromDataPicker()">
-		<input class="form-control" datepicker-popup="d MMM y" is-open="toOpen" ng-model="dateTo" ng-click="toggleToDataPicker()"> -->
-		<!-- <input class="form-control" type="date" ng-model="dateFrom" ng-change="fillTable()"> -->
 		<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="dateFrom" is-open="isDateFromPopupOpen" ng-click="openDateFromPopup()" ng-change="fillTable()">
-		<!-- <input class="form-control" type="date" ng-model="dateTo" ng-change="fillTable()"> -->
 		<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="dateTo" is-open="isDateToPopupOpen" ng-click="openDateToPopup()" ng-change="fillTable()">
 	</div>
 	<div class="group-filter">
