@@ -116,6 +116,11 @@ function fillInitialGroupTypeData() {
 		// if (groupTypes.length) { return}
 			// GroupType.remove(function(err, data) {
 				new GroupType({
+					type: 'prestudent',
+					name: 'Престьюдент',
+					shortName: 'ПС'
+				}).save();
+				new GroupType({
 					type: 'intro',
 					name: 'Вводный',
 					shortName: 'В'

@@ -11,6 +11,9 @@ var app = express();
 
 db.setDBConnection(app);
 
+// db.fillInitialStudentData();
+// db.fillInitialEventData();
+// db.fillInitialGroupTypeData();
 
 app.set('port', process.env.PORT || 3000);
 

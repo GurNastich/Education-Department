@@ -6,10 +6,7 @@
 			var month;
 			var days = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 			var months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-// $scope.options = {
-// 	initDate: new Date(2017, 3, 11)
-// }
-// $scope.dateDisplayFormat = 'dd-MMMM-yyyy';
+
 			$scope.dateFrom = new Date();	//Current date
 			$scope.dateFrom = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() - 1));
 			$scope.dateTo = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() + 1));	//+ 1 Month

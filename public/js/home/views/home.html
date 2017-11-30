@@ -13,8 +13,9 @@
 			<button class="btn btn-default" ng-click="filterTable('intro')">Вводный курс</button>
 			<button class="btn btn-default" ng-click="filterTable('young')">Молодёжная группа</button>
 			<button class="btn btn-default" ng-click="filterTable('club')">Каб Клуб</button>
-			<select class="form-control base-group-select" ng-change="filterTable(baseGroupFilter)" ng-model="baseGroupFilter">
-				<option ng-repeat="group in baseGroups">{{group}}</option>
+			<select class="form-control base-group-select" ng-change="filterTable(baseGroupFilter)" ng-model="baseGroupFilter" ng-options="group for group in baseGroups track by group">
+					<option value="" disabled selected>Базовый курс</option>
+				<!-- <option ng-repeat="group in baseGroups">{{group}}</option> -->
 			</select>
 		</div>
 	</div>
