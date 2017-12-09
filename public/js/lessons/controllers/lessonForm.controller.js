@@ -90,7 +90,7 @@
 				$http.post('stuff',{teachers : lesson.teachers, admin : lesson.admin});
 
 				if (lesson._id) {
-					$http.put('/lesson', {lesson: lesson}).then(function(resp) {
+					$http.put('lesson', {lesson: lesson}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
 						$state.go('lessons');
 					}, function(err) {
@@ -98,7 +98,7 @@
 						console.log(err);
 					});
 				} else {
-					$http.post('/lesson', {lesson: lesson}).then(function(resp) {
+					$http.post('lesson', {lesson: lesson}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
 						$state.go('lessons');
 					}, function(err) {
@@ -109,7 +109,7 @@
 			};
 
 			$scope.getGroupTypes = function() {
-				$http.get('/grouptypes').then(function(resp) {
+				$http.get('grouptypes').then(function(resp) {
 					// var types = [];
 					$scope.types = resp.data;
 	
@@ -133,7 +133,7 @@
 			};
 		
 			$scope.getStudents = function(types) {
-				 return $http.get('/students', {params:{types: types}}).then(function(resp) {
+				 return $http.get('students', {params:{types: types}}).then(function(resp) {
 					var students = _.map(resp.data, function(stud) {
 						return {
 							id: stud._id,
@@ -164,7 +164,7 @@
 				
 				if ($state.params.id) {
 					$rootScope.$broadcast('showLoader', 'Загрузка урока');
-					$http.get('/lesson', {params:{id: $state.params.id}}).then(function(resp) {
+					$http.get('lesson', {params:{id: $state.params.id}}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
 						$scope.lesson = resp.data[0];
 						$scope.lesson.date = new Date($scope.lesson.date);

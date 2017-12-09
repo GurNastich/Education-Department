@@ -25,7 +25,7 @@
 
 			$rootScope.$broadcast('showLoader', 'Загрузка уроков');
 
-			$http.get('/lessons').then(function(resp) {
+			$http.get('lessons').then(function(resp) {
 				$scope.lessons = mapLessons(resp.data);
 				$rootScope.$broadcast('hideLoader');
 			}, function(err) {
@@ -35,7 +35,7 @@
 
 			$scope.removeLesson = function(lesson) {
 				$rootScope.$broadcast('showLoader', 'Удаление урока из базы данных');
-				$http.delete('/lesson', {params:{id: lesson._id}}).then(function(resp) {
+				$http.delete('lesson', {params:{id: lesson._id}}).then(function(resp) {
 					$scope.lessons = mapLessons(resp.data);
 
 
