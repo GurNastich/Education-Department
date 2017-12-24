@@ -7,6 +7,41 @@
 			$scope.phoneError = [];
 			$scope.emailError = [];
 			$scope.FIO = '';
+
+			var checkGroup = function () {
+                if ($scope.student.transitions.toMainGroup) {
+                    $scope.student.group = {
+                        groupType: 'main',
+                        name: 'Основная группа'
+                    }
+                } else if ($scope.student.transitions.toYoungGroup) {
+                    $scope.student.group = {
+                        groupType: 'young',
+                        name: 'Молодёжная группа'
+                    }
+                } else if ($scope.student.transitions.toBaseGroup) {
+                    $scope.student.group = {
+                        groupType: 'base',
+                        name: 'Базовый'
+                    }
+                } else if ($scope.student.transitions.toIntroGroup) {
+                    $scope.student.group = {
+                        groupType: 'intro',
+                        name: 'Вводный'
+                    }
+                } else if ($scope.student.introLectionDate) {
+                    $scope.student.group = {
+                        groupType: 'prestudent',
+                        name: 'Престьюдент'
+                    }
+                }
+            };
+
+            $scope.isDatePopupOpen = false;
+
+            $scope.openDatePopup = function() {
+                $scope.isDatePopupOpen =! $scope.isDatePopupOpen
+            };
 			
 			$http.get('grouptypes').then(function(resp) {
 				$scope.groupTypes = resp.data;
@@ -35,32 +70,7 @@
 						}
 
 		 				//set student group according last filled date of transition
-			 			if ($scope.student.transitions.toMainGroup) {
-			 				$scope.student.group = {
-			 					groupType: 'main',
-			 					name: 'Основная группа'
-			 				}
-			 			} else if ($scope.student.transitions.toYoungGroup) {
-			 				$scope.student.group = {
-			 					groupType: 'young',
-			 					name: 'Молодёжная группа'
-			 				}
-			 			} else if ($scope.student.transitions.toBaseGroup) {
-			 				$scope.student.group = {
-			 					groupType: 'base',
-			 					name: 'Базовый'
-			 				}
-			 			} else if ($scope.student.transitions.toIntroGroup) {
-			 				$scope.student.group = {
-			 					groupType: 'intro',
-			 					name: 'Вводный'
-			 				}
-		 				} else if ($scope.student.introLectionDate) {
-							$scope.student.group = {
-								groupType: 'prestudent',
-								name: 'Престьюдент'
-							}
-						 }
+                        checkGroup();
 		 			}
 					var patronymic = $scope.student.patronymic ? $scope.student.patronymic : '';
 					$scope.FIO = $scope.student.lastName + ' ' + $scope.student.name + ' ' + patronymic;
@@ -117,12 +127,14 @@
 					delete student.group;
 				}
 
-        if (student.group) {
-          student.group = {
-            groupType: student.group.groupType,
-            name: _.find($scope.groupTypes, {type: student.group.groupType}).name
-          }
-        }
+        // if (student.group) {
+        //   student.group = {
+        //     groupType: student.group.groupType,
+        //     name: _.find($scope.groupTypes, {type: student.group.groupType}).name
+        //   }
+        // }
+
+		  checkGroup();
         $rootScope.$broadcast('showLoader', 'Сохранение студента в базу данных');
         if (student._id) {
           // var group = JSON.parse(student.group);
