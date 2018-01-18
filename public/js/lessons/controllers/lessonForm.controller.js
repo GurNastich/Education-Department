@@ -52,6 +52,8 @@
 
 			$scope.saveLesson = function(lesson) {
 				var validationError = false;
+				var date = moment(lesson.date,'D-MMM-YYYY');
+				$scope.lesson.date = date;
 
 				if (!$scope.newLessonForm.name.$viewValue) {
 					$scope.nameError = true;
@@ -198,7 +200,7 @@
 	
 						$scope.lesson.materials = lessonMaterials.materials;
 						$scope.lesson.criteria = $scope.lesson.criteria && $scope.lesson.criteria.length !== 0 ? $scope.lesson.criteria : lessonCriteria.criteria;
-						$scope.lesson.date = moment($scope.lesson.date.toLocaleString()).format('D-MMM-YYYY');
+						$scope.lesson.date = moment($scope.lesson.date).format('D-MMM-YYYY');
 	
 						$scope.lesson.studentsCount = resp.data[0].studentsCount ? resp.data[0].studentsCount : $scope.lesson.students.length;
 						$scope.lesson.guestsCount = resp.data[0].guestsCount ? resp.data[0].guestsCount : 0;
