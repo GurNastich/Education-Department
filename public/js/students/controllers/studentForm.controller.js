@@ -178,7 +178,7 @@
 				}
 
 				student.emails.push('');
-			}
+			};
 
 			$scope.checkEmptyFIO = function(val) {
 				$scope.FIOError = !val;

@@ -20,7 +20,8 @@ function setDBConnection(app) {
 	var options = {
 		server: {
 			socketOptions: { keepAlive: 1 } 
-		}
+		},
+		useMongoClient : true
 	};
 
 	switch(app.get('env')){

@@ -11,7 +11,7 @@ var stuffSchema = new mongoose.Schema({
     type: String
 });
 
-stuffSchema.statics.findByName = function (name) {
+stuffSchema.statics.findByStud_id = function (name) {
   return this.find({name : name})
 };
 

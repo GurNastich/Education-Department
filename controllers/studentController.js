@@ -27,12 +27,7 @@ Router.get('/',function(req,resp){
 });
 
 Router.put('/',function (req,resp) {
-    let updatedStudent = Student.updateStudent(req.body.student);
-    updatedStudent.then(function (stud) {
-        resp.send(200)
-    }).catch(function (err) {
-        resp.send(err)
-    });
+   Student.updateStudent(req.body.student,req,resp);
 });
 
 Router.delete('/',function (req,resp) {

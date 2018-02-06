@@ -5,6 +5,8 @@ var express = require('express');
 
 var Stuff = require('../db/models/stuff');
 
+var Black = require('../db/models/black-list');
+
 var Router = express.Router();
 
 Router.get('/teachers',function (req,resp) {
@@ -19,6 +21,27 @@ Router.get('/admins',function (req,resp) {
     })
 });
 
+Router.get('/black',function (req,resp) {
+    Black.findAllPopulate().exec((err,list) => {
+        if(err) console.log(err);
+        resp.json(list)
+    })
+});
+
+//Not used yet
+Router.post('/black',function (req,resp) {
+    if(req.body.student){
+        new Black({stud:req.body.student._id,
+            cause : req.body.cause,
+            date : new Date()}).save();
+    }
+});
+//Not used yet
+Router.post('/blackout',function (req,resp) {
+    if(req.body.student){
+        Black.outdate(req.body.student);
+    }
+});
 
 
 Router.post('/',function (req,resp) {
