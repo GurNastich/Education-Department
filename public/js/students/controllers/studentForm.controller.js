@@ -7,6 +7,25 @@
 			$scope.phoneError = [];
 			$scope.emailError = [];
 			$scope.FIO = '';
+			$scope.blpsw = 'drk';
+
+            // $scope.openBlack = function () {
+				// var modalInst = $uibModal.open({
+				// 	animation: true,
+				// 	ariaDescribedBy: 'modal-body',
+				// 	templateUrl: 'js/students/views/modalBlack.html',
+				// 	controller: this
+				// })
+            // };
+
+			$scope.getBlack = function (student) {
+					var pas = prompt('Введите пароль');
+					if(pas === $scope.blpsw){
+						student.black = !student.black;
+					}
+            };
+
+
 
 			var checkGroup = function () {
                 if ($scope.student.transitions.toMainGroup) {

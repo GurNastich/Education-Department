@@ -67,6 +67,9 @@ studentSchema.statics.updateStudent = function (student, req, resp) {
                     });
 				})
 			}
+			else {
+
+			}
         }
         resp.send(200);
     });
