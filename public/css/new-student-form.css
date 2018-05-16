@@ -36,13 +36,13 @@
     cursor: pointer;
 }
 
-.new-student-form .input-field {
-/*    width: 70%;
-    margin-right: 10px;
-    margin-bottom: 5px;*/
-    /*убрать у последнего*/
-}
-
 .new-student-form .btn-save-user {
 	margin-right: 15px;
+}
+
+
+.new-student-form .ui-select-container .ui-select-toggle {
+	background: #fff;
+	border:1px solid #ccc;
+	color: #333;
 }

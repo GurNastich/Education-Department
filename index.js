@@ -4,16 +4,13 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var Strouter = require('./controllers/studentController');
 var Lsrouter = require('./controllers/lessonsController');
-var GroupType = require('./db/models/group-type.js');
 var StuffRouter = require('./controllers/stuffController');
+var LessonType = require('./db/models/lesson-type.js');
+var StudentType = require('./db/models/student-type.js');
 
 var app = express();
 
 db.setDBConnection(app);
-
-// db.fillInitialStudentData();
-// db.fillInitialEventData();
-// db.fillInitialGroupTypeData();
 
 app.set('port', process.env.PORT || 3000);
 
@@ -24,9 +21,15 @@ app.use(bodyParser());
 app.use('/students?',Strouter);
 app.use('/stuff',StuffRouter);
 
-app.get('/grouptypes', function(req, res) {
-    GroupType.find(function(err, groupTypes) {
-        res.json(groupTypes);
+app.get('/lessontypes', function(req, res) {
+    LessonType.find(function(err, types) {
+        res.json(types);
+    })
+});
+
+app.get('/studenttypes', function(req, res) {
+    StudentType.find(function(err, types) {
+        res.json(types);
     })
 });
 

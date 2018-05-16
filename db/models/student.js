@@ -11,24 +11,19 @@ var studentSchema = new mongoose.Schema({
 		type: String,
 		requirde: true
 	},
+	patronymic: String,
 	agreementNum:String,
 	numberBSO:String,
 	black: Boolean,
-	patronymic: String,
 	phones: [String],
 	emails: [{
-		type: String,
-		match: /.+@.+\..+/,
-		lowercase: true
+		type: String
 	}],
 	profileLinks: [{
 		linkType: String,
 		linkName: String
 	}],
-	group: {
-		groupType: String,
-		name: String
-	},
+	type: String,
 	introLectionDate: Date,
 	transitions: {
 		toIntroGroup: Date,
@@ -82,9 +77,9 @@ studentSchema.statics.deleteAndFetchAll = function (id) {
     });
 };
 
-studentSchema.statics.getByType = function (types) {
-   return this.find({'group.groupType': {$in : types}});
-};
+// studentSchema.statics.getByType = function (types) {
+//    return this.find({'group.groupType': {$in : types}});
+// };
 
-var Student = mongoose.model('Student', studentSchema, 'students');
+var Student = mongoose.model('Student', studentSchema, 'student');
 module.exports = Student;

@@ -10,6 +10,7 @@
 	display: inline-block;;
 	vertical-align: top;
 	font-weight: normal;
+	cursor: pointer;
 }
 
 .new-lesson-form .student-list .student-search-field {
@@ -40,6 +41,14 @@
 	border-radius: 3px;
 }
 
+.new-lesson-form .student-list .add-student-input {
+	height: 37px;
+}
+
+.new-lesson-form .student-list .new-student-group {
+	margin-bottom: 15px;
+}
+
 .new-lesson-form .lesson-type-select {
 	height: 132px;
 }
@@ -51,13 +60,6 @@
 	border: 2px solid #dce4ec;
 	border-radius: 3px;
 	padding: 10px 15px;
-}
-
-.new-lesson-form .types-list .type-name {
-	font-weight: normal;
-}
-.new-lesson-form .types-list .type-name input {
-	margin-right: 5px;
 }
 
 .new-lesson-form .materials-list,
@@ -111,12 +113,22 @@
 	display: inline-block;
 }
 
+.new-lesson-form .lesson-timepicker tr.text-center {
+	display: none;
+}
+
 .new-lesson-form .lesson-timepicker input {
 	padding: 0;
 }
 
-.new-lesson-form .time-labels {
+.new-lesson-form .time-group {
 	padding: 0;
+	width: 30%;
+	display: inline-block;
+}
+
+.new-lesson-form .time-labels .time-label {
+	display: block;
 }
 
 .new-lesson-form .students-count-container {
@@ -130,4 +142,25 @@
 
 .new-lesson-form .guest-header {
 	margin-right: 15px;
+}
+
+.new-lesson-form .ui-select-container .ui-select-toggle {
+	background: #fff;
+	border:1px solid #ccc;
+	border-radius: 4px;
+	color: #333;
+}
+
+.new-lesson-form .input-group-btn .btn {
+	height: 34px;;
+}
+
+.new-lesson-form .error-message {
+	text-align: center;
+	padding: 10px;
+	background: #f8d7da;
+	border-color: #f5c6cb;
+	color: #721c24;
+	margin-bottom: 15px;
+	border-radius: 4px;
 }

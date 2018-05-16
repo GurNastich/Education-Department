@@ -28,12 +28,10 @@
 				<div class="form-group">
 					<label>Номер договороа</label>
 					<input class="form-control" type="text" name="agreementNum" ng-model="student.agreementNum" >
-					<span class="required-field-error-hint" ng-show="FIOError">* Фимилия и имя обязательны</span>
 				</div>
 				<div class="form-group">
 					<label>Номер БСО</label>
-					<input class="form-control" ng-class="{'error': FIOError}" type="text" name="numberBSO" ng-model="student.numberBSO">
-					<span class="required-field-error-hint" ng-show="FIOError">* Фимилия и имя обязательны</span>
+					<input class="form-control" ype="text" name="numberBSO" ng-model="student.numberBSO">
 				</div>
 			</div>
 			<div class="col-xs-4">
@@ -49,8 +47,14 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label>Группа</label>
-					<input class="form-control" type="text" name="group" ng-model="student.group.name" disabled>
+					<label>Тип</label>
+					<ui-select ng-model="student.type" ng-class="{'error': typeError}" on-select="selectType($item, $model)">
+						<ui-select-match placeholder="Тип...">{{$select.selected}}</ui-select-match>
+						<ui-select-choices repeat="type in studentTypes | filter:$select.search">
+							<div>{{type}}</div>
+						</ui-select-choices>
+					</ui-select>
+					<span class="required-field-error-hint" ng-show="typeError">* Группа студента обязательна</span>
 				</div>
 				<div class="form-group checkbox" ng-click="getBlack(student)">
 					<label>

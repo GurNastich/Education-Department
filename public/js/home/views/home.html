@@ -10,13 +10,15 @@
 	<div class="group-filter">
 		<div class="btn-group">
 			<button class="btn btn-default" ng-click="filterTable('all')">Все студенты</button>
-			<button class="btn btn-default" ng-click="filterTable('intro')">Вводный курс</button>
-			<button class="btn btn-default" ng-click="filterTable('young')">Молодёжная группа</button>
-			<button class="btn btn-default" ng-click="filterTable('club')">Каб Клуб</button>
+			<!-- <button class="btn btn-default" ng-click="filterTable('intro')">Вводный курс</button> -->
+			<button class="btn btn-default" ng-click="filterTable('Молодежная группа')">Молодёжная группа</button>
+			<!-- <button class="btn btn-default" ng-click="filterTable('Каббклуб')">Каб Клуб</button> -->
 			<select class="form-control base-group-select" ng-change="filterTable(baseGroupFilter)" ng-model="baseGroupFilter" ng-options="group for group in baseGroups track by group">
 					<option value="" disabled selected>Базовый курс</option>
-				<!-- <option ng-repeat="group in baseGroups">{{group}}</option> -->
 			</select>
+			<select class="form-control base-group-select" ng-change="filterTable(introGroupFilter)" ng-model="introGroupFilter" ng-options="group for group in introGroups track by group">
+				<option value="" disabled selected>Вводный курс</option>
+		</select>
 		</div>
 	</div>
 </div>
@@ -44,7 +46,7 @@
 			<li class="student" ng-repeat="student in students | filter:searchText">
 				<div class="student-name"><a href="" ng-click="openStudentForm(student)" title="{{student.lastName}}&nbsp;{{student.name}}">{{student.lastName}}&nbsp;{{student.name}}</a></div>
 				<div class="group-name" title="{{student.groupView}}">{{student.groupView}}</div>
-				<div ng-repeat="visit in student.visits" class={{visit.typeClass}}>{{visit.type}}</div>
+				<div ng-repeat="visit in student.visits" class="visit-cell {{visit.typeClass}}">{{visit.type}}</div>
 			</li>
 		</ul>
 	</div>

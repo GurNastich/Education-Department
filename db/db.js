@@ -1,12 +1,70 @@
 //Libs
-var credentials = require('./../credentials.js');	//connections strings
-var mongoose = require('mongoose');							//DB driver
-//DB models
-var Student = require('./models/student.js');
-var Event = require('./models/event.js');
-var GroupType = require('./models/group-type.js');
+let credentials = require('./../credentials.js');	//connections strings
+let mongoose = require('mongoose');					//DB driver
+let _ = require('lodash');
 
-var Stuff = require('./models/stuff');
+//DB models
+let Student = require('./models/student.js');
+let Event = require('./models/event.js');
+let LessonType = require('./models/lesson-type.js');
+let StudentType = require('./models/student-type.js');
+let Stuff = require('./models/stuff');
+
+const lessonTypes = [{
+	type: 'intro',
+	name: 'Вводный',
+	shortName: 'В'
+}, {
+	type: 'base',
+	name: 'Базовый',
+	shortName: 'Б'
+}, {
+	type: 'young',
+	name: 'Молодежная группа',
+	shortName: 'МГ'
+}, {
+	type: 'club',
+	name: 'КаббКлуб',
+	shortName: 'К'
+}, {
+	type: 'women',
+	name: 'Женское собрание',
+	shortName: 'ЖС'
+}, {
+	type: 'another',
+	name: 'Другое',
+	shortName: 'Д'
+}, {
+	type: 'baseAndYoung',
+	name: 'Базовый + Молодежная группа',
+	shortName: 'Б + М'
+}];
+
+
+const studentTypes = ['Престьюдент', 'Вводный', 'Базовый', 'Молодежная группа', 'Основная', 'Френдли', 'Отказ'];
+
+// const studentTypes = [{
+// 	type: 'prestudent',
+// 	name: 'Престьюдент'
+// }, {
+// 	type: 'intro',
+// 	name: 'Вводный'
+// }, {
+// 	type: 'base',
+// 	name: 'Базовый'
+// }, {
+// 	type: 'young',
+// 	name: 'Молодежная группа'
+// }, {
+// 	type: 'main',
+// 	name: 'Основная'
+// }, {
+// 	type: 'friendly',
+// 	name: 'Френдли'
+// }, {
+// 	type: 'refuse',
+// 	name: 'Отказ'
+// }];
 
 mongoose.connection.on('error',function (err) {
 	console.log(err + 'My method');
@@ -14,6 +72,10 @@ mongoose.connection.on('error',function (err) {
 
 mongoose.connection.on('open',function (err) {
 	createStuffCollection();
+	createLessonTypeCollection();
+	createStudentTypeCollection();
+	createEventCollection();
+	createStudentCollection();
 });
 
 function setDBConnection(app) {
@@ -36,68 +98,6 @@ function setDBConnection(app) {
 	}
 }
 
-function fillInitialStudentData() {
-//Fill some data if no any
-	Student.find(function(err, students) {
-		if (err) console.log(err);
-		if (students.length) return;
-
-
-		new Student({
-		name: 'Анастасия',
-		lastName: 'Гуревич',
-		patronymic: 'Андреевна',
-		phones: ['8-921-774-19-62'],
-		emails: ['gurevich.anastasiya@gmail.com','ngurevich23@mail.ru'],
-		profileLinks: [{
-			linkType: 'VK',
-			linkName: 'https://vk.com/id43524735'
-		}, {
-			linkType: 'Facebook',
-			linkName: 'https://www.facebook.com/profile.php?id=100009485595004'
-		}],
-		group: {groupType: 'base', name: 'Базовый'},
-		introLectionDate: new Date(2016, 2, 10),
-		transitions: {
-			toBaseGroup: new Date(2016, 3, 14)	//14 April 2016
-		}
-}).save();
-	});
-}
-
-function fillInitialEventData() {
-//Fill some data if no any
-	Event.find(function(err, events) {
-		if (err) console.log(err);
-		if (events.length) return;
-
-		new Event({
-			admin: "Вика Евдокимова",
-			date: "2017-03-15T21:00:00.000Z",
-			description: "Совместное занятие с МГ",
-			groups: [{
-				groupType: "base", 
-				name: "Базовый"
-			}],
-			name: "Предисловие к ТЭ\"С, пункты 51-54",
-			students: [],
-			teachers: ["Тимур Абдулкадыров", "Андрей Гумиров"]
-		}).save();
-
-		// new Event({
-		// 	name: 'Урок Зоар',
-		// 	type: 'Урок молодёжной группы',
-		// 	date: new Date(2017, 3, 2),	//2 March 2017
-		// 	startTime: new Date(2017, 3, 2),
-		// 	endTime: new Date(2017, 3, 2),
-		// 	description: 'Полчаса собрание молодёжной группы, затем урок Зоар с Равом',
-		// 	teachers: ['Иванов', 'Петров'],
-		// 	administrators: ['Вика'],
-		// 	students: ['589ef5818f7c81228090fb46']
-		// }).save();
-	});
-}
-
 function createStuffCollection() {
 	mongoose.connection.db.listCollections({name : 'stuff'}).next(function (err,col) {
 		if(col){
@@ -108,56 +108,98 @@ function createStuffCollection() {
 			new Stuff({name : 'Афанасий Фет',
                 type : 'teacher'}).save();
 		}
-    })
+    });
 }
 
-function fillInitialGroupTypeData() {
-	GroupType.find(function(err, groupTypes) {
-		if (err) console.log(err);
-		// if (groupTypes.length) { return}
-			// GroupType.remove(function(err, data) {
-				new GroupType({
-					type: 'prestudent',
-					name: 'Престьюдент',
-					shortName: 'ПС'
+function createLessonTypeCollection() {
+	mongoose.connection.db.listCollections({name : 'lessonType'}).next(function (err,col) {
+		if(col){
+			return;
+		}
+		else {
+			mongoose.connection.db.createCollection('lessonType');
+			_.each(lessonTypes, lesson => {
+				new LessonType({
+					type : lesson.type,
+					name : lesson.name,
+					shortName: lesson.shortName
 				}).save();
-				new GroupType({
-					type: 'intro',
-					name: 'Вводный',
-					shortName: 'В'
-				}).save();
-				new GroupType({
-					type: 'base',
-					name: 'Базовый',
-					shortName: 'Б'
-				}).save();
-				new GroupType({
-					type: 'young',
-					name: 'Молодёжная группа',
-					shortName: 'М'
-				}).save();
-				new GroupType({
-					type: 'main',
-					name: 'Основная группа',
-					shortName: 'О'
-				}).save();
-				new GroupType({
-					type: 'club',
-					name: 'Каб. клуб',
-					shortName: 'К'
-				}).save();
-				new GroupType({
-					type: 'another',
-					name: 'Другое',
-					shortName: 'Д'
-				}).save();
-			// });
-		// };
-	});
+			});
+		}
+    });
 }
 
-module.exports.createStuffCollection = createStuffCollection;
+function createStudentTypeCollection() {
+	mongoose.connection.db.listCollections({name : 'studentType'}).next(function (err,col) {
+		if(col){
+			return;
+		}
+		else {
+			mongoose.connection.db.createCollection('studentType');
+			_.each(studentTypes, type => {
+				new StudentType({
+					type : type
+				}).save();
+			});
+		}
+    });
+}
+
+function createStudentCollection() {
+	mongoose.connection.db.listCollections({name : 'student'}).next(function (err,col) {
+		if (col){
+			return;
+		}
+		else {
+			mongoose.connection.db.createCollection('student');
+			new Student({
+				name : 'Светлана',
+				lastName : 'Закирьянова',
+				patronymic: 'Андреевна',
+				agreementNum: '9991122',
+				numberBSO: '90-673AB',
+				phones: ['8-921-774-19-62'],
+				emails: ['gurevich.anastasiya@gmail.com','ngurevich23@mail.ru'],
+				profileLinks: [{
+					linkType: 'VK',
+					linkName: 'https://vk.com/id43524735'
+				}, {
+					linkType: 'Facebook',
+					linkName: 'https://www.facebook.com/profile.php?id=100009485595004'
+				}],
+				group: 'base',
+				introLectionDate: new Date(2016, 2, 10),
+				transitions: {
+					toBaseGroup: new Date(2016, 3, 14)	//14 April 2016
+				}
+			}).save();
+		}
+    });
+}
+
+function createEventCollection() {
+	mongoose.connection.db.listCollections({name : 'event'}).next(function (err,col) {
+		if (col){
+			return;
+		}
+		else {
+			mongoose.connection.db.createCollection('event');
+			new Event({
+				name: "Предисловие к ТЭ\"С, пункты 51-54",
+				type: "base",
+				number: "2",
+				// groups: [{
+				// 	groupType: "base", 
+				// 	name: "Базовый"
+				// }],
+				date: "2017-03-15T21:00:00.000Z",
+				admin: "Вика Евдокимова",
+				description: "Рабаш письмо 48",
+				students: [],
+				teachers: ["Тимур Абдулкадыров", "Андрей Гумиров"]
+			}).save();
+		}
+    });
+}
+
 module.exports.setDBConnection = setDBConnection;
-module.exports.fillInitialStudentData = fillInitialStudentData;
-module.exports.fillInitialEventData = fillInitialEventData;
-module.exports.fillInitialGroupTypeData = fillInitialGroupTypeData;

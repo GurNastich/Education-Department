@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('studentsModule')
-		.controller('studentFormController', function($scope, $http, $state, $stateParams, $rootScope, notificationService) {
+		.controller('studentFormController', function($scope, $http, $state, $stateParams, $rootScope, notificationService, EduLists) {
 
 			$scope.phoneError = [];
 			$scope.emailError = [];
@@ -20,52 +20,19 @@
 
 			$scope.getBlack = function (student) {
 					var pas = prompt('Введите пароль');
-					if(pas === $scope.blpsw){
+					if(pas === $scope.blpsw) {
 						student.black = !student.black;
 					}
-            };
+      };
 
+      $scope.isDatePopupOpen = false;
 
-
-			var checkGroup = function () {
-                if ($scope.student.transitions.toMainGroup) {
-                    $scope.student.group = {
-                        groupType: 'main',
-                        name: 'Основная группа'
-                    }
-                } else if ($scope.student.transitions.toYoungGroup) {
-                    $scope.student.group = {
-                        groupType: 'young',
-                        name: 'Молодёжная группа'
-                    }
-                } else if ($scope.student.transitions.toBaseGroup) {
-                    $scope.student.group = {
-                        groupType: 'base',
-                        name: 'Базовый'
-                    }
-                } else if ($scope.student.transitions.toIntroGroup) {
-                    $scope.student.group = {
-                        groupType: 'intro',
-                        name: 'Вводный'
-                    }
-                } else if ($scope.student.introLectionDate) {
-                    $scope.student.group = {
-                        groupType: 'prestudent',
-                        name: 'Престьюдент'
-                    }
-                }
-            };
-
-            $scope.isDatePopupOpen = false;
-
-            $scope.openDatePopup = function() {
-                $scope.isDatePopupOpen =! $scope.isDatePopupOpen
-            };
+      $scope.openDatePopup = function() {
+        $scope.isDatePopupOpen =! $scope.isDatePopupOpen
+			};
 			
-			$http.get('grouptypes').then(function(resp) {
-				$scope.groupTypes = resp.data;
-			}, function(err) {
-				console.log(err);
+			EduLists.getStudentTypes().then(function(resp) {
+				$scope.studentTypes = resp;
 			});
       
       if ($state.params.id) {
@@ -86,10 +53,7 @@
 						}
 						if ($scope.student.transitions.toMainGroup) {
 							$scope.student.transitions.toMainGroup = new Date($scope.student.transitions.toMainGroup);
-						}
-
-		 				//set student group according last filled date of transition
-                        checkGroup();
+						}	
 		 			}
 					var patronymic = $scope.student.patronymic ? $scope.student.patronymic : '';
 					$scope.FIO = $scope.student.lastName + ' ' + $scope.student.name + ' ' + patronymic;
@@ -126,7 +90,12 @@
         if (!$scope.newStudent.FIO.$viewValue || FIOArray.length < 2) {	//empty or only name(lastname required)
           $scope.FIOError = true;
           validationError = true;
-        }
+				}
+				
+				if (!student.type) {
+					$scope.typeError = true;
+					validationError = true;
+				}
 
         if (student.phones.length > 1 && !student.phones[student.phones.length - 1]) {
           $scope.phoneError[student.phones.length - 1] = true;
@@ -141,22 +110,9 @@
         student.lastName = FIOArray[0];
         student.name = FIOArray[1];
 				student.patronymic = FIOArray[2] ? FIOArray[2] : '';
-				
-				if (!student.introLectionDate && !student.transitions.toBaseGroup && !student.transitions.toIntroGroup && !student.transitions.toYoungGroup && !student.transitions.toMainGroup) {
-					delete student.group;
-				}
 
-        // if (student.group) {
-        //   student.group = {
-        //     groupType: student.group.groupType,
-        //     name: _.find($scope.groupTypes, {type: student.group.groupType}).name
-        //   }
-        // }
-
-		  checkGroup();
         $rootScope.$broadcast('showLoader', 'Сохранение студента в базу данных');
         if (student._id) {
-          // var group = JSON.parse(student.group);
           $http.put('student', {student:student}).then(function(resp) {
             $rootScope.$broadcast('hideLoader');
             $state.go('students');
@@ -220,6 +176,10 @@
 
 			$scope.removeItem = function(array, index) {
 				array.splice(index, 1);
+			};
+
+			$scope.selectType = function() {
+				$scope.typeError = false;
 			};
     });
   })(angular);

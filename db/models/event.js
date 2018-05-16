@@ -6,15 +6,12 @@ var eventSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	type: String,
 	number: String,
-	// type: {
-	// 	type: String,
-	// 	required: true
-	// },
-	groups: [{
-		groupType: String,
-		name: String
-	}],
+	// groups: [{
+	// 	groupType: String,
+	// 	name: String
+	// }],
 	date: {
 		type: Date,
 		required: true
@@ -24,7 +21,6 @@ var eventSchema = new mongoose.Schema({
 	description: String,
 	teachers: [String],
 	admin: String,
-	//students: [{ type: Schema.Types.ObjectId, ref: 'Student' }]
 	students: [{
 		id: String,
 		name: String,
@@ -41,8 +37,6 @@ var eventSchema = new mongoose.Schema({
 	}],
 	studentsCount: Number,
 	guestsCount: Number
-	// students: [Student.studentSchema],	//from edx course
-	// marks: [{name: String, value: Number}]	//mixed
 });
 
 eventSchema.statics.deleteAndFetchAll = function (id) {
@@ -60,6 +54,6 @@ eventSchema.statics.updateById = function (event) {
 	return this.update({_id : event._id},event);
 };
 
-var Event = mongoose.model('Event', eventSchema);
+var Event = mongoose.model('Event', eventSchema, 'event');
 
 module.exports = Event;

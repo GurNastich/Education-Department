@@ -13,36 +13,62 @@
 				</div>
 				<div class="form-group">
 					<label>Преподаватель №1</label>
-					<input class="form-control" type="text" ng-model="lesson.teachers[0]"  list='teacher'>
-					<datalist id="teacher" >
-						<option ng-repeat="val in teachers" value="{{val.name}}">{{val.name}}</option>
-					</datalist>
+
+					<ui-select ng-model="lesson.teachers[0]">
+						<ui-select-match placeholder="Преподаватель...">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="teacher in getTeacher($select.search) | filter:$select.search">
+							<div>{{teacher.name}}</div>
+						</ui-select-choices>
+					</ui-select>
 				</div>
 				<div class="form-group">
 					<label>Преподаватель №2</label>
-					<input class="form-control" type="text" ng-model="lesson.teachers[1]" list='teacher'>
+					<ui-select ng-model="lesson.teachers[1]">
+						<ui-select-match placeholder="Преподаватель...">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="teacher in getTeacher($select.search) | filter:$select.search">
+							<div>{{teacher.name}}</div>
+						</ui-select-choices>
+					</ui-select>
 				</div>
 				<div class="form-group">
 					<label>Администратор</label>
-					<input class="form-control" type="text" ng-model="lesson.admin" list="admin">
-					<datalist id="admin" >
-						<option ng-repeat="val in admins" value="{{val.name}}">{{val.name}}</option>
-					</datalist>
+					<ui-select ng-model="lesson.admin" tagging="true">
+						<ui-select-match placeholder="Администратор...">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="admin in getAdmin($select.search) | filter:$select.search">
+							<div>{{admin.name}}</div>
+						</ui-select-choices>
+					</ui-select>
 				</div>
 				<div class="form-group">
 					<label>Дата</label>
 					<input type="text" class="form-control" ng-class="{'error': dateError}" name="date" datepicker-popup="dd-MMMM-yyyy" ng-model="lesson.date" is-open="isDatePopupOpen" ng-click="openDatePopup()" ng-change="validateDate(lesson.date)">
 					<span class="required-field-error-hint" ng-show="dateError">* Обязательное поле</span>
 				</div>
+				<div class="form-group">
+					<div class="header-materials-list">На уроке использовались:</div>
+					<ul class="materials-list">
+						<li class="form-group" ng-repeat="item in lesson.materials">
+							<label>
+								<input type="checkbox" ng-model="item.selected">
+								{{item.name}}
+							</label>
+						</li>
+					</ul>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-success btn-save-lesson" ng-click="saveLesson(lesson)">Сохранить</button>
+					<a href="" class="btn btn-danger">Отмена</a>
+				</div>
 			</div>
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Тип</label>
-					<ul class="types-list" ng-class="{'error': typeError}">
-						<li ng-repeat="type in types">
-							<label class="type-name"><input type="checkbox" ng-model="type.selected" ng-click="validateType(type)" ng-disabled="type.disabled">{{type.name}}</label>
-						</li>
-					</ul>
+					<ui-select ng-model="lesson.type" ng-class="{'error': typeError}" on-select="selectType()">
+						<ui-select-match placeholder="Тип урока...">{{$select.selected.name}}</ui-select-match>
+						<ui-select-choices repeat="type in types | filter:$select.search">
+							<div>{{type.name}}</div>
+						</ui-select-choices>
+					</ui-select>
 					<span class="required-field-error-hint" ng-show="typeError">* Обязательное поле</span>
 				</div>
 				<div class="form-group">
@@ -50,20 +76,23 @@
 					<textarea class="form-control lesson-comment" placeholder="Описание урока" ng-model="lesson.description"></textarea>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-6 time-labels">
-						<label>Время начала</label>
+					<div class="time-group">
+						<label class="time-label">Время начала</label>
+						<div timepicker class="lesson-timepicker" ng-model="lesson.startTime" show-meridian="false" show-spinners="false"></div>
 					</div>
-					<div class="col-xs-6 time-labels">
-						<label>Время окончания</label>
+					<div class="time-group">
+						<label class="time-label">Время окончания</label>
+						<div timepicker class="lesson-timepicker" ng-model="lesson.endTime" show-meridian="false" show-spinners="false"></div>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-6">
-						<div timepicker class="lesson-timepicker" ng-model="lesson.startTime" show-meridian="false" show-spinners="false"></div>
-					</div>
-					<div class="col-xs-6">
-						<div timepicker class="lesson-timepicker" ng-model="lesson.endTime" show-meridian="false" show-spinners="false"></div>
-					</div>
+					<div class="header-criteria-list">Субъективные показатели [от 1 до 10]:</div>
+					<ul class="criteria-list">
+						<li class="form-group" ng-repeat="item in lesson.criteria">
+							<input class="value" type="text" ng-model="item.value">
+							<label class="criteria-label">{{item.name}}</label>
+						</li>
+					</ul>
 				</div>
 			</div>
 			<div class="col-xs-4">
@@ -71,47 +100,31 @@
 				<label class="guest-header pull-right">Гость</label>
 				<div class="student-list">
 					<div class="student-list-loader" ng-show="showSpin"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
-					<input type="text" name="" class="form-control student-search-field" ng-model="studentSearch" placeholder="Поиск студента">
-					<!-- <input type="text" ng-show="showNewStudent" ng-model="newStudent">
-					<button ng-show="showNewStudent" ng-click="addNewStudent()"><i class="fa fa-check"></i></button> -->
-					<div ng-repeat="student in students | filter:studentSearch">
+					<input type="text" class="form-control student-search-field" ng-show="lesson.isNew" ng-model="studentSearch" placeholder="Найти студента">
+					<div class="input-group new-student-group" ng-show="!lesson.isNew">
+						<!-- <input type="text" class="form-control add-student-input" placeholder="Добавить студента"> -->
+						<ui-select ng-model="lesson.newStudent">
+							<ui-select-match placeholder="Добавить студента...">{{$select.selected.lastName}} {{$select.selected.name}}</ui-select-match>
+							<ui-select-choices repeat="student in students | filter:$select.search">
+								<div>{{student.lastName}} {{student.name}}</div>
+							</ui-select-choices>
+						</ui-select>
+						<div class="input-group-btn"><button class="btn " ng-click="addStudent()">Добавить</button>></div>
+					</div>
+					<div class="error-message" ng-show="showAddStudentError">
+						{{errorText}}
+					</div>
+					<div ng-repeat="student in lesson.students | filter:studentSearch">
 						<label class="student-name"><input class="visit-checkbox" type="checkbox" ng-model="student.visit" ng-click="setStudentsCount(student.visit)">{{student.lastName}} {{student.name}}</label>
 						<input class="pull-right" type="checkbox" ng-model="student.guest" ng-click="setGuestsCount(student.guest)" ng-disabled="!student.visit">
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-xs-4">
-				<div class="header-materials-list">На уроке использовались:</div>
-				<ul class="materials-list">
-					<li class="form-group" ng-repeat="item in lesson.materials">
-						<label>
-							<input type="checkbox" ng-model="item.selected">
-							{{item.name}}
-						</label>
-					</li>
-				</ul>
-				<div>
-					<button class="btn btn-success btn-save-lesson" ng-click="saveLesson(lesson)">Сохранить</button>
-					<a href="" class="btn btn-danger">Отмена</a>
-				</div>
-			</div>
-			<div class="col-xs-4">
-				<div class="header-criteria-list">Субъективные показатели [от 1 до 10]:</div>
-				<ul class="criteria-list">
-					<li class="form-group" ng-repeat="item in lesson.criteria">
-						<input class="value" type="text" ng-model="item.value">
-						<label class="criteria-label">{{item.name}}</label>
-					</li>
-				</ul>
-			</div>
-			<div class="col-xs-4">
 				<div class="students-count-container">
 					<div>Количество студентов:&nbsp;&nbsp;{{lesson.studentsCount}}</div>
 					<div>Количество гостей:&nbsp;&nbsp;{{lesson.guestsCount}}</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</form>
 	<!-- Do not remove!!! for user right in the future -->

@@ -20,9 +20,6 @@
 	angular.module('lessonsModule')
 		.controller('lessonsController', function($scope, $http, $state, $rootScope) {
 
-
-
-
 			$rootScope.$broadcast('showLoader', 'Загрузка уроков');
 
 			$http.get('lessons').then(function(resp) {

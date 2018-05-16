@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module('lessonsModule')
-		.controller('lessonFormController', function($scope, $http, $state, $rootScope, lessonMaterials, lessonCriteria) {
+		.controller('lessonFormController', function($scope, $http, $state, $rootScope, $timeout, lessonMaterials, lessonCriteria, EduLists) {
 
 			$scope.openDatePopup = function() {
 				$scope.isDatePopupOpen =! $scope.isDatePopupOpen
@@ -15,35 +15,9 @@
 			$scope.setGuestsCount = function(selected) {
 				$scope.lesson.guestsCount = selected ? $scope.lesson.guestsCount+=1 : $scope.lesson.guestsCount-=1;
 			};
-
-			// $scope.addNewStudent = function() {
-			// 	$scope.addNewStudent = '';
-			// 	$scope.showNewStudent = false;
-			// };
 			
 			$scope.validateName = function(val) {
 				$scope.nameError = !val;
-			};
-
-			$scope.validateType = function(val) {
-				$scope.typeError = false;
-
-				if (!val.selected) {
-					_.remove($scope.students, {type: val.type});
-					_.remove($scope.lesson.groups, {type: val.type});			
-					return;
-				}
-
-				$scope.lesson.groups.push(val);
-
-				$scope.showSpin = true;
-				$scope.getStudents(val.type).then(function(studs) {
-					_.each(studs, function(s) {
-						s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
-					});
-					$scope.students = $scope.students.concat(studs);
-					$scope.showSpin = false;
-				});
 			};
 
 			$scope.validateDate = function(val) {
@@ -59,7 +33,7 @@
 					$scope.nameError = true;
 					validationError = true;
 				}
-				if ($scope.lesson.groups.length === 0) {
+				if (!$scope.lesson.type) {
 					$scope.typeError = true;
 					validationError = true;
 				}
@@ -72,6 +46,12 @@
 					return;
 				}
 
+				var teachers = _.map(lesson.teachers, 'name');
+				var admin = lesson.admin ? lesson.admin.name : "";
+
+				//save teachers and admin
+				$http.post('stuff',{teachers : teachers, admin : admin});
+
 				lesson.students = _.filter($scope.students, {visit: true});
 				lesson.students = _.map(lesson.students, function(s) {
 					return {
@@ -80,17 +60,16 @@
 						lastName: s.lastName
 					}
 				});
-				lesson.groups = _.map(lesson.groups, function(group) {
-					return {
-						groupType: group.type,
-						name: _.find($scope.types, {type: group.type}).name
-					}
-				});
+				
+				//Map from select control
+				lesson.type = lesson.type.name;
+				lesson.teachers[0] = lesson.teachers[0] ? lesson.teachers[0].name : '';
+				lesson.teachers[1] = lesson.teachers[1] ? lesson.teachers[1].name : '';
+				lesson.admin = lesson.admin.name;
+
 				lesson.materials = _.filter(lesson.materials, {selected: true});
 				$rootScope.$broadcast('showLoader', 'Сохранение урока');
 				
-				$http.post('stuff',{teachers : lesson.teachers, admin : lesson.admin});
-
 				if (lesson._id) {
 					$http.put('lesson', {lesson: lesson}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
@@ -109,39 +88,15 @@
 					});
 				}
 			};
-
-			$scope.getGroupTypes = function() {
-				$http.get('grouptypes').then(function(resp) {
-					// var types = [];
-					$scope.types = resp.data;
-	
-					// _.each($scope.types, function(type) {
-					// 	if (_.find($scope.lesson.groups, {type: type.type})) {
-					// 		type.selected = true;
-					// 		types.push(type.type);
-					// 	}
-					// });
-	
-					// $scope.getStudents(types).then(function(studs) {
-					// 	_.each(studs, function(s) {
-					// 		s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
-					// 	});
-					// 	$scope.students = studs;
-					// });
-	
-				}, function(err) {
-					console.log(err);
-				});
-			};
 		
-			$scope.getStudents = function(types) {
-				 return $http.get('students', {params:{types: types}}).then(function(resp) {
+			$scope.getStudents = function() {
+				 return $http.get('students').then(function(resp) {
 					var students = _.map(resp.data, function(stud) {
 						return {
 							id: stud._id,
 							name: stud.name,
 							lastName: stud.lastName,
-							type: stud.group ? stud.group.groupType : 'Неизвестная группа'
+							type: stud.type
 						}
 					});
 					return students;
@@ -149,13 +104,68 @@
 					console.log(err);
 				});
 			};
+
+			$scope.selectType = function() {
+				$scope.typeError = false;
+			};
+
+			$scope.addStudent = function() {
+				var newStudent = $scope.lesson.newStudent;
+
+				if (_.find($scope.lesson.students, {id: newStudent.id})) {
+					$scope.errorText = "Студент уже присутствует в списке студентов данного урока";
+					$scope.showAddStudentError = true;
+					$timeout(function() {
+						$scope.showAddStudentError = false;
+					}, 5000);
+					return;
+				}
+
+				$scope.lesson.students.push({id: newStudent.id, name: newStudent.name, lastName: newStudent.lastName, visit: true});
+				$scope.lesson.newStudent = '';
+			};
+
+			$scope.getAdmin = function(search) {
+				if (!$scope.admins) {
+					return;
+				}
+
+				var newAdmins = $scope.admins;
+				if (search && !_.find(newAdmins, {name: search})) {
+					newAdmins.shift();
+					newAdmins.unshift({name: search});
+				}
+				return newAdmins;
+			};
+
+			$scope.getTeacher = function(search) {
+				if (!$scope.teachers) {
+					return;
+				}
+
+				var newTeachers = $scope.teachers;
+				if (search && !_.find(newTeachers, {name: search})) {
+					newTeachers.shift();
+					newTeachers.unshift({name: search});
+				}
+				return newTeachers;
+			};
 			
 			function init() {
 
-				// $scope.showNewStudent = false;
 				$scope.isDatePopupOpen = false;
+				
+				EduLists.getLessonTypes().then(function(resp) {
+					$scope.types = resp;
+				});
 
-				$scope.getGroupTypes();
+				$scope.getStudents().then(function(resp) {
+					$scope.students = resp;
+					if ($scope.lesson.isNew) {
+						$scope.lesson.students = resp;
+					}
+				});
+
 				$http.get('stuff/teachers').then(function (resp) {
 					$scope.teachers = resp.data;
 				});
@@ -168,32 +178,23 @@
 					$rootScope.$broadcast('showLoader', 'Загрузка урока');
 					$http.get('lesson', {params:{id: $state.params.id}}).then(function(resp) {
 						$rootScope.$broadcast('hideLoader');
+						
+						//map lesson and response
 						$scope.lesson = resp.data[0];
+						$scope.lesson.isNew = false;
 						$scope.lesson.date = new Date($scope.lesson.date);
-						$scope.students = [];
-						$scope.lesson.groups = _.map($scope.lesson.groups, function(g) {
-							return {
-								name: g.name,
-								type: g.groupType
-							}
+
+						//Init selects
+						$scope.lesson.type = _.find($scope.types, {name: $scope.lesson.type});
+						$scope.lesson.teachers[0] = _.find($scope.teachers, {name: $scope.lesson.teachers[0]});
+						$scope.lesson.teachers[1] = _.find($scope.teachers, {name: $scope.lesson.teachers[1]});
+						$scope.lesson.admin = _.find($scope.admins, {name: $scope.lesson.admin});
+
+
+						_.each($scope.lesson.students, function(student) {
+							student.visit = true;
 						});
 
-						var types = [];
-						_.each($scope.types, function(type) {
-							if (_.find($scope.lesson.groups, {type: type.type})) {
-								type.selected = true;
-								type.disabled = true;
-								types.push(type.type);
-							}
-						});
-	
-						$scope.getStudents(types).then(function(studs) {
-							_.each(studs, function(s) {
-								s.visit = _.findIndex($scope.lesson.students, {id: s.id}) > -1 ? true : false;
-							});
-							$scope.students = studs;
-						});
-	
 						_.each(lessonMaterials.materials, function(m) {
 							m.selected = _.find(resp.data[0].materials, {id: m.id}) ? true : false;
 						});
@@ -211,13 +212,12 @@
 				} else {
 					$scope.lesson = {
 						teachers: [],
-						groups: [],
 						materials: lessonMaterials.materials,
 						criteria: lessonCriteria.criteria,
 						studentsCount: 0,
-						guestsCount: 0
+						guestsCount: 0,
+						isNew: true
 					};
-					$scope.students = [];
 				}
 			}
 

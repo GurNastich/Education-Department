@@ -82,7 +82,7 @@
 }
 
 .main-container .calendar-container {
-	padding: 15px 20px;
+	/* padding: 15px 20px; */
 	font-size: 14px;
 	border: 1px solid #ecf0f1;
 	border-radius: 5px;
@@ -93,6 +93,7 @@
 .main-container .calendar-container .month {
 	text-align: center;
 	padding-bottom: 15px;
+	padding-top: 15px;
 	font-size: 18px;
 	font-weight: bold;
 }
@@ -116,19 +117,24 @@
 }
 
 .main-container .calendar-container .calendar-header div.name {
-	width: 12%;
+	width: 15%;
 	text-align: center;
 	border-left: 0;
+	min-width: 200px;
+	line-height: 48px;
 }
 
 .main-container .calendar-container .calendar-header div.group {
 	width: 12%;
 	text-align: center;
+	min-width: 160px;
+	line-height: 48px;
 }
 
 .main-container .calendar-container .calendar-body {
-	padding-top: 10px;
+	/* padding-top: 10px; */
 	white-space: nowrap;
+	border-top: 2px solid #bbb
 }
 
 .main-container .calendar-container .calendar-body .students {
@@ -141,6 +147,10 @@
 	border-top: 1px solid #eee;
 }
 
+.main-container .calendar-container .calendar-body .students .student:first-child {
+	border-top: none;
+}
+
 .main-container .calendar-container .calendar-body .students .student:last-child {
 	border-bottom: 1px solid #eee;
 }
@@ -148,11 +158,12 @@
 .main-container .calendar-container .calendar-body .students .student .student-name {
 	display: inline-block;
 	vertical-align: middle;
-	width: 12%;
+	width: 15%;
 	border-left: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	padding: 0 5px;
+	padding: 4px;
+	min-width: 200px;
 }
 
 .main-container .calendar-container .calendar-body .students .student .group-name {
@@ -161,7 +172,12 @@
 	width: 12%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	padding: 0 5px;
+	padding: 4px;
+	min-width: 160px;
+}
+
+.main-container .calendar-container .calendar-body .students .student .visit-cell {
+	padding: 5px;
 }
 
 .main-container .calendar-container .calendar-body .students .student div {
@@ -184,8 +200,15 @@
 	color: #a94442;
 }
 
+.main-container .calendar-container .calendar-body .students .student div.unknown {
+	background: #eee;
+    color: #797777;
+}
+
 input.error,
 select.error,
+.new-lesson-form .ui-select-container.error .ui-select-toggle,
+.new-student-form .ui-select-container.error .ui-select-toggle,
 ul.types-list.error {
 	background-color: #ffe8eb;
 	border-color: #da969b;

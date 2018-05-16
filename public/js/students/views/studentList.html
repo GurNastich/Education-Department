@@ -15,7 +15,7 @@
             <tr ng-repeat="student in students | filter:searchText">
                 <td>{{$index + 1}}</td>
                 <td><a href="" ng-click="openStudent(student)">{{student.lastName + ' ' + student.name}}</a></td>
-                <td>{{student.group.name}}</td>
+                <td>{{student.type}}</td>
                 <td>{{student.phones[0]}}</td>
                 <td>
                     <a href="" title="Редактировать" ng-click="openStudent(student)"><i class="fa fa-edit"></i></a>
