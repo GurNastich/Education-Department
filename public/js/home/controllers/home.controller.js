@@ -8,9 +8,10 @@
 			var months = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
 			var lessons, lessonTypes;
 
-			$scope.dateFrom = new Date();	//Current date
-			$scope.dateFrom = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() - 1));
-			$scope.dateTo = new Date(new Date($scope.dateFrom).setMonth($scope.dateFrom.getMonth() + 1));	//+ 1 Month
+			$scope.dateTo = new Date(); 	//Current date
+			$scope.dateFrom = new Date();
+			$scope.dateFrom.setDate($scope.dateFrom.getDate() - 40)
+
 			var initDateFrom = $scope.dateFrom;
 			var initDateTo = $scope.dateTo;
 
@@ -72,9 +73,13 @@
 						// Group name column
 						// add day and month to base and intro types
 						if (student.type === "Базовый" || student.type === "Вводный") {
-							 var yearName = (new Date(student.introLectionDate).getFullYear()).toString();
-							 var monthName = (new Date(student.introLectionDate).getMonth() + 1).toString();
-							student.groupView = student.type + ' - ' + monthName +  + yearName.slice(-2);
+							var year, month, monthYear = '?';
+							if (student.introLectionDate) {
+								year = (new Date(student.introLectionDate).getFullYear()).toString();
+								month = (new Date(student.introLectionDate).getMonth() + 1).toString();
+								monthYear = month + year.slice(-2);
+							}
+							student.groupView = student.type + ' - ' + monthYear;
 						} else {
 							student.groupView = student.type;
 						}
@@ -98,7 +103,7 @@
 						}
 
 						//Filter lessons for selected dates
-						 for (var i = new Date(dateFrom); i < dateTo; i.setDate(i.getDate() + 1)) {
+						 for (var i = new Date(dateFrom); i <= new Date(dateTo); i.setDate(i.getDate() + 1)) {
 							var isLesson = _.find(studLessons, function(less) {
 								var e = new Date(less.date);
 								i.setHours(0,0,0,0);
@@ -106,11 +111,11 @@
 							 });
 							 
 							 if (isLesson) {
-								 var lessonType = _.find(lessonTypes, {type: isLesson.type});
+								 var lessonType = _.find(lessonTypes, {name: isLesson.type});
 
 								student.visits[k] = {
 									type: lessonType ? lessonType.shortName : '?',
-									typeClass: isLesson.type ? isLesson.type : 'unknown'
+									typeClass: lessonType.type ? lessonType.type : 'unknown'
 								 }
 							 } else {
 								student.visits[k] = {

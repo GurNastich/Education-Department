@@ -52,7 +52,8 @@
 				//save teachers and admin
 				$http.post('stuff',{teachers : teachers, admin : admin});
 
-				lesson.students = _.filter($scope.students, {visit: true});
+				lesson.students = lesson._id ? _.filter(lesson.students, {visit: true}) :_.filter($scope.students, {visit: true});
+
 				lesson.students = _.map(lesson.students, function(s) {
 					return {
 						id: s.id,
@@ -60,12 +61,14 @@
 						lastName: s.lastName
 					}
 				});
+
+				console.dir(lesson.students);
 				
 				//Map from select control
 				lesson.type = lesson.type.name;
 				lesson.teachers[0] = lesson.teachers[0] ? lesson.teachers[0].name : '';
 				lesson.teachers[1] = lesson.teachers[1] ? lesson.teachers[1].name : '';
-				lesson.admin = lesson.admin.name;
+				lesson.admin = lesson.admin ? lesson.admin.name : '';
 
 				lesson.materials = _.filter(lesson.materials, {selected: true});
 				$rootScope.$broadcast('showLoader', 'Сохранение урока');

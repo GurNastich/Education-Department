@@ -62,6 +62,10 @@
 	padding: 10px 15px;
 }
 
+.new-lesson-form .header-materials-list {
+	cursor: pointer;
+}
+
 .new-lesson-form .materials-list,
 .new-lesson-form .criteria-list {
 	list-style: none;

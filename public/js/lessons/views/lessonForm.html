@@ -4,7 +4,7 @@
 			<div class="col-xs-4">
 				<div class="form-group">
 					<label>Тема</label>
-					<input class="form-control" ng-class="{'error': nameError}" type="text" name="name" ng-model="lesson.name" ng-change="validateName(lesson.name)">
+					<input class="form-control" ng-class="{'error': nameError}" type="text" name="name" ng-model="lesson.name" ng-change="validateName(lesson.name)" autofocus>
 					<span class="required-field-error-hint" ng-show="nameError">* Обязательное поле</span>
 				</div>
 				<div class="form-group">

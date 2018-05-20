@@ -37,7 +37,7 @@ const lessonTypes = [{
 }, {
 	type: 'baseAndYoung',
 	name: 'Базовый + Молодежная группа',
-	shortName: 'Б + М'
+	shortName: 'БМ'
 }];
 
 

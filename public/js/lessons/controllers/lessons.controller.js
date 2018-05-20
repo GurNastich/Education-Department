@@ -4,15 +4,7 @@
 	function mapLessons(lessons) {
 		_.each(lessons, function(lesson) {
 			lesson.date = new Date(lesson.date).toLocaleString('ru', {day: 'numeric', month: 'short', year: 'numeric'});
-
-			var lessonType = '';
-			_.each(lesson.groups, function(group) {
-				lessonType += group.name + ', ';
-			});
-			
-			lesson.type = lessonType.slice(0, -2);
 		});
-
 
 		return lessons;
 	}

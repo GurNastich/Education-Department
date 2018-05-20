@@ -87,7 +87,7 @@
 	border: 1px solid #ecf0f1;
 	border-radius: 5px;
 	overflow: auto;
-	height: 62vh;
+	height: 74vh;
 }
 
 .main-container .calendar-container .month {
@@ -177,7 +177,7 @@
 }
 
 .main-container .calendar-container .calendar-body .students .student .visit-cell {
-	padding: 5px;
+	padding: 4px;
 }
 
 .main-container .calendar-container .calendar-body .students .student div {
@@ -200,9 +200,29 @@
 	color: #a94442;
 }
 
+.main-container .calendar-container .calendar-body .students .student div.club {
+	background: #cce5ff;
+    color: #004085;
+}
+
+.main-container .calendar-container .calendar-body .students .student div.women {
+	background: #cdbfe3;
+    color: #6f5499;
+}
+
+.main-container .calendar-container .calendar-body .students .student div.baseAndYoung {
+	background: #efe3c6;
+	color: #8c7235;
+}
+
+.main-container .calendar-container .calendar-body .students .student div.another {
+	background: #e2e3e5;
+    color: #383d41;
+}
+
 .main-container .calendar-container .calendar-body .students .student div.unknown {
-	background: #eee;
-    color: #797777;
+	background: red;
+    color: #fff;;
 }
 
 input.error,
