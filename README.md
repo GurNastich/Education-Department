@@ -1,2 +1,3 @@
-This app for Educational Department usage.
-Simplify and provide better work environment.
+# Education department
+
+Application for record lessons, students and their attendance.
