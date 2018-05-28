@@ -1,3 +1,3 @@
 # Education department
 
-Application for record lessons, students and their attendance.
+The app tracks students attendance and also contains info about students and lessons.
