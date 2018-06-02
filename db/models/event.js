@@ -54,6 +54,6 @@ eventSchema.statics.updateById = function (event) {
 	return this.update({_id : event._id},event);
 };
 
-var Event = mongoose.model('Event', eventSchema, 'event');
+var Event = mongoose.model('Event', eventSchema, 'events');
 
 module.exports = Event;

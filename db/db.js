@@ -76,6 +76,7 @@ mongoose.connection.on('open',function (err) {
 	createStudentTypeCollection();
 	createEventCollection();
 	createStudentCollection();
+	updateStd();
 });
 
 function setDBConnection(app) {
@@ -146,7 +147,7 @@ function createStudentTypeCollection() {
 }
 
 function createStudentCollection() {
-	mongoose.connection.db.listCollections({name : 'student'}).next(function (err,col) {
+	mongoose.connection.db.listCollections({name : 'students'}).next(function (err,col) {
 		if (col){
 			return;
 		}
@@ -178,7 +179,7 @@ function createStudentCollection() {
 }
 
 function createEventCollection() {
-	mongoose.connection.db.listCollections({name : 'event'}).next(function (err,col) {
+	mongoose.connection.db.listCollections({name : 'events'}).next(function (err,col) {
 		if (col){
 			return;
 		}
@@ -201,5 +202,37 @@ function createEventCollection() {
 		}
     });
 }
+
+function updateStd() {
+    let allStudents = Student.getAllStudents();
+    allStudents.then( res => {
+        var arr = ['Престьюдент', 'Вводный', 'Базовый', 'Молодёжная группа', 'Основная', 'Френдли', 'Отказ'];
+        if(res[0]._doc.type){
+        	return;
+		}
+    	res.forEach(stud => {
+    if(stud._doc.group && arr.includes(stud._doc.group.name)){
+        stud.type = stud._doc.group.name;
+    }
+    else{
+        stud.type = "Other"
+    }
+    stud.save();
+		})
+	})
+
+}
+
+// db.students.find({}).snapshot().forEach(function(stud){
+//     var arr = ['Престьюдент', 'Вводный', 'Базовый', 'Молодёжная группа', 'Основная', 'Френдли', 'Отказ'];
+//     if(arr.includes(stud.group.name)){
+//         stud.type = stud.group.name;
+//     }
+//     else{
+//         stud.type = "Other"
+//     }
+//     db.students.save(stud);
+// })
+
 
 module.exports.setDBConnection = setDBConnection;

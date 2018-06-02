@@ -81,5 +81,5 @@ studentSchema.statics.deleteAndFetchAll = function (id) {
 //    return this.find({'group.groupType': {$in : types}});
 // };
 
-var Student = mongoose.model('Student', studentSchema, 'student');
+var Student = mongoose.model('Student', studentSchema, 'students');
 module.exports = Student;
